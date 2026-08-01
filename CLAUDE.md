@@ -214,3 +214,20 @@ Cloudflare، بدون بلاغات حظر إقليمي أو DDoS زي api.alqura
 - حذف تنسيق `.logo .mark` من `assets/css/style.css` بما إنه بقى غير مستخدم خالص.
 - `.logo` كان أصلًا `display:flex` فمفيش أي تعديل تاني مطلوب على التخطيط — النص بيظهر لوحده
   بشكل طبيعي.
+
+## إعلانات Google AdSense (1 أغسطس 2026)
+
+كود AdSense مضاف في `<head>` كل صفحة HTML في الموقع (الـ56 صفحة الموجودة وقت الإضافة):
+
+```html
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7919896989773628" crossorigin="anonymous"></script>
+```
+
+**⚠️ مهم: أي صفحة HTML جديدة تُضاف للموقع مستقبلًا لازم يتضاف فيها نفس السطر ده جوه `<head>`.**
+استخدم `_template.html` (في جذر المشروع) كنقطة بداية لأي صفحة جديدة — الكود موجود فيه بالفعل.
+
+للتحقق السريع إن كل الصفحات فيها الكود:
+```bash
+find . -name "*.html" | xargs grep -L "adsbygoogle.js"
+```
+لو الأمر ده رجّع أي أسماء ملفات، يبقى الملفات دي ناقصة الكود ولازم تتضاف يدويًا.
