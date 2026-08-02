@@ -312,6 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const results = searchBox && searchBox.querySelector('.search-results');
       if (!results) return;
       if (!results.id) results.id = `search-results-${index + 1}`;
+      input.setAttribute('role', 'combobox');
       input.setAttribute('aria-controls', results.id);
       input.setAttribute('aria-autocomplete', 'list');
       input.setAttribute('aria-expanded', String(results.classList.contains('show')));
