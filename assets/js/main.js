@@ -165,3 +165,128 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 
 });
+
+// ============ Accessibility hardening ============
+(function initializeAccessibility() {
+  function init() {
+    const main = document.querySelector('main');
+    if (main) {
+      if (!main.id) main.id = 'main-content';
+      main.setAttribute('tabindex', '-1');
+
+      const skipLink = document.createElement('a');
+      skipLink.className = 'skip-link';
+      skipLink.href = `#${main.id}`;
+      skipLink.textContent = '\u062a\u062e\u0637\u0651\u064e \u0625\u0644\u0649 \u0627\u0644\u0645\u062d\u062a\u0648\u0649';
+      document.body.prepend(skipLink);
+    }
+
+    function secureExternalLink(link) {
+      const rel = new Set((link.getAttribute('rel') || '').split(/\s+/).filter(Boolean));
+      rel.add('noopener');
+      rel.add('noreferrer');
+      link.setAttribute('rel', Array.from(rel).join(' '));
+    }
+
+    document.querySelectorAll('a[target="_blank"]').forEach(secureExternalLink);
+    document.addEventListener('click', event => {
+      const externalLink = event.target.closest('a[target="_blank"]');
+      if (externalLink) secureExternalLink(externalLink);
+    }, { capture: true });
+
+    const themeToggle = document.querySelector('.theme-toggle');
+    if (themeToggle) {
+      themeToggle.type = 'button';
+      themeToggle.setAttribute('aria-label', '\u062a\u0628\u062f\u064a\u0644 \u0646\u0645\u0637 \u0627\u0644\u0623\u0644\u0648\u0627\u0646');
+      const syncThemeState = () => themeToggle.setAttribute(
+        'aria-pressed',
+        String(document.documentElement.getAttribute('data-theme') === 'dark'),
+      );
+      syncThemeState();
+      new MutationObserver(syncThemeState).observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-theme'],
+      });
+    }
+
+    const menuButton = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (menuButton && mobileMenu) {
+      menuButton.type = 'button';
+      menuButton.setAttribute('aria-controls', mobileMenu.id);
+      menuButton.setAttribute('aria-expanded', String(mobileMenu.classList.contains('open')));
+      menuButton.addEventListener('click', () => {
+        menuButton.setAttribute('aria-expanded', String(mobileMenu.classList.contains('open')));
+      });
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && mobileMenu.classList.contains('open')) {
+          mobileMenu.classList.remove('open');
+          menuButton.setAttribute('aria-expanded', 'false');
+          menuButton.textContent = '\u2630';
+          menuButton.focus();
+        }
+      });
+    }
+
+    document.querySelectorAll('[data-search-input]').forEach((input, index) => {
+      const searchBox = input.closest('.search-box');
+      const results = searchBox && searchBox.querySelector('.search-results');
+      if (!results) return;
+      if (!results.id) results.id = `search-results-${index + 1}`;
+      input.setAttribute('aria-controls', results.id);
+      input.setAttribute('aria-autocomplete', 'list');
+      input.setAttribute('aria-expanded', String(results.classList.contains('show')));
+      results.setAttribute('role', 'region');
+      results.setAttribute('aria-live', 'polite');
+      results.setAttribute('aria-label', '\u0646\u062a\u0627\u0626\u062c \u0627\u0644\u0628\u062d\u062b');
+
+      input.addEventListener('input', () => {
+        input.setAttribute('aria-expanded', String(results.classList.contains('show')));
+      });
+      input.addEventListener('keydown', event => {
+        if (event.key === 'Escape') {
+          results.classList.remove('show');
+          input.setAttribute('aria-expanded', 'false');
+        }
+      });
+      document.addEventListener('click', event => {
+        if (!searchBox.contains(event.target)) input.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    function prepareFaqControl(control) {
+      const item = control.closest('.faq-item');
+      const answer = item && item.querySelector('.faq-a');
+      control.setAttribute('role', 'button');
+      control.setAttribute('tabindex', '0');
+      control.setAttribute('aria-expanded', String(Boolean(item && item.classList.contains('open'))));
+      if (answer) {
+        if (!answer.id) answer.id = `faq-answer-${Math.random().toString(36).slice(2, 9)}`;
+        control.setAttribute('aria-controls', answer.id);
+      }
+    }
+
+    document.querySelectorAll('.faq-q').forEach(prepareFaqControl);
+    const faqContainer = document.getElementById('fatwaContainer');
+    if (faqContainer) {
+      new MutationObserver(() => {
+        faqContainer.querySelectorAll('.faq-q:not([role="button"])').forEach(prepareFaqControl);
+      }).observe(faqContainer, { childList: true, subtree: true });
+    }
+    document.addEventListener('click', event => {
+      const control = event.target.closest('.faq-q');
+      if (!control) return;
+      const item = control.closest('.faq-item');
+      queueMicrotask(() => control.setAttribute('aria-expanded', String(item.classList.contains('open'))));
+    });
+    document.addEventListener('keydown', event => {
+      const control = event.target.closest('.faq-q');
+      if (!control || (event.key !== 'Enter' && event.key !== ' ')) return;
+      event.preventDefault();
+      control.click();
+    });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();

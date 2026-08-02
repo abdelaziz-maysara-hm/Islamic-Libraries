@@ -317,3 +317,24 @@ footer{padding:50px 0 30px; border-top:1px solid var(--line); margin-top:30px; t
   .book-card{flex-direction:row;}
 }
 @media(prefers-reduced-motion: reduce){*{transition:none !important;}}
+
+/* ============ Accessibility and motion preferences ============ */
+:focus-visible{outline:3px solid var(--gold-text); outline-offset:3px;}
+.skip-link{
+  position:fixed; top:10px; right:16px; z-index:200;
+  padding:10px 16px; border-radius:10px; background:var(--teal-deep); color:var(--paper);
+  font-weight:800; transform:translateY(-160%); transition:transform .2s;
+}
+.skip-link:focus{transform:translateY(0);}
+.nav-drop:focus-within .nav-drop-menu{display:flex;}
+@media(max-width:900px){.hero-search .search-box{display:block;}}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *,*::before,*::after{
+    scroll-behavior:auto !important;
+    transition-duration:0.01ms !important;
+    animation-duration:0.01ms !important;
+    animation-iteration-count:1 !important;
+  }
+}

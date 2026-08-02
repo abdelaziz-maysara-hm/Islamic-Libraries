@@ -16,6 +16,6 @@ Large scripts may be split into compatible modules only after their public globa
 ## Consequences
 
 - Improvements can ship without a migration or runtime server.
-- GitHub Pages, Cloudflare, and Netlify remain valid deployment targets.
+- GitHub Pages remains the canonical deployment target, while Cloudflare compatibility is preserved.
 - New tooling may validate the source, but the published site must not require a build step.
 - Architecture-affecting changes require a new ADR and explicit approval.
