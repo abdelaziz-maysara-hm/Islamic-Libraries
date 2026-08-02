@@ -94,6 +94,19 @@ for (const htmlFile of htmlFiles) {
   assert(/<meta\b[^>]*\bname=["']description["']/i.test(source), `${label}: missing meta description`);
   assert(/<link\b[^>]*\brel=["']canonical["']/i.test(source), `${label}: missing canonical URL`);
   assert(/<main(?:\s|>)/i.test(source), `${label}: missing main landmark`);
+  assert(!source.includes('<<<<<<<') && !source.includes('>>>>>>>'), `${label}: unresolved merge conflict`);
+
+  const ids = [...source.matchAll(/\bid=["']([^"']+)["']/gi)].map((match) => match[1]);
+  assert(new Set(ids).size === ids.length, `${label}: duplicate HTML id`);
+
+  for (const image of source.matchAll(/<img\b[^>]*>/gi)) {
+    assert(/\balt=["'][^"']*["']/i.test(image[0]), `${label}: image is missing alt text`);
+  }
+
+  for (const link of source.matchAll(/<a\b[^>]*\btarget=["']_blank["'][^>]*>/gi)) {
+    const rel = link[0].match(/\brel=["']([^"']+)["']/i)?.[1].split(/\s+/) || [];
+    assert(rel.includes('noopener') && rel.includes('noreferrer'), `${label}: unsafe target=_blank link`);
+  }
   const canonicalMatches = [...source.matchAll(/<link\b[^>]*\brel=["']canonical["'][^>]*\bhref=["']([^"']+)["'][^>]*>/gi)];
   assert(canonicalMatches.length === 1, `${label}: expected exactly one canonical URL`);
   const canonicalUrl = canonicalMatches[0][1];
@@ -163,4 +176,4 @@ for (const sitemapUrl of sitemapUrls) {
 }
 assert(brokenLinks.length === 0, `Broken internal links:\n${brokenLinks.join('\n')}`);
 
-console.log(`Validation passed: ${htmlFiles.length} HTML files, ${cssFiles.length} CSS files, ${jsFiles.length} JavaScript files, SEO contracts, and all internal links.`);
+console.log(`Validation passed: ${htmlFiles.length} HTML files, ${cssFiles.length} CSS files, ${jsFiles.length} JavaScript files, SEO, accessibility, security contracts, and all internal links.`);

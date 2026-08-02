@@ -357,10 +357,10 @@ document.addEventListener('DOMContentLoaded', () => {
       <span class="book-cat-badge">${catLabel(b.category)}</span>
       <span class="book-title">${b.title}</span>
       <span class="book-author">✍️ ${b.author}</span>
-      <a class="book-link" href="https://shamela.ws/book/${b.shamela}" target="_blank" rel="noopener">
+      <a class="book-link" href="https://shamela.ws/book/${b.shamela}" target="_blank" rel="noopener noreferrer">
         📖 اقرأ في الشاملة ←
       </a>
-      <a class="book-link-alt" href="${searchUrl}" target="_blank" rel="noopener" title="لو الرابط الأساسي ما فتحش الكتاب الصحيح">
+      <a class="book-link-alt" href="${searchUrl}" target="_blank" rel="noopener noreferrer" title="لو الرابط الأساسي ما فتحش الكتاب الصحيح">
         🔍 لم يفتح الكتاب الصحيح؟ دوّر عليه بالاسم
       </a>`;
     grid.appendChild(card);

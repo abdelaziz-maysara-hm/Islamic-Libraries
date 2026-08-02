@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderTopicCard(topic) {
     const booksHtml = topic.books.slice(0, 3).map(b =>
-      `<a href="${b.url}" target="_blank" style="display:block; padding:6px 0; font-size:12.5px;">
+      `<a href="${b.url}" target="_blank" rel="noopener noreferrer" style="display:block; padding:6px 0; font-size:12.5px;">
         ⬇ ${b.name} <span style="color:var(--muted);">— ${b.author}</span> ${b.verified ? '✅' : ''}
       </a>`
     ).join('');
