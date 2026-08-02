@@ -1,3 +1,27 @@
+// ============ Progressive web app bootstrap ============
+(function initializeProgressiveWebApp() {
+  const root = window.SITE_ROOT || '';
+
+  if (!document.querySelector('link[rel="manifest"]')) {
+    const manifestLink = document.createElement('link');
+    manifestLink.rel = 'manifest';
+    manifestLink.href = `${root}manifest.webmanifest`;
+    document.head.appendChild(manifestLink);
+  }
+
+  if (!document.querySelector('meta[name="theme-color"]')) {
+    const themeColor = document.createElement('meta');
+    themeColor.name = 'theme-color';
+    themeColor.content = '#0E3B36';
+    document.head.appendChild(themeColor);
+  }
+
+  if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register(`${root}sw.js`, { updateViaCache: 'none' }).catch(() => {});
+    }, { once: true });
+  }
+})();
 // ============ Dark mode toggle (injected via JS — no need to edit all HTML files) ============
 (function() {
   const toggleBtn = document.createElement('button');

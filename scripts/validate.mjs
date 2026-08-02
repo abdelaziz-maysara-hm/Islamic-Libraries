@@ -68,6 +68,22 @@ for (const htmlFile of htmlFiles) {
   }
 }
 
+const manifestPath = join(root, 'manifest.webmanifest');
+const serviceWorkerPath = join(root, 'sw.js');
+assert(existsSync(manifestPath), 'manifest.webmanifest is missing');
+assert(existsSync(serviceWorkerPath), 'sw.js is missing');
+
+const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
+assert(manifest.name && manifest.short_name, 'Web app manifest requires name and short_name');
+assert(manifest.start_url && manifest.scope, 'Web app manifest requires start_url and scope');
+assert(Array.isArray(manifest.icons) && manifest.icons.length > 0, 'Web app manifest requires an icon');
+for (const icon of manifest.icons) {
+  assert(icon.src && existsSync(resolve(root, icon.src)), `Manifest icon is missing: ${icon.src || '(empty)'}`);
+}
+assert(
+  readFileSync(join(root, 'assets/js/main.js'), 'utf8').includes('navigator.serviceWorker.register'),
+  'Shared application script does not register the service worker',
+);
 assert(existsSync(join(root, 'robots.txt')), 'robots.txt is missing');
 assert(existsSync(join(root, 'sitemap.xml')), 'sitemap.xml is missing');
 assert(brokenLinks.length === 0, `Broken internal links:\n${brokenLinks.join('\n')}`);

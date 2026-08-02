@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">شعار المكتبة الجامعة</title>
+  <rect width="512" height="512" rx="112" fill="#0E3B36"/>
+  <path d="M128 139c48-14 92-5 128 26v225c-36-31-80-40-128-26V139Z" fill="#FAF6EC"/>
+  <path d="M384 139c-48-14-92-5-128 26v225c36-31 80-40 128-26V139Z" fill="#E7F0EC"/>
+  <path d="M256 165v225" stroke="#B8894A" stroke-width="18" stroke-linecap="round"/>
+  <path d="M328 91a72 72 0 1 0 47 126 83 83 0 1 1-47-126Z" fill="#D4A853"/>
+</svg>

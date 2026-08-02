@@ -1,0 +1,22 @@
+{
+  "name": "المكتبة الجامعة",
+  "short_name": "المكتبة",
+  "description": "مكتبة إسلامية شاملة للقرآن والكتب والفتاوى والدروس والأدوات.",
+  "lang": "ar",
+  "dir": "rtl",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0F1A17",
+  "theme_color": "#0E3B36",
+  "categories": ["education", "books", "reference"],
+  "icons": [
+    {
+      "src": "assets/icons/app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

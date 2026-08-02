@@ -28,6 +28,8 @@ The validation command checks JavaScript syntax, essential HTML and SEO contract
 
 GitHub Pages is the canonical deployment target. Cloudflare compatibility is preserved, but Netlify configuration is intentionally not maintained. Do not rename public files or folders because their paths are indexed URLs.
 
+The site includes a web app manifest and a root service worker. Visitors can install it from a supported browser, and core pages remain available after a successful first visit when the connection is interrupted. The shared application script resolves repository-relative paths, so the same PWA files work on a custom domain and under a GitHub Pages project path.
+
 ## Quality goals
 
 - Lighthouse category scores above 95 where third-party services permit.
