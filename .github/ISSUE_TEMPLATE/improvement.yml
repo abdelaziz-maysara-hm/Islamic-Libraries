@@ -1,0 +1,19 @@
+name: Improvement proposal
+description: Suggest a focused, backward-compatible improvement.
+title: "[Improvement]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: Explain the user problem and the expected benefit.
+    validations:
+      required: true
+  - type: textarea
+    id: compatibility
+    attributes:
+      label: Compatibility considerations
+      description: Note any URL, SEO, content, accessibility, or deployment impact.
+    validations:
+      required: true
