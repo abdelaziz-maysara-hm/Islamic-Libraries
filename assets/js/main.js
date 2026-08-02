@@ -51,16 +51,67 @@ document.addEventListener('DOMContentLoaded', () => {
   // ---- Site-wide search ----
   const ROOT = window.SITE_ROOT || "";
 
-  function findBestTopic(q) {
-    const list = window.TOPIC_INDEX || [];
-    let best = null, bestScore = 0;
-    list.forEach(t => {
-      let score = 0;
-      if (t.title.includes(q)) score += 3;
-      if (t.keywords && t.keywords.some(k => k.includes(q) || q.includes(k))) score += 2;
-      if (score > bestScore) { bestScore = score; best = t; }
+  function normalizeSearchText(value) {
+    return String(value || '')
+      .normalize('NFKD')
+      .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g, '')
+      .replace(/[إأآٱ]/g, 'ا')
+      .replace(/ى/g, 'ي')
+      .replace(/ؤ/g, 'و')
+      .replace(/ئ/g, 'ي')
+      .replace(/ة/g, 'ه')
+      .replace(/ـ/g, '')
+      .toLocaleLowerCase('ar')
+      .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  function scoreSearchValue(value, query, weights) {
+    const normalized = normalizeSearchText(value);
+    if (!normalized) return 0;
+    if (normalized === query) return weights.exact;
+    if (normalized.startsWith(query)) return weights.starts;
+    if (normalized.includes(query)) return weights.includes;
+
+    const queryTokens = query.split(' ').filter(Boolean);
+    const valueTokens = normalized.split(' ');
+    const matchedTokens = queryTokens.filter(token =>
+      valueTokens.some(valueToken => valueToken === token || valueToken.startsWith(token))
+    ).length;
+    return matchedTokens === queryTokens.length ? weights.tokens : 0;
+  }
+
+  function scoreSearchItem(item, query) {
+    let score = scoreSearchValue(item.title, query, {
+      exact: 120, starts: 90, includes: 70, tokens: 50,
     });
-    return bestScore > 0 ? best : null;
+    (item.tags || []).forEach(tag => {
+      score = Math.max(score, scoreSearchValue(tag, query, {
+        exact: 55, starts: 40, includes: 30, tokens: 20,
+      }));
+    });
+    score += scoreSearchValue(item.type, query, {
+      exact: 16, starts: 12, includes: 8, tokens: 6,
+    });
+    return score;
+  }
+
+  function findBestTopic(rawQuery) {
+    const query = normalizeSearchText(rawQuery);
+    if (!query) return null;
+    const ranked = (window.TOPIC_INDEX || []).map(topic => {
+      let score = scoreSearchValue(topic.title, query, {
+        exact: 120, starts: 90, includes: 70, tokens: 50,
+      });
+      (topic.keywords || []).forEach(keyword => {
+        score = Math.max(score, scoreSearchValue(keyword, query, {
+          exact: 60, starts: 45, includes: 30, tokens: 20,
+        }));
+      });
+      return { topic, score };
+    }).sort((a, b) => b.score - a.score);
+    return ranked[0] && ranked[0].score > 0 ? ranked[0].topic : null;
   }
 
   function renderTopicCard(topic) {
@@ -85,10 +136,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const q = input.value.trim();
       if (!q) { resultsBox.classList.remove('show'); resultsBox.innerHTML = ''; return; }
 
-      const topic = findBestTopic(q);
-      const matches = (window.SITE_INDEX || []).filter(item =>
-        item.title.includes(q) || (item.tags && item.tags.some(t => t.includes(q)))
-      ).slice(0, 6);
+      const normalizedQuery = normalizeSearchText(q);
+      const topic = findBestTopic(normalizedQuery);
+      const matches = (window.SITE_INDEX || [])
+        .map((item, index) => ({ item, index, score: scoreSearchItem(item, normalizedQuery) }))
+        .filter(entry => entry.score > 0)
+        .sort((a, b) => b.score - a.score || a.index - b.index)
+        .slice(0, 6)
+        .map(entry => entry.item);
 
       let html = '';
       if (topic) html += renderTopicCard(topic);
