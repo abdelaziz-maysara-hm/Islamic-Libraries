@@ -67,7 +67,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://islamiclibraries.com/index.html</loc>
+    <loc>https://islamiclibraries.com/</loc>
     <lastmod>2026-07-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -294,4 +294,39 @@
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
-</urlset>
+  <url>
+    <loc>https://islamiclibraries.com/books-all.html</loc>
+    <lastmod>2026-08-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://islamiclibraries.com/fatawa/adab.html</loc>
+    <lastmod>2026-08-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://islamiclibraries.com/fatawa/asriya.html</loc>
+    <lastmod>2026-08-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://islamiclibraries.com/fatawa/ibadat.html</loc>
+    <lastmod>2026-08-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://islamiclibraries.com/fatawa/muamalat.html</loc>
+    <lastmod>2026-08-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://islamiclibraries.com/fatawa/usra.html</loc>
+    <lastmod>2026-08-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url></urlset>
