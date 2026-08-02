@@ -43,9 +43,43 @@ const htmlFiles = files.filter((file) =>
   extname(file) === '.html' && !nonPageHtmlFiles.has(relative(root, file).replaceAll('\\', '/')),
 );
 const jsFiles = files.filter((file) => extname(file) === '.js');
+const cssFiles = files.filter((file) => extname(file) === '.css');
 
 for (const jsFile of jsFiles) {
   execFileSync(process.execPath, ['--check', jsFile], { stdio: 'pipe' });
+}
+function assertBalancedCss(source, label) {
+  let depth = 0;
+  let quote = '';
+  let inComment = false;
+  for (let index = 0; index < source.length; index += 1) {
+    const character = source[index];
+    const next = source[index + 1];
+    if (inComment) {
+      if (character === '*' && next === '/') { inComment = false; index += 1; }
+      continue;
+    }
+    if (!quote && character === '/' && next === '*') { inComment = true; index += 1; continue; }
+    if (quote) {
+      if (character === '\\') { index += 1; continue; }
+      if (character === quote) quote = '';
+      continue;
+    }
+    if (character === '"' || character === "'") { quote = character; continue; }
+    if (character === '{') depth += 1;
+    if (character === '}') depth -= 1;
+    assert(depth >= 0, `${label}: unexpected closing brace`);
+  }
+  assert(!quote, `${label}: unterminated string`);
+  assert(!inComment, `${label}: unterminated comment`);
+  assert(depth === 0, `${label}: unbalanced braces`);
+}
+
+for (const cssFile of cssFiles) {
+  const source = readFileSync(cssFile, 'utf8');
+  const label = relative(root, cssFile);
+  assertBalancedCss(source, label);
+  assert(!source.includes('<<<<<<<') && !source.includes('>>>>>>>'), `${label}: unresolved merge conflict`);
 }
 
 const brokenLinks = [];
@@ -129,4 +163,4 @@ for (const sitemapUrl of sitemapUrls) {
 }
 assert(brokenLinks.length === 0, `Broken internal links:\n${brokenLinks.join('\n')}`);
 
-console.log(`Validation passed: ${htmlFiles.length} HTML files, ${jsFiles.length} JavaScript files, and all internal links.`);
+console.log(`Validation passed: ${htmlFiles.length} HTML files, ${cssFiles.length} CSS files, ${jsFiles.length} JavaScript files, SEO contracts, and all internal links.`);
