@@ -61,7 +61,7 @@ function apiFailureHTML(extraNote = "") {
       <br>السبب الأغلب: بعض مزوّدي الإنترنت في المنطقة بيكونوا محظورين مؤقتًا
       من عند الخادم نفسه بسبب هجمات إلكترونية متكررة عليه، مش عطل في الصفحة.
       <br>جرّب تاني بعد شوية، أو من شبكة/VPN مختلف، أو استخدم الرابط المباشر:
-      <a href="https://alquran.cloud/quran" target="_blank" rel="noopener">alquran.cloud/quran ←</a>
+      <a href="https://alquran.cloud/quran" target="_blank" rel="noopener noreferrer">alquran.cloud/quran ←</a>
     </p>`;
 }
 

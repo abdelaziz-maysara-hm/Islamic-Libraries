@@ -22,7 +22,7 @@ npm ci
 npm run validate
 ```
 
-The validation command checks JavaScript syntax, CSS structure, essential HTML and SEO contracts, PWA files, and local links. Pull requests that change public pages or assets also run Lighthouse against representative home, Quran, and book-library routes; performance and best-practice regressions are reported while accessibility and SEO minimums are enforced.
+The validation command checks JavaScript syntax, CSS structure, essential HTML, SEO, accessibility and external-link security contracts, PWA files, and local links. Pull requests that change public pages or assets also run Lighthouse against representative home, Quran, and book-library routes; performance and best-practice regressions are reported while accessibility and SEO minimums are enforced.
 
 ## Deployment
 
