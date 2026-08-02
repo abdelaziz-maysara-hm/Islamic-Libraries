@@ -5,7 +5,7 @@ These rules apply to the entire repository.
 - Preserve the current Vanilla JavaScript architecture.
 - Never rename existing folders, routes, or public URLs.
 - Preserve existing content, metadata, canonical URLs, and structured data.
-- Preserve Cloudflare, Netlify, and GitHub Pages compatibility.
+- Preserve GitHub Pages deployment and Cloudflare compatibility.
 - Prefer small, backward-compatible improvements over rewrites.
 - Do not introduce a frontend framework or a build requirement for the public site.
 - Treat Arabic text as UTF-8 and verify it after every content edit.

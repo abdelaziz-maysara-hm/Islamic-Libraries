@@ -42,6 +42,6 @@
 
 ## Deployment and validation
 
-- Preserve Cloudflare, Netlify, and GitHub Pages compatibility.
+- Preserve GitHub Pages deployment and Cloudflare compatibility.
 - Run `npm run validate` before committing.
 - Submit each hardening phase as a separate, reviewable pull request.

@@ -26,7 +26,7 @@ The validation command checks JavaScript syntax, essential HTML and SEO contract
 
 ## Deployment
 
-The repository preserves compatibility with Cloudflare static assets, Netlify, and GitHub Pages. Do not rename public files or folders because their paths are indexed URLs.
+GitHub Pages is the canonical deployment target. Cloudflare compatibility is preserved, but Netlify configuration is intentionally not maintained. Do not rename public files or folders because their paths are indexed URLs.
 
 ## Quality goals
 
