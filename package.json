@@ -1,0 +1,12 @@
+{
+  "name": "islamic-libraries",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static Islamic knowledge library and tools platform.",
+  "scripts": {
+    "validate": "node scripts/validate.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
