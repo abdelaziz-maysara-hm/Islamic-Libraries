@@ -49,6 +49,7 @@ for (const jsFile of jsFiles) {
 }
 
 const brokenLinks = [];
+const canonicalUrls = [];
 for (const htmlFile of htmlFiles) {
   const source = readFileSync(htmlFile, 'utf8');
   const label = relative(root, htmlFile);
@@ -59,6 +60,37 @@ for (const htmlFile of htmlFiles) {
   assert(/<meta\b[^>]*\bname=["']description["']/i.test(source), `${label}: missing meta description`);
   assert(/<link\b[^>]*\brel=["']canonical["']/i.test(source), `${label}: missing canonical URL`);
   assert(/<main(?:\s|>)/i.test(source), `${label}: missing main landmark`);
+  const canonicalMatches = [...source.matchAll(/<link\b[^>]*\brel=["']canonical["'][^>]*\bhref=["']([^"']+)["'][^>]*>/gi)];
+  assert(canonicalMatches.length === 1, `${label}: expected exactly one canonical URL`);
+  const canonicalUrl = canonicalMatches[0][1];
+  assert(canonicalUrl.startsWith('https://islamiclibraries.com/'), `${label}: canonical URL uses an unexpected domain`);
+  canonicalUrls.push(canonicalUrl);
+
+  const requiredSocialMetadata = [
+    ['Open Graph type', /<meta\b[^>]*\bproperty=["']og:type["'][^>]*\bcontent=["'][^"']+["']/i],
+    ['Open Graph title', /<meta\b[^>]*\bproperty=["']og:title["'][^>]*\bcontent=["'][^"']+["']/i],
+    ['Open Graph description', /<meta\b[^>]*\bproperty=["']og:description["'][^>]*\bcontent=["'][^"']+["']/i],
+    ['Open Graph locale', /<meta\b[^>]*\bproperty=["']og:locale["'][^>]*\bcontent=["'][^"']+["']/i],
+    ['Twitter card', /<meta\b[^>]*\bname=["']twitter:card["'][^>]*\bcontent=["'][^"']+["']/i],
+    ['Twitter title', /<meta\b[^>]*\bname=["']twitter:title["'][^>]*\bcontent=["'][^"']+["']/i],
+    ['Twitter description', /<meta\b[^>]*\bname=["']twitter:description["'][^>]*\bcontent=["'][^"']+["']/i],
+  ];
+  for (const [metadataName, pattern] of requiredSocialMetadata) {
+    assert(pattern.test(source), `${label}: missing ${metadataName}`);
+  }
+  const ogUrl = source.match(/<meta\b[^>]*\bproperty=["']og:url["'][^>]*\bcontent=["']([^"']+)["']/i)?.[1];
+  assert(ogUrl === canonicalUrl, `${label}: og:url must match the canonical URL`);
+
+  const structuredDataBlocks = [...source.matchAll(/<script\b[^>]*\btype=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)];
+  assert(structuredDataBlocks.length > 0, `${label}: missing JSON-LD structured data`);
+  for (const block of structuredDataBlocks) {
+    assert(!block[1].includes('yourdomain.com'), `${label}: structured data contains a placeholder domain`);
+    try {
+      JSON.parse(block[1]);
+    } catch (error) {
+      fail(`${label}: invalid JSON-LD (${error.message})`);
+    }
+  }
 
   for (const match of source.matchAll(/\bhref\s*=\s*["']([^"']+)["']/gi)) {
     const href = match[1].trim();
@@ -86,6 +118,15 @@ assert(
 );
 assert(existsSync(join(root, 'robots.txt')), 'robots.txt is missing');
 assert(existsSync(join(root, 'sitemap.xml')), 'sitemap.xml is missing');
+const sitemapSource = readFileSync(join(root, 'sitemap.xml'), 'utf8');
+const sitemapUrls = [...sitemapSource.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+assert(new Set(sitemapUrls).size === sitemapUrls.length, 'sitemap.xml contains duplicate URLs');
+for (const canonicalUrl of canonicalUrls) {
+  assert(sitemapUrls.includes(canonicalUrl), `sitemap.xml is missing canonical URL: ${canonicalUrl}`);
+}
+for (const sitemapUrl of sitemapUrls) {
+  assert(canonicalUrls.includes(sitemapUrl), `sitemap.xml contains a non-canonical page: ${sitemapUrl}`);
+}
 assert(brokenLinks.length === 0, `Broken internal links:\n${brokenLinks.join('\n')}`);
 
 console.log(`Validation passed: ${htmlFiles.length} HTML files, ${jsFiles.length} JavaScript files, and all internal links.`);
