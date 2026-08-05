@@ -296,9 +296,15 @@
   </url>
   <url>
     <loc>https://islamiclibraries.com/books-all.html</loc>
-    <lastmod>2026-08-02</lastmod>
+    <lastmod>2026-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://islamiclibraries.com/favorites.html</loc>
+    <lastmod>2026-08-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
   </url>
   <url>
     <loc>https://islamiclibraries.com/fatawa/adab.html</loc>
@@ -329,4 +335,5 @@
     <lastmod>2026-08-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-  </url></urlset>
+  </url>
+</urlset>
