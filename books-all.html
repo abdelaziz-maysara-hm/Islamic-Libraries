@@ -46,6 +46,17 @@
 .toolbar-link:hover{text-decoration:underline;}
 </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7919896989773628" crossorigin="anonymous"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "175 كتاب إسلامي موثق — المكتبة الجامعة",
+  "url": "https://islamiclibraries.com/books-all.html",
+  "description": "175 كتاباً إسلامياً موثقاً مرتبطة بالمكتبة الشاملة",
+  "inLanguage": "ar",
+  "isPartOf": { "@id": "https://islamiclibraries.com/#website" }
+}
+</script>
 </head>
 <body>
 
@@ -189,11 +200,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const isFav = window.ILFavorites && window.ILFavorites.isFavorite('book', b.id);
     const searchUrl = `https://www.google.com/search?q=site:shamela.ws+${encodeURIComponent(b.title + ' ' + b.author)}`;
     card.innerHTML = `
-      <button class="fav-btn ${isFav ? 'is-fav' : ''}" data-id="${b.id}" data-title="${b.title.replace(/"/g, '&quot;')}" data-author="${b.author.replace(/"/g, '&quot;')}" data-category="${b.category}" data-shamela="${b.shamela}" aria-label="${isFav ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}" title="${isFav ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}">${isFav ? '♥' : '♡'}</button>
+      <button class="fav-btn ${isFav ? 'is-fav' : ''}" data-itemkey="${b.id}" data-title="${b.title.replace(/\"/g, '&quot;')}" data-author="${b.author.replace(/\"/g, '&quot;')}" data-category="${b.category}" data-shamela="${b.shamela}" aria-label="${isFav ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}" title="${isFav ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}">${isFav ? '♥' : '♡'}</button>
       <span class="book-cat-badge">${catLabel(b.category)}</span>
       <span class="book-title">${b.title}</span>
       <span class="book-author">✍️ ${b.author}</span>
-      <a class="book-link" href="https://shamela.ws/book/${b.shamela}" target="_blank" rel="noopener noreferrer" data-book-id="${b.id}" data-book-title="${b.title.replace(/"/g, '&quot;')}" data-book-author="${b.author.replace(/"/g, '&quot;')}" data-book-cat="${b.category}" data-book-shamela="${b.shamela}">
+      <a class="book-link" href="https://shamela.ws/book/${b.shamela}" target="_blank" rel="noopener noreferrer" data-bookkey="${b.id}" data-booktitle="${b.title.replace(/\"/g, '&quot;')}" data-bookauthor="${b.author.replace(/\"/g, '&quot;')}" data-bookcat="${b.category}" data-bookshamela="${b.shamela}">
         📖 اقرأ في الشاملة ←
       </a>
       <a class="book-link-alt" href="${searchUrl}" target="_blank" rel="noopener noreferrer" title="لو الرابط الأساسي ما فتحش الكتاب الصحيح">
@@ -202,12 +213,11 @@ document.addEventListener('DOMContentLoaded', () => {
     grid.appendChild(card);
   });
 
-  // Favorite toggle
   grid.addEventListener('click', e => {
     const btn = e.target.closest('.fav-btn');
     if (!btn) return;
     e.preventDefault();
-    const id = btn.dataset.id;
+    const id = btn.dataset.itemkey;
     const added = window.ILFavorites.toggle('book', id, {
       title: btn.dataset.title,
       author: btn.dataset.author,
@@ -220,15 +230,14 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.title = added ? 'إزالة من المفضلة' : 'إضافة للمفضلة';
   });
 
-  // Track recent when opening a book
   grid.addEventListener('click', e => {
     const link = e.target.closest('.book-link');
-    if (!link || !link.dataset.bookId) return;
-    window.ILFavorites.addRecent('book', link.dataset.bookId, {
-      title: link.dataset.bookTitle,
-      author: link.dataset.bookAuthor,
-      category: link.dataset.bookCat,
-      shamela: link.dataset.bookShamela
+    if (!link || !link.dataset.bookkey) return;
+    window.ILFavorites.addRecent('book', link.dataset.bookkey, {
+      title: link.dataset.booktitle,
+      author: link.dataset.bookauthor,
+      category: link.dataset.bookcat,
+      shamela: link.dataset.bookshamela
     });
   });
 
