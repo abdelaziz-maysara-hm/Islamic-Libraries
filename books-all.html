@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btn = document.createElement('button');
     btn.className = 'cat-btn';
     btn.dataset.cat = c.id;
-    btn.textContent = `${c.icon} ${c.label}`;
+    btn.textContent = c.icon + ' ' + c.label;
     filterEl.appendChild(btn);
   });
   filterEl.addEventListener('click', e => {
@@ -188,7 +188,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function catLabel(id) {
     const c = cats.find(x => x.id === id);
-    return c ? `${c.icon} ${c.label}` : id;
+    return c ? (c.icon + ' ' + c.label) : id;
+  }
+
+  function esc(s) {
+    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
   }
 
   books.forEach(b => {
@@ -198,18 +202,56 @@ document.addEventListener('DOMContentLoaded', () => {
     card.dataset.title = b.title;
     card.dataset.author = b.author;
     const isFav = window.ILFavorites && window.ILFavorites.isFavorite('book', b.id);
-    const searchUrl = `https://www.google.com/search?q=site:shamela.ws+${encodeURIComponent(b.title + ' ' + b.author)}`;
-    card.innerHTML = `
-      <button class="fav-btn ${isFav ? 'is-fav' : ''}" data-itemkey="${b.id}" data-title="${b.title.replace(/\"/g, '&quot;')}" data-author="${b.author.replace(/\"/g, '&quot;')}" data-category="${b.category}" data-shamela="${b.shamela}" aria-label="${isFav ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}" title="${isFav ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}">${isFav ? '♥' : '♡'}</button>
-      <span class="book-cat-badge">${catLabel(b.category)}</span>
-      <span class="book-title">${b.title}</span>
-      <span class="book-author">✍️ ${b.author}</span>
-      <a class="book-link" href="https://shamela.ws/book/${b.shamela}" target="_blank" rel="noopener noreferrer" data-bookkey="${b.id}" data-booktitle="${b.title.replace(/\"/g, '&quot;')}" data-bookauthor="${b.author.replace(/\"/g, '&quot;')}" data-bookcat="${b.category}" data-bookshamela="${b.shamela}">
-        📖 اقرأ في الشاملة ←
-      </a>
-      <a class="book-link-alt" href="${searchUrl}" target="_blank" rel="noopener noreferrer" title="لو الرابط الأساسي ما فتحش الكتاب الصحيح">
-        🔍 لم يفتح الكتاب الصحيح؟ دوّر عليه بالاسم
-      </a>`;
+    const searchUrl = 'https://www.google.com/search?q=site:shamela.ws+' + encodeURIComponent(b.title + ' ' + b.author);
+    const btn = document.createElement('button');
+    btn.className = 'fav-btn' + (isFav ? ' is-fav' : '');
+    btn.setAttribute('data-itemkey', String(b.id));
+    btn.setAttribute('data-title', b.title);
+    btn.setAttribute('data-author', b.author);
+    btn.setAttribute('data-category', b.category);
+    btn.setAttribute('data-shamela', String(b.shamela));
+    btn.setAttribute('aria-label', isFav ? 'إزالة من المفضلة' : 'إضافة للمفضلة');
+    btn.title = isFav ? 'إزالة من المفضلة' : 'إضافة للمفضلة';
+    btn.textContent = isFav ? '♥' : '♡';
+    card.appendChild(btn);
+
+    const badge = document.createElement('span');
+    badge.className = 'book-cat-badge';
+    badge.textContent = catLabel(b.category);
+    card.appendChild(badge);
+
+    const title = document.createElement('span');
+    title.className = 'book-title';
+    title.textContent = b.title;
+    card.appendChild(title);
+
+    const author = document.createElement('span');
+    author.className = 'book-author';
+    author.textContent = '✍️ ' + b.author;
+    card.appendChild(author);
+
+    const link = document.createElement('a');
+    link.className = 'book-link';
+    link.href = 'https://shamela.ws/book/' + b.shamela;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.setAttribute('data-bookkey', String(b.id));
+    link.setAttribute('data-booktitle', b.title);
+    link.setAttribute('data-bookauthor', b.author);
+    link.setAttribute('data-bookcat', b.category);
+    link.setAttribute('data-bookshamela', String(b.shamela));
+    link.textContent = '📖 اقرأ في الشاملة ←';
+    card.appendChild(link);
+
+    const alt = document.createElement('a');
+    alt.className = 'book-link-alt';
+    alt.href = searchUrl;
+    alt.target = '_blank';
+    alt.rel = 'noopener noreferrer';
+    alt.title = 'لو الرابط الأساسي ما فتحش الكتاب الصحيح';
+    alt.textContent = '🔍 لم يفتح الكتاب الصحيح؟ دوّر عليه بالاسم';
+    card.appendChild(alt);
+
     grid.appendChild(card);
   });
 
@@ -217,12 +259,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const btn = e.target.closest('.fav-btn');
     if (!btn) return;
     e.preventDefault();
-    const id = btn.dataset.itemkey;
+    const id = btn.getAttribute('data-itemkey');
     const added = window.ILFavorites.toggle('book', id, {
-      title: btn.dataset.title,
-      author: btn.dataset.author,
-      category: btn.dataset.category,
-      shamela: btn.dataset.shamela
+      title: btn.getAttribute('data-title'),
+      author: btn.getAttribute('data-author'),
+      category: btn.getAttribute('data-category'),
+      shamela: btn.getAttribute('data-shamela')
     });
     btn.classList.toggle('is-fav', added);
     btn.textContent = added ? '♥' : '♡';
@@ -232,12 +274,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   grid.addEventListener('click', e => {
     const link = e.target.closest('.book-link');
-    if (!link || !link.dataset.bookkey) return;
-    window.ILFavorites.addRecent('book', link.dataset.bookkey, {
-      title: link.dataset.booktitle,
-      author: link.dataset.bookauthor,
-      category: link.dataset.bookcat,
-      shamela: link.dataset.bookshamela
+    if (!link || !link.getAttribute('data-bookkey')) return;
+    window.ILFavorites.addRecent('book', link.getAttribute('data-bookkey'), {
+      title: link.getAttribute('data-booktitle'),
+      author: link.getAttribute('data-bookauthor'),
+      category: link.getAttribute('data-bookcat'),
+      shamela: link.getAttribute('data-bookshamela')
     });
   });
 
@@ -251,7 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
       card.classList.toggle('hidden', !show);
       if (show) count++;
     });
-    countEl.textContent = `عرض ${count} من ${books.length} كتاب`;
+    countEl.textContent = 'عرض ' + count + ' من ' + books.length + ' كتاب';
   }
 
   searchEl.addEventListener('input', applyFilters);
