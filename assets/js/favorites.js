@@ -35,11 +35,6 @@
     } catch (e) {}
   }
 
-  /**
-   * type: 'book' | 'fatwa'
-   * id: number | string
-   * meta: { title, author?, category? }
-   */
   function toggleFavorite(type, id, meta) {
     const data = loadFavorites();
     const key = type === 'book' ? 'books' : 'fatwas';
@@ -50,7 +45,7 @@
       list.splice(idx, 1);
       data[key] = list;
       saveFavorites(data);
-      return false; // removed
+      return false;
     }
 
     list.unshift({
@@ -58,11 +53,12 @@
       title: meta.title || '',
       author: meta.author || '',
       category: meta.category || '',
+      shamela: meta.shamela || null,
       addedAt: Date.now()
     });
     data[key] = list;
     saveFavorites(data);
-    return true; // added
+    return true;
   }
 
   function isFavorite(type, id) {
@@ -88,6 +84,7 @@
       title: meta.title || '',
       author: meta.author || '',
       category: meta.category || '',
+      shamela: meta.shamela || null,
       viewedAt: Date.now()
     });
     saveRecent(list);
@@ -108,7 +105,6 @@
     saveFavorites(data);
   }
 
-  // Public API
   window.ILFavorites = {
     toggle: toggleFavorite,
     isFavorite: isFavorite,
