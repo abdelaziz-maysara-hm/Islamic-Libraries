@@ -28,7 +28,7 @@
 .cat-btn{padding:7px 16px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted);font-family:'Cairo';font-weight:700;font-size:12.5px;cursor:pointer;transition:background .2s,color .2s;}
 .cat-btn.active,.cat-btn:hover{background:var(--teal-deep);color:#fff;border-color:var(--teal-deep);}
 .books-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
-.book-card-item{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 14px;display:flex;flex-direction:column;gap:6px;transition:transform .18s,box-shadow .18s,background .25s;}
+.book-card-item{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 14px;display:flex;flex-direction:column;gap:6px;transition:transform .18s,box-shadow .18s,background .25s;position:relative;}
 .book-card-item:hover{transform:translateY(-4px);box-shadow:var(--shadow);}
 .book-card-item.hidden{display:none;}
 .book-cat-badge{font-size:10.5px;font-weight:800;padding:2px 9px;border-radius:20px;background:var(--teal-soft);color:var(--teal-deep);align-self:flex-start;}
@@ -38,183 +38,14 @@
 .book-link:hover{color:var(--teal);}
 .book-link-alt{display:inline-flex;align-items:center;gap:5px;margin-top:4px;font-size:10.5px;font-weight:600;color:var(--muted);text-decoration:none;font-family:'Tajawal';}
 .book-link-alt:hover{color:var(--teal-deep); text-decoration:underline;}
+.fav-btn{position:absolute;top:12px;left:12px;background:var(--card);border:1px solid var(--line);border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:transform .15s,background .2s;line-height:1;}
+.fav-btn:hover{transform:scale(1.1);background:var(--teal-soft);}
+.fav-btn.is-fav{background:var(--gold-soft);border-color:var(--gold);}
+.fav-btn:focus-visible{outline:2px solid var(--gold-text);outline-offset:2px;}
+.toolbar-link{font-size:13px;font-weight:700;color:var(--teal);font-family:'Cairo';white-space:nowrap;}
+.toolbar-link:hover{text-decoration:underline;}
 </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7919896989773628" crossorigin="anonymous"></script>
-<script type="application/ld+json">
-{
-    "@context":  "https://schema.org",
-    "@type":  "CollectionPage",
-    "@id":  "https://islamiclibraries.com/books-all.html#webpage",
-    "url":  "https://islamiclibraries.com/books-all.html",
-    "name":  "175 كتاب إسلامي موثق — المكتبة الجامعة",
-    "description":  "175 كتاباً إسلامياً موثقاً في الحديث والفقه والتفسير والسيرة والعقيدة والأذكار وأصول الفقه واللغة — مرتبطة بالمكتبة الشاملة، تم التحقق من مطابقة كل رابط للكتاب الصحيح.",
-    "inLanguage":  "ar",
-    "isPartOf":  {
-                     "@id":  "https://islamiclibraries.com/#website"
-                 },
-    "mainEntity":  {
-                       "@type":  "ItemList",
-                       "itemListElement":  [
-                                               {
-                                                   "@type":  "ListItem",
-                                                   "position":  1,
-                                                   "item":  {
-                                                                "@type":  "Book",
-                                                                "name":  "صحيح البخاري",
-                                                                "author":  {
-                                                                               "@type":  "Person",
-                                                                               "name":  "الإمام البخاري"
-                                                                           },
-                                                                "url":  "https://shamela.ws/book/1681"
-                                                            }
-                                               },
-                                               {
-                                                   "@type":  "ListItem",
-                                                   "position":  2,
-                                                   "item":  {
-                                                                "@type":  "Book",
-                                                                "name":  "صحيح مسلم",
-                                                                "author":  {
-                                                                               "@type":  "Person",
-                                                                               "name":  "الإمام مسلم"
-                                                                           },
-                                                                "url":  "https://shamela.ws/book/1727"
-                                                            }
-                                               },
-                                               {
-                                                   "@type":  "ListItem",
-                                                   "position":  3,
-                                                   "item":  {
-                                                                "@type":  "Book",
-                                                                "name":  "سنن أبي داود",
-                                                                "author":  {
-                                                                               "@type":  "Person",
-                                                                               "name":  "أبو داود السجستاني"
-                                                                           },
-                                                                "url":  "https://shamela.ws/book/117359"
-                                                            }
-                                               },
-                                               {
-                                                   "@type":  "ListItem",
-                                                   "position":  4,
-                                                   "item":  {
-                                                                "@type":  "Book",
-                                                                "name":  "جامع الترمذي",
-                                                                "author":  {
-                                                                               "@type":  "Person",
-                                                                               "name":  "الإمام الترمذي"
-                                                                           },
-                                                                "url":  "https://shamela.ws/book/1363"
-                                                            }
-                                               },
-                                               {
-                                                   "@type":  "ListItem",
-                                                   "position":  5,
-                                                   "item":  {
-                                                                "@type":  "Book",
-                                                                "name":  "سنن النسائي",
-                                                                "author":  {
-                                                                               "@type":  "Person",
-                                                                               "name":  "الإمام النسائي"
-                                                                           },
-                                                                "url":  "https://shamela.ws/book/1339"
-                                                            }
-                                               },
-                                               {
-                                                   "@type":  "ListItem",
-                                                   "position":  6,
-                                                   "item":  {
-                                                                "@type":  "Book",
-                                                                "name":  "سنن ابن ماجه",
-                                                                "author":  {
-                                                                               "@type":  "Person",
-                                                                               "name":  "الإمام ابن ماجه"
-                                                                           },
-                                                                "url":  "https://shamela.ws/book/1198"
-                                                            }
-                                               },
-                                               {
-                                                   "@type":  "ListItem",
-                                                   "position":  7,
-                                                   "item":  {
-                                                                "@type":  "Book",
-                                                                "name":  "موطأ الإمام مالك",
-                                                                "author":  {
-                                                                               "@type":  "Person",
-                                                                               "name":  "الإمام مالك"
-                                                                           },
-                                                                "url":  "https://shamela.ws/book/28107"
-                                                            }
-                                               },
-                                               {
-                                                   "@type":  "ListItem",
-                                                   "position":  8,
-                                                   "item":  {
-                                                                "@type":  "Book",
-                                                                "name":  "مسند الإمام أحمد",
-                                                                "author":  {
-                                                                               "@type":  "Person",
-                                                                               "name":  "الإمام أحمد بن حنبل"
-                                                                           },
-                                                                "url":  "https://shamela.ws/book/9"
-                                                            }
-                                               },
-                                               {
-                                                   "@type":  "ListItem",
-                                                   "position":  9,
-                                                   "item":  {
-                                                                "@type":  "Book",
-                                                                "name":  "فتح الباري بشرح صحيح البخاري",
-                                                                "author":  {
-                                                                               "@type":  "Person",
-                                                                               "name":  "ابن حجر العسقلاني"
-                                                                           },
-                                                                "url":  "https://shamela.ws/book/1673"
-                                                            }
-                                               },
-                                               {
-                                                   "@type":  "ListItem",
-                                                   "position":  10,
-                                                   "item":  {
-                                                                "@type":  "Book",
-                                                                "name":  "شرح صحيح مسلم للنووي",
-                                                                "author":  {
-                                                                               "@type":  "Person",
-                                                                               "name":  "الإمام النووي"
-                                                                           },
-                                                                "url":  "https://shamela.ws/book/1711"
-                                                            }
-                                               },
-                                               {
-                                                   "@type":  "ListItem",
-                                                   "position":  11,
-                                                   "item":  {
-                                                                "@type":  "Book",
-                                                                "name":  "عمدة القاري شرح البخاري",
-                                                                "author":  {
-                                                                               "@type":  "Person",
-                                                                               "name":  "بدر الدين العيني"
-                                                                           },
-                                                                "url":  "https://shamela.ws/book/63"
-                                                            }
-                                               },
-                                               {
-                                                   "@type":  "ListItem",
-                                                   "position":  12,
-                                                   "item":  {
-                                                                "@type":  "Book",
-                                                                "name":  "إرشاد الساري شرح البخاري",
-                                                                "author":  {
-                                                                               "@type":  "Person",
-                                                                               "name":  "القسطلاني"
-                                                                           },
-                                                                "url":  "https://shamela.ws/book/64"
-                                                            }
-                                               }
-                                           ]
-                   }
-}
-</script>
 </head>
 <body>
 
@@ -239,6 +70,7 @@
     </div>
       <a href="tools.html">أدوات</a>
       <a href="glossary.html">القاموس</a>
+      <a href="favorites.html">المفضلة</a>
       <a href="apps.html">تطبيقات مفيدة</a>
     </nav>
     <div class="search-box">
@@ -256,6 +88,7 @@
     <a href="fatawa.html">الفتاوى</a>
     <a href="tools.html">أدوات</a>
     <a href="glossary.html">القاموس</a>
+    <a href="favorites.html">المفضلة</a>
     <a href="apps.html">تطبيقات مفيدة</a>
   </div>
 </header>
@@ -271,7 +104,7 @@
     <span class="crumb"><a href="books.html">الكتب</a> ← الكل</span>
     <span class="eyebrow">المكتبة الشاملة</span>
     <h1>175 كتاب إسلامي موثق</h1>
-    <p>جميع الكتب مرتبطة بـ <strong>المكتبة الشاملة</strong> — اضغط «اقرأ» للوصول المباشر. ابحث بالعنوان أو المؤلف أو فلتر بالتخصص.</p>
+    <p>جميع الكتب مرتبطة بـ <strong>المكتبة الشاملة</strong> — اضغط «اقرأ» للوصول المباشر. ابحث بالعنوان أو المؤلف أو فلتر بالتخصص. اضغط القلب عشان تحفظ الكتاب في المفضلة.</p>
   </div>
 </section>
 
@@ -280,6 +113,7 @@
     <div class="books-toolbar">
       <input class="books-search" type="text" id="booksSearch" placeholder="ابحث عن كتاب أو مؤلف...">
       <span class="books-count" id="booksCount"></span>
+      <a class="toolbar-link" href="favorites.html">♥ المفضلة</a>
     </div>
     <div class="cat-filter" id="booksCatFilter"></div>
     <div class="books-grid" id="booksGrid"></div>
@@ -295,6 +129,7 @@
         <a href="books.html">الكتب</a>
         <a href="quran.html">القرآن الكريم</a>
         <a href="fatawa.html">الفتاوى</a>
+        <a href="favorites.html">المفضلة</a>
         <a href="glossary.html">القاموس</a>
         <a href="apps.html">تطبيقات مفيدة</a>
       </div>
@@ -307,6 +142,7 @@
 <script src="assets/js/search-data.js"></script>
 <script src="assets/js/topics.js"></script>
 <script src="assets/js/books-data.js"></script>
+<script src="assets/js/favorites.js"></script>
 <script src="assets/js/main.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -318,7 +154,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchEl = document.getElementById('booksSearch');
   let currentCat = 'all';
 
-  /* ── فلاتر ── */
   const allBtn = document.createElement('button');
   allBtn.className = 'cat-btn active';
   allBtn.dataset.cat = 'all';
@@ -340,7 +175,6 @@ document.addEventListener('DOMContentLoaded', () => {
     applyFilters();
   });
 
-  /* ── شبكة الكتب ── */
   function catLabel(id) {
     const c = cats.find(x => x.id === id);
     return c ? `${c.icon} ${c.label}` : id;
@@ -352,12 +186,14 @@ document.addEventListener('DOMContentLoaded', () => {
     card.dataset.cat = b.category;
     card.dataset.title = b.title;
     card.dataset.author = b.author;
+    const isFav = window.ILFavorites && window.ILFavorites.isFavorite('book', b.id);
     const searchUrl = `https://www.google.com/search?q=site:shamela.ws+${encodeURIComponent(b.title + ' ' + b.author)}`;
     card.innerHTML = `
+      <button class="fav-btn ${isFav ? 'is-fav' : ''}" data-id="${b.id}" data-title="${b.title.replace(/"/g, '&quot;')}" data-author="${b.author.replace(/"/g, '&quot;')}" data-category="${b.category}" data-shamela="${b.shamela}" aria-label="${isFav ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}" title="${isFav ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}">${isFav ? '♥' : '♡'}</button>
       <span class="book-cat-badge">${catLabel(b.category)}</span>
       <span class="book-title">${b.title}</span>
       <span class="book-author">✍️ ${b.author}</span>
-      <a class="book-link" href="https://shamela.ws/book/${b.shamela}" target="_blank" rel="noopener noreferrer">
+      <a class="book-link" href="https://shamela.ws/book/${b.shamela}" target="_blank" rel="noopener noreferrer" data-book-id="${b.id}" data-book-title="${b.title.replace(/"/g, '&quot;')}" data-book-author="${b.author.replace(/"/g, '&quot;')}" data-book-cat="${b.category}" data-book-shamela="${b.shamela}">
         📖 اقرأ في الشاملة ←
       </a>
       <a class="book-link-alt" href="${searchUrl}" target="_blank" rel="noopener noreferrer" title="لو الرابط الأساسي ما فتحش الكتاب الصحيح">
@@ -366,7 +202,36 @@ document.addEventListener('DOMContentLoaded', () => {
     grid.appendChild(card);
   });
 
-  /* ── فلتر ── */
+  // Favorite toggle
+  grid.addEventListener('click', e => {
+    const btn = e.target.closest('.fav-btn');
+    if (!btn) return;
+    e.preventDefault();
+    const id = btn.dataset.id;
+    const added = window.ILFavorites.toggle('book', id, {
+      title: btn.dataset.title,
+      author: btn.dataset.author,
+      category: btn.dataset.category,
+      shamela: btn.dataset.shamela
+    });
+    btn.classList.toggle('is-fav', added);
+    btn.textContent = added ? '♥' : '♡';
+    btn.setAttribute('aria-label', added ? 'إزالة من المفضلة' : 'إضافة للمفضلة');
+    btn.title = added ? 'إزالة من المفضلة' : 'إضافة للمفضلة';
+  });
+
+  // Track recent when opening a book
+  grid.addEventListener('click', e => {
+    const link = e.target.closest('.book-link');
+    if (!link || !link.dataset.bookId) return;
+    window.ILFavorites.addRecent('book', link.dataset.bookId, {
+      title: link.dataset.bookTitle,
+      author: link.dataset.bookAuthor,
+      category: link.dataset.bookCat,
+      shamela: link.dataset.bookShamela
+    });
+  });
+
   function applyFilters() {
     const q = searchEl.value.trim().toLowerCase();
     let count = 0;
