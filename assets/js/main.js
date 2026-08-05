@@ -43,7 +43,6 @@
     applyTheme(document.documentElement.getAttribute('data-theme') !== 'dark');
   });
 
-  // Insert into header once DOM is ready
   function injectToggle() {
     const nav = document.querySelector('.nav');
     if (!nav) return;
@@ -191,7 +190,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.faq-q').forEach(q => {
     q.addEventListener('click', () => {
       const item = q.closest('.faq-item');
-      // Close siblings
       item.closest('.fatwa-cat') && item.closest('.fatwa-cat').querySelectorAll('.faq-item.open').forEach(open => {
         if (open !== item) open.classList.remove('open');
       });
@@ -206,7 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const text = h.textContent.trim();
       return text.length > 2 && text.length < 60;
     });
-    if (eligible.length < 3) return; // only show TOC when enough sections exist
+    if (eligible.length < 3) return;
 
     eligible.forEach((h, i) => {
       if (!h.id) h.id = 'toc-' + i;
@@ -219,7 +217,6 @@ document.addEventListener('DOMContentLoaded', () => {
     eligible.forEach(h => {
       const a = document.createElement('a');
       a.href = '#' + h.id;
-      // Strip leading emoji
       a.textContent = h.textContent.replace(/^[\u{1F300}-\u{1FFFF}\u{2600}-\u{27FF}🕌🌙🕋💰🏛️🍽️👗⚖️🚫🤝📚🎬📝💡📿🔔💬📖]/gu, '').trim();
       if (h.tagName === 'H3') a.classList.add('toc-h3');
       toc.appendChild(a);
@@ -228,7 +225,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.appendChild(toc);
     toc.style.display = 'block';
 
-    // Highlight active on scroll
     const tocLinks = toc.querySelectorAll('a');
     function highlightActive() {
       let current = eligible[0] && eligible[0].id;
@@ -369,4 +365,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
+})();
+
+// ============ Favorites bootstrap on fatawa pages ============
+(function loadFatawaFavorites() {
+  const path = (location.pathname || '').toLowerCase();
+  if (!path.includes('fatawa')) return;
+  const root = window.SITE_ROOT || '';
+  function load(src) {
+    return new Promise((resolve, reject) => {
+      if (document.querySelector('script[src="' + src + '"]')) { resolve(); return; }
+      const s = document.createElement('script');
+      s.src = src;
+      s.onload = () => resolve();
+      s.onerror = () => reject();
+      document.body.appendChild(s);
+    });
+  }
+  const run = () => {
+    load(root + 'assets/js/favorites.js')
+      .then(() => load(root + 'assets/js/fatawa-favorites.js'))
+      .catch(() => {});
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
+  else run();
 })();
