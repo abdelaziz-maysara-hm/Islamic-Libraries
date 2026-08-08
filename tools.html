@@ -4,16 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>أدوات مفيدة: حاسبة الزكاة، حاسبة المواريث، ومحول التاريخ الهجري — المكتبة الجامعة</title>
-<meta name="description" content="حاسبة زكاة تفاعلية، حاسبة مواريث (فرائض) دقيقة، ومحول تاريخ هجري/ميلادي — أدوات مجانية سريعة تعمل مباشرة من المتصفح.">
+<meta name="description" content="حاسبة زكاة تفاعلية (نقد وذهب وفضة وعروض تجارة)، حاسبة مواريث (فرائض) دقيقة، ومحول تاريخ هجري/ميلادي — أدوات مجانية سريعة تعمل مباشرة من المتصفح.">
 <link rel="canonical" href="https://islamiclibraries.com/tools.html">
 <meta property="og:url" content="https://islamiclibraries.com/tools.html">
 <meta property="og:type" content="website">
 <meta property="og:title" content="أدوات مفيدة: حاسبة الزكاة، حاسبة المواريث، ومحول التاريخ الهجري — المكتبة الجامعة">
-<meta property="og:description" content="حاسبة زكاة تفاعلية، حاسبة مواريث (فرائض) دقيقة، ومحول تاريخ هجري/ميلادي — أدوات مجانية سريعة تعمل مباشرة من المتصفح.">
+<meta property="og:description" content="حاسبة زكاة تفاعلية (نقد وذهب وفضة وعروض تجارة)، حاسبة مواريث (فرائض) دقيقة، ومحول تاريخ هجري/ميلادي — أدوات مجانية سريعة تعمل مباشرة من المتصفح.">
 <meta property="og:locale" content="ar_AR">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="أدوات مفيدة: حاسبة الزكاة، حاسبة المواريث، ومحول التاريخ الهجري — المكتبة الجامعة">
-<meta name="twitter:description" content="حاسبة زكاة تفاعلية، حاسبة مواريث (فرائض) دقيقة، ومحول تاريخ هجري/ميلادي — أدوات مجانية سريعة تعمل مباشرة من المتصفح.">
+<meta name="twitter:description" content="حاسبة زكاة تفاعلية (نقد وذهب وفضة وعروض تجارة)، حاسبة مواريث (فرائض) دقيقة، ومحول تاريخ هجري/ميلادي — أدوات مجانية سريعة تعمل مباشرة من المتصفح.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@700;800;900&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -27,10 +27,11 @@
   .field label{display:block; font-size:13.5px; font-weight:700; margin-bottom:6px; color:var(--text);}
   .field input, .field select{
     width:100%; padding:12px 14px; border-radius:10px; border:1px solid var(--line);
-    font-family:'Tajawal'; font-size:14px; background:var(--paper);
+    font-family:'Tajawal'; font-size:14px; background:var(--paper); color:var(--text);
   }
   .field input:focus, .field select:focus{outline:none; border-color:var(--teal);}
   .row2{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  .row3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;}
   .btn-calc{
     background:var(--teal-deep); color:#fff; border:none; padding:13px 26px; border-radius:10px;
     font-family:'Tajawal'; font-weight:700; font-size:14.5px; cursor:pointer; margin-top:6px;
@@ -38,7 +39,7 @@
   .btn-calc:hover{background:var(--teal);}
   .result-box{
     margin-top:20px; padding:18px 20px; border-radius:12px; background:var(--teal-soft);
-    display:none; font-size:14.5px; line-height:1.9;
+    display:none; font-size:14.5px; line-height:1.9; color:var(--text);
   }
   .result-box.show{display:block;}
   .result-box b{color:var(--teal-deep); font-size:17px;}
@@ -48,21 +49,21 @@
   .faraid-table th{color:var(--teal-deep); font-size:13px;}
   .faraid-table tr:last-child td{border-bottom:none;}
   .faraid-note{font-size:12.5px; color:var(--muted); margin-top:14px; line-height:1.8;}
-  @media(max-width:620px){.row2{grid-template-columns:1fr;}}
+  .tool-sub{font-size:13px;font-weight:800;color:var(--gold-text);margin:18px 0 10px;font-family:'Cairo';}
+  .hint{font-size:11.5px;color:var(--muted);margin-top:4px;}
+  @media(max-width:620px){.row2,.row3{grid-template-columns:1fr;}}
 </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7919896989773628" crossorigin="anonymous"></script>
 <script type="application/ld+json">
 {
-    "@context":  "https://schema.org",
-    "@type":  "CollectionPage",
-    "@id":  "https://islamiclibraries.com/tools.html#webpage",
-    "url":  "https://islamiclibraries.com/tools.html",
-    "name":  "أدوات مفيدة: حاسبة الزكاة، حاسبة المواريث، ومحول التاريخ الهجري — المكتبة الجامعة",
-    "description":  "حاسبة زكاة تفاعلية، حاسبة مواريث (فرائض) دقيقة، ومحول تاريخ هجري/ميلادي — أدوات مجانية سريعة تعمل مباشرة من المتصفح.",
-    "inLanguage":  "ar",
-    "isPartOf":  {
-                     "@id":  "https://islamiclibraries.com/#website"
-                 }
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "@id": "https://islamiclibraries.com/tools.html#webpage",
+  "url": "https://islamiclibraries.com/tools.html",
+  "name": "أدوات مفيدة: حاسبة الزكاة، حاسبة المواريث، ومحول التاريخ الهجري — المكتبة الجامعة",
+  "description": "حاسبة زكاة تفاعلية (نقد وذهب وفضة وعروض تجارة)، حاسبة مواريث (فرائض) دقيقة، ومحول تاريخ هجري/ميلادي — أدوات مجانية سريعة تعمل مباشرة من المتصفح.",
+  "inLanguage": "ar",
+  "isPartOf": { "@id": "https://islamiclibraries.com/#website" }
 }
 </script>
 </head>
@@ -89,6 +90,7 @@
     </div>
       <a href="tools.html" class="active">أدوات</a>
       <a href="glossary.html">القاموس</a>
+      <a href="favorites.html">المفضلة</a>
       <a href="apps.html">تطبيقات مفيدة</a>
     </nav>
     <div class="search-box">
@@ -106,6 +108,7 @@
     <a href="fatawa.html">الفتاوى</a>
     <a href="tools.html">أدوات</a>
     <a href="glossary.html">القاموس</a>
+    <a href="favorites.html">المفضلة</a>
     <a href="apps.html">تطبيقات مفيدة</a>
   </div>
 </header>
@@ -127,30 +130,76 @@
 <section style="padding-top:0;">
   <div class="wrap" style="max-width:640px;">
 
-    <div class="tool-card">
+    <div class="tool-card" id="zakatTool">
       <h2>💰 حاسبة الزكاة</h2>
-      <p class="tool-desc">احسب زكاة المال النقدي والذهب بسرعة. النصاب المستخدم هنا هو نصاب الفضة (الأحوط للفقراء) بمعدل تقريبي، وتقدر تعدّله حسب سعر الفضة الحالي.</p>
+      <p class="tool-desc">احسب زكاة النقد والذهب والفضة وعروض التجارة. النصاب الافتراضي نصاب الفضة (595 جرام) لأنه الأحوط للفقراء — وتقدر تغيّر الأسعار حسب السوق.</p>
+
+      <div class="tool-sub">النقد والديون</div>
+      <div class="row2">
+        <div class="field">
+          <label for="zkCash">المال النقدي والمدّخرات (جنيه)</label>
+          <input type="number" id="zkCash" placeholder="مثال: 50000" min="0" step="any">
+        </div>
+        <div class="field">
+          <label for="zkDebt">ديون مستحقة عليك (تُخصم)</label>
+          <input type="number" id="zkDebt" placeholder="مثال: 5000" min="0" step="any">
+        </div>
+      </div>
+
+      <div class="tool-sub">الذهب</div>
+      <div class="row3">
+        <div class="field">
+          <label for="zkGoldG">الوزن (جرام)</label>
+          <input type="number" id="zkGoldG" placeholder="مثال: 50" min="0" step="any">
+        </div>
+        <div class="field">
+          <label for="zkGoldKarat">العيار</label>
+          <select id="zkGoldKarat">
+            <option value="24">24</option>
+            <option value="22">22</option>
+            <option value="21" selected>21</option>
+            <option value="18">18</option>
+            <option value="14">14</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="zkGoldPrice">سعر جرام عيار 24 (جنيه)</label>
+          <input type="number" id="zkGoldPrice" min="0" step="any">
+          <div class="hint">حدّثه حسب سعر اليوم في بلدك</div>
+        </div>
+      </div>
+
+      <div class="tool-sub">الفضة</div>
+      <div class="row2">
+        <div class="field">
+          <label for="zkSilverG">الوزن (جرام)</label>
+          <input type="number" id="zkSilverG" placeholder="مثال: 200" min="0" step="any">
+        </div>
+        <div class="field">
+          <label for="zkSilverPrice">سعر جرام الفضة (جنيه)</label>
+          <input type="number" id="zkSilverPrice" min="0" step="any">
+        </div>
+      </div>
+
+      <div class="tool-sub">عروض التجارة</div>
+      <div class="field">
+        <label for="zkTrade">قيمة بضاعة التجارة بسعر السوق (جنيه)</label>
+        <input type="number" id="zkTrade" placeholder="إن وجدت" min="0" step="any">
+        <div class="hint">تُقدَّر بالقيمة البيعية الحالية لا بسعر الشراء</div>
+      </div>
 
       <div class="field">
-        <label for="cash">المال النقدي المدّخر (جنيه)</label>
-        <input type="number" id="cash" placeholder="مثال: 50000">
+        <label for="zkNisabMode">اعتماد النصاب على</label>
+        <select id="zkNisabMode">
+          <option value="silver" selected>نصاب الفضة (595 جرام) — الأحوط</option>
+          <option value="gold">نصاب الذهب (85 جرام)</option>
+        </select>
       </div>
-      <div class="field">
-        <label for="gold">قيمة الذهب/الفضة المملوك (جنيه) — إن وجد</label>
-        <input type="number" id="gold" placeholder="مثال: 20000">
-      </div>
-      <div class="field">
-        <label for="debt">الديون المستحقة عليك (تُخصم) — إن وجدت</label>
-        <input type="number" id="debt" placeholder="مثال: 5000">
-      </div>
-      <div class="field">
-        <label for="nisab">نصاب الزكاة الحالي بالجنيه (نصاب الفضة تقريبًا)</label>
-        <input type="number" id="nisab" value="15000">
-      </div>
-      <button class="btn-calc" onclick="calcZakat()">احسب الزكاة</button>
+
+      <button type="button" class="btn-calc" id="zkCalcBtn">احسب الزكاة</button>
 
       <div class="result-box" id="zakatResult"></div>
-      <p class="disclaimer">⚠️ هذه الحاسبة للتقدير الأولي فقط ولا تغني عن استشارة أهل العلم في حالتك الخاصة، خصوصًا لو عندك أنواع مال أخرى (تجارة، أسهم، مواشي).</p>
+      <p class="disclaimer">⚠️ حاسبة تقديرية للتعليم والتيسير، ولا تغني عن استشارة أهل العلم — خصوصًا مع الأسهم أو الراتب المتجدد أو أموال فيها خلاف فقهي. يُشترط حولان الحول وبلوغ النصاب.</p>
     </div>
 
     <div class="tool-card">
@@ -218,9 +267,9 @@
         </div>
       </div>
 
-      <button class="btn-calc" onclick="calcFaraid()">احسب الأنصبة</button>
+      <button type="button" class="btn-calc" onclick="calcFaraid()">احسب الأنصبة</button>
       <div class="result-box" id="faraidResult"></div>
-      <p class="disclaimer">⚠️ هذه الحاسبة تعليمية وتقديرية، وتغطي فقط الورثة المذكورين أعلاه. لو في التركة ورثة تانيين (أبناء ابن، إخوة لأب أو لأم فقط، أعمام، أكتر من جدة أو جد) أو التركة فيها تعقيدات (وصية، دين، أوقاف)، اﻷنصبة ممكن تختلف تمامًا، ولازم تُعرض الحالة على عالم شرعي موثوق أو المحكمة المختصة قبل أي قسمة فعلية.</p>
+      <p class="disclaimer">⚠️ هذه الحاسبة تعليمية وتقديرية، وتغطي فقط الورثة المذكورين أعلاه. لو في التركة ورثة تانيين (أبناء ابن، إخوة لأب أو لأم فقط، أعمام، أكتر من جدة أو جد) أو التركة فيها تعقيدات (وصية، دين، أوقاف)، الأنصبة ممكن تختلف تمامًا، ولازم تُعرض الحالة على عالم شرعي موثوق أو المحكمة المختصة قبل أي قسمة فعلية.</p>
     </div>
 
     <div class="tool-card">
@@ -231,7 +280,7 @@
         <label for="gregDate">أدخل تاريخ ميلادي</label>
         <input type="date" id="gregDate">
       </div>
-      <button class="btn-calc" onclick="convertToHijri()">حوّل إلى هجري</button>
+      <button type="button" class="btn-calc" onclick="convertToHijri()">حوّل إلى هجري</button>
       <div class="result-box" id="hijriResult"></div>
 
       <div style="margin-top:26px; border-top:1px solid var(--line); padding-top:20px;">
@@ -256,7 +305,7 @@
           <label for="hDay">اليوم الهجري</label>
           <input type="number" id="hDay" min="1" max="30" placeholder="مثال: 15">
         </div>
-        <button class="btn-calc" onclick="convertToGregorian()">حوّل إلى ميلادي</button>
+        <button type="button" class="btn-calc" onclick="convertToGregorian()">حوّل إلى ميلادي</button>
         <div class="result-box" id="gregResult"></div>
       </div>
       <p class="disclaimer">⚠️ التحويل هنا حسابي تقريبي (Tabular Islamic Calendar) وليس اعتمادًا على رؤية الهلال الفعلية، فقد يفرق يومًا عن الإعلان الرسمي في بعض الدول.</p>
@@ -275,6 +324,8 @@
         <a href="books.html">الكتب</a>
         <a href="videos.html">الدروس المرئية</a>
         <a href="fatawa.html">الفتاوى</a>
+        <a href="tools.html">أدوات</a>
+        <a href="favorites.html">المفضلة</a>
         <a href="apps.html">تطبيقات مفيدة</a>
       </div>
     </div>
@@ -288,44 +339,30 @@
 <script src="assets/js/main.js"></script>
 <script src="assets/js/hijri.js"></script>
 <script src="assets/js/faraid.js"></script>
+<script src="assets/js/zakat.js"></script>
 <script>
-function calcZakat(){
-  const cash = parseFloat(document.getElementById('cash').value) || 0;
-  const gold = parseFloat(document.getElementById('gold').value) || 0;
-  const debt = parseFloat(document.getElementById('debt').value) || 0;
-  const nisab = parseFloat(document.getElementById('nisab').value) || 15000;
-  const netWealth = cash + gold - debt;
-  const box = document.getElementById('zakatResult');
-  if (netWealth < nisab) {
-    box.innerHTML = `صافي مالك <b>${netWealth.toLocaleString('ar-EG')} جنيه</b> أقل من النصاب (${nisab.toLocaleString('ar-EG')} جنيه)، فلا تجب عليك الزكاة هذا العام على هذا المال.`;
-  } else {
-    const zakat = netWealth * 0.025;
-    box.innerHTML = `صافي مالك الخاضع للزكاة: <b>${netWealth.toLocaleString('ar-EG')} جنيه</b><br>مقدار الزكاة الواجبة (2.5%): <b>${zakat.toLocaleString('ar-EG', {maximumFractionDigits:0})} جنيه</b>`;
-  }
-  box.classList.add('show');
-}
-
 function convertToHijri(){
   const val = document.getElementById('gregDate').value;
   const box = document.getElementById('hijriResult');
   if (!val) { box.innerHTML = 'من فضلك اختر تاريخ.'; box.classList.add('show'); return; }
   const d = new Date(val);
   const h = HijriConverter.gregorianToHijri(d.getFullYear(), d.getMonth()+1, d.getDate());
-  box.innerHTML = `التاريخ الهجري التقريبي: <b>${h.day} ${HijriConverter.monthNames[h.month-1]} ${h.year} هـ</b>`;
+  box.innerHTML = 'التاريخ الهجري التقريبي: <b>' + h.day + ' ' + HijriConverter.monthNames[h.month-1] + ' ' + h.year + ' هـ</b>';
   box.classList.add('show');
 }
 
 function convertToGregorian(){
-  const y = parseInt(document.getElementById('hYear').value);
-  const m = parseInt(document.getElementById('hMonth').value);
-  const d = parseInt(document.getElementById('hDay').value);
+  const y = parseInt(document.getElementById('hYear').value, 10);
+  const m = parseInt(document.getElementById('hMonth').value, 10);
+  const d = parseInt(document.getElementById('hDay').value, 10);
   const box = document.getElementById('gregResult');
   if (!y || !d) { box.innerHTML = 'من فضلك أدخل السنة واليوم الهجري.'; box.classList.add('show'); return; }
   const g = HijriConverter.hijriToGregorian(y, m, d);
   const dateStr = g.toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' });
-  box.innerHTML = `التاريخ الميلادي التقريبي: <b>${dateStr}</b>`;
+  box.innerHTML = 'التاريخ الميلادي التقريبي: <b>' + dateStr + '</b>';
   box.classList.add('show');
 }
+
 function toggleSpouseField(){
   const gender = document.getElementById('frDeceasedGender').value;
   const label = document.querySelector('#frSpouseWrap label');
@@ -342,15 +379,15 @@ function toggleSpouseField(){
 function calcFaraid(){
   const input = {
     deceasedGender: document.getElementById('frDeceasedGender').value,
-    spouseCount: parseInt(document.getElementById('frSpouse').value) || 0,
+    spouseCount: parseInt(document.getElementById('frSpouse').value, 10) || 0,
     father: document.getElementById('frFather').checked,
     mother: document.getElementById('frMother').checked,
     grandfather: document.getElementById('frGrandfather').checked,
     grandmother: document.getElementById('frGrandmother').checked,
-    sons: parseInt(document.getElementById('frSons').value) || 0,
-    daughters: parseInt(document.getElementById('frDaughters').value) || 0,
-    brothers: parseInt(document.getElementById('frBrothers').value) || 0,
-    sisters: parseInt(document.getElementById('frSisters').value) || 0
+    sons: parseInt(document.getElementById('frSons').value, 10) || 0,
+    daughters: parseInt(document.getElementById('frDaughters').value, 10) || 0,
+    brothers: parseInt(document.getElementById('frBrothers').value, 10) || 0,
+    sisters: parseInt(document.getElementById('frSisters').value, 10) || 0
   };
   const box = document.getElementById('faraidResult');
 
@@ -368,18 +405,18 @@ function calcFaraid(){
 
   let html = '<table class="faraid-table"><thead><tr><th>الوارث</th><th>النصيب</th>' +
              (estate > 0 ? '<th>المبلغ (جنيه)</th>' : '') + '</tr></thead><tbody>';
-  result.heirs.forEach(h => {
+  result.heirs.forEach(function(h) {
     const pct = (h.share.n / h.share.d * 100).toFixed(2);
     const amount = estate > 0 ? (estate * h.share.n / h.share.d).toLocaleString('ar-EG', {maximumFractionDigits: 0}) : null;
-    html += `<tr><td>${h.label}</td><td><b>${h.share.n}/${h.share.d}</b> (${pct}%)</td>` +
-            (estate > 0 ? `<td>${amount}</td>` : '') + '</tr>';
+    html += '<tr><td>' + h.label + '</td><td><b>' + h.share.n + '/' + h.share.d + '</b> (' + pct + '%)</td>' +
+            (estate > 0 ? '<td>' + amount + '</td>' : '') + '</tr>';
   });
   html += '</tbody></table>';
 
   if (result.awlApplied) {
     html += '<p class="faraid-note">📌 تم تطبيق <b>العول</b>: مجموع الفروض الأصلية كان أكبر من التركة، فنقص نصيب كل وارث بنفس النسبة عشان يتساووا مع التركة.</p>';
   }
-  if (result.notes.length) {
+  if (result.notes && result.notes.length) {
     html += '<p class="faraid-note">' + result.notes.join('<br>') + '</p>';
   }
 
