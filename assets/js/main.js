@@ -200,6 +200,17 @@ document.addEventListener('DOMContentLoaded', function () {
       document.body.appendChild(s);
     });
   }
+  function updateFatwaCount() {
+    if (path.indexOf('fatawa') === -1) return;
+    var n = Array.isArray(window.FATAWA_DATA) ? window.FATAWA_DATA.length : 0;
+    if (!n) return;
+    var h1 = document.querySelector('.hero h1');
+    if (h1) h1.textContent = n + '+ فتوى إسلامية موثقة بمصادرها';
+    var countEl = document.getElementById('fatwaCount');
+    if (countEl && (!countEl.textContent || countEl.textContent.indexOf('فتوى') !== -1)) {
+      // leave filter-driven text alone if user already filtered; set baseline when empty-ish
+    }
+  }
   function run() {
     if (path.indexOf('fatawa') !== -1) {
       load(root + 'assets/js/fatawa-expand-old.js')
@@ -216,11 +227,13 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(function () { return load(root + 'assets/js/fatawa-expand-old12.js'); })
         .then(function () { return load(root + 'assets/js/fatawa-expand-old13.js'); })
         .then(function () { return load(root + 'assets/js/fatawa-expand-old14.js'); })
+        .then(function () { return load(root + 'assets/js/fatawa-expand-old15.js'); })
         .then(function () { return load(root + 'assets/js/fatawa-extra.js'); })
         .then(function () { return load(root + 'assets/js/fatawa-extra2.js'); })
+        .then(function () { updateFatwaCount(); })
         .then(function () { return load(root + 'assets/js/favorites.js'); })
         .then(function () { return load(root + 'assets/js/fatawa-favorites.js'); })
-        .catch(function () {});
+        .catch(function () { updateFatwaCount(); });
     }
     if (path.indexOf('books-all') !== -1 || path.indexOf('book.html') !== -1 || path.indexOf('books') !== -1) {
       load(root + 'assets/js/books-enhance.js').catch(function () {});
