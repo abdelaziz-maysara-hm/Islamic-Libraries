@@ -205,6 +205,7 @@ document.addEventListener('DOMContentLoaded', function () {
       load(root + 'assets/js/fatawa-expand-old.js')
         .then(function () { return load(root + 'assets/js/fatawa-expand-old2.js'); })
         .then(function () { return load(root + 'assets/js/fatawa-expand-old3.js'); })
+        .then(function () { return load(root + 'assets/js/fatawa-expand-old4.js'); })
         .then(function () { return load(root + 'assets/js/fatawa-extra.js'); })
         .then(function () { return load(root + 'assets/js/fatawa-extra2.js'); })
         .then(function () { return load(root + 'assets/js/favorites.js'); })
