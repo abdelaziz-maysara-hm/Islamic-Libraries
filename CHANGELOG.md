@@ -1,26 +1,30 @@
 # Changelog — المكتبة الجامعة
 
-## 2026-08-05 — Favorites system
+## 2026-08-08 — تحسين حاسبة الزكاة
+
+### Added / Improved
+- **حاسبة الزكاة** في `tools.html`:
+  - نقد + ديون
+  - ذهب بالجرام + العيار (14/18/21/22/24)
+  - فضة بالجرام
+  - عروض تجارة بقيمة السوق
+  - اختيار نصاب الفضة (595ج) أو الذهب (85ج)
+  - تفصيل واضح للنتيجة
+  - حفظ آخر إدخال في localStorage
+- ملف منطق منفصل: `assets/js/zakat.js`
+- رابط المفضلة في صفحة الأدوات
+
+## 2026-08-05 — نظام المفضلة
 
 ### Added
-- **نظام المفضلة (Favorites)**
-  - `assets/js/favorites.js` — localStorage فقط
-  - API: `window.ILFavorites.toggle / isFavorite / get / addRecent / getRecent / clear`
-- **آخر ما قرأت (Recent)** عند فتح روابط الشاملة / فتح فتوى
-- **صفحة** `favorites.html` (كتب | فتاوى | أخيرًا)
-- أزرار قلب على بطاقات الكتب في `books-all.html`
-- أزرار قلب على الفتاوى (ديناميكية + ثابتة) عبر:
-  - `assets/js/fatawa-favorites.js`
-  - تحميل تلقائي من `main.js` على صفحات `fatawa*`
-- روابط المفضلة في الهيدر (تُحقَن على صفحة الفتاوى)
+- `assets/js/favorites.js` + صفحة `favorites.html`
+- أزرار مفضلة للكتب والفتاوى
+- آخر ما قرأت/تصفحت
 
 ### Fixed
-- CI: `books-all.html: duplicate HTML id`
-  - السبب: validator regex `\\bid=` يلتقط `data-id=` بالخطأ
-  - الحل: بناء بطاقات الكتب بـ DOM APIs + `data-itemkey`
+- CI false-positive `duplicate HTML id` من attributes زي `data-id=`
 
-### Notes for next contributors
-1. الشاملة لا تسمح بـ iframe لعرض الكتاب داخل الموقع.
-2. شغّل `npm run validate` قبل أي commit.
-3. لا تُولّد فتاوى/كتب بكميات كبيرة بدون تحقق من المصادر.
-4. الخطوة المقترحة التالية: تحسين أدوات (حاسبة الزكاة) أو صفحات تفاصيل كتب.
+### Notes
+1. أسعار الذهب/الفضة افتراضية — المستخدم يحدّثها حسب بلده.
+2. الحاسبة تقديرية ولا تغني عن استشارة أهل العلم.
+3. شغّل `npm run validate` قبل أي commit كبير.
