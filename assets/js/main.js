@@ -229,6 +229,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(function () { return load(root + 'assets/js/fatawa-extra3.js'); })
         .then(function () { return load(root + 'assets/js/fatawa-extra4.js'); })
         .then(function () { return load(root + 'assets/js/fatawa-extra5.js'); })
+        .then(function () { return load(root + 'assets/js/fatawa-extra6.js'); })
         .then(function () { updateFatwaCount(); })
         .then(function () { return load(root + 'assets/js/favorites.js'); })
         .then(function () { return load(root + 'assets/js/fatawa-favorites.js'); })
