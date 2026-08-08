@@ -202,11 +202,13 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   function run() {
     if (path.indexOf('fatawa') !== -1) {
-      load(root + 'assets/js/favorites.js').then(function () {
+      load(root + 'assets/js/fatawa-extra.js').then(function () {
+        return load(root + 'assets/js/favorites.js');
+      }).then(function () {
         return load(root + 'assets/js/fatawa-favorites.js');
       }).catch(function () {});
     }
-    if (path.indexOf('books-all') !== -1) {
+    if (path.indexOf('books-all') !== -1 || path.indexOf('book.html') !== -1 || path.indexOf('books') !== -1) {
       load(root + 'assets/js/books-enhance.js').catch(function () {});
     }
   }
