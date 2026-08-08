@@ -1,1 +1,29 @@
-PLACEHOLDER
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://islamiclibraries.com/</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://islamiclibraries.com/quran.html</loc><lastmod>2026-07-10</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://islamiclibraries.com/books.html</loc><lastmod>2026-07-07</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://islamiclibraries.com/books-all.html</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://islamiclibraries.com/book.html</loc><lastmod>2026-08-08</lastmod><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://islamiclibraries.com/fatawa.html</loc><lastmod>2026-07-07</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://islamiclibraries.com/videos.html</loc><lastmod>2026-07-07</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://islamiclibraries.com/tools.html</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://islamiclibraries.com/favorites.html</loc><lastmod>2026-08-05</lastmod><changefreq>monthly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://islamiclibraries.com/glossary.html</loc><lastmod>2026-07-07</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://islamiclibraries.com/apps.html</loc><lastmod>2026-07-07</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://islamiclibraries.com/books-hadith.html</loc><lastmod>2026-07-07</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://islamiclibraries.com/books-fiqh.html</loc><lastmod>2026-07-07</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://islamiclibraries.com/books-tafsir.html</loc><lastmod>2026-07-07</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://islamiclibraries.com/books-seerah.html</loc><lastmod>2026-07-07</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://islamiclibraries.com/books-aqeedah.html</loc><lastmod>2026-07-07</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://islamiclibraries.com/books-adhkar.html</loc><lastmod>2026-07-07</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://islamiclibraries.com/videos-fiqh.html</loc><lastmod>2026-07-07</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://islamiclibraries.com/videos-tafsir.html</loc><lastmod>2026-07-07</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://islamiclibraries.com/videos-seerah.html</loc><lastmod>2026-07-07</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://islamiclibraries.com/videos-aqeedah.html</loc><lastmod>2026-07-07</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://islamiclibraries.com/fatawa/ibadat.html</loc><lastmod>2026-08-02</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://islamiclibraries.com/fatawa/muamalat.html</loc><lastmod>2026-08-02</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://islamiclibraries.com/fatawa/usra.html</loc><lastmod>2026-08-02</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://islamiclibraries.com/fatawa/adab.html</loc><lastmod>2026-08-02</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://islamiclibraries.com/fatawa/asriya.html</loc><lastmod>2026-08-02</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+</urlset>
