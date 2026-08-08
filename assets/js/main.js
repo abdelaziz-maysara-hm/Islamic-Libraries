@@ -206,10 +206,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!n) return;
     var h1 = document.querySelector('.hero h1');
     if (h1) h1.textContent = n + '+ فتوى إسلامية موثقة بمصادرها';
-    var countEl = document.getElementById('fatwaCount');
-    if (countEl && (!countEl.textContent || countEl.textContent.indexOf('فتوى') !== -1)) {
-      // leave filter-driven text alone if user already filtered; set baseline when empty-ish
-    }
   }
   function run() {
     if (path.indexOf('fatawa') !== -1) {
@@ -230,6 +226,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(function () { return load(root + 'assets/js/fatawa-expand-old15.js'); })
         .then(function () { return load(root + 'assets/js/fatawa-extra.js'); })
         .then(function () { return load(root + 'assets/js/fatawa-extra2.js'); })
+        .then(function () { return load(root + 'assets/js/fatawa-extra3.js'); })
         .then(function () { updateFatwaCount(); })
         .then(function () { return load(root + 'assets/js/favorites.js'); })
         .then(function () { return load(root + 'assets/js/fatawa-favorites.js'); })
