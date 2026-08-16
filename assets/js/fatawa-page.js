@@ -9,10 +9,10 @@
 
   function escapeHtml(str) {
     return String(str || '')
-      .replace(/&/g, '&')
-      .replace(/</g, '<')
-      .replace(/>/g, '>')
-      .replace(/"/g, '"');
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
   }
 
   function getData() {
@@ -70,11 +70,13 @@
         b.style.background = 'var(--card)';
         b.style.color = 'var(--muted)';
         b.style.borderColor = 'var(--line)';
+        b.classList.remove('active');
       });
       btn.style.background = 'var(--teal-deep)';
       btn.style.color = '#fff';
       btn.style.borderColor = 'var(--teal-deep)';
-      state.category = btn.dataset.cat || 'all';
+      btn.classList.add('active');
+      state.category = btn.dataset.cat;
       state.page = 1;
       render();
     });
@@ -93,8 +95,7 @@
     var html = '';
     html += '<button type="button" class="page-btn" data-page="prev"' + (state.page <= 1 ? ' disabled' : '') + '>السابق</button>';
     var start = Math.max(1, state.page - 2);
-    var end = Math.min(totalPages, start + 4);
-    start = Math.max(1, end - 4);
+    var end = Math.min(totalPages, state.page + 2);
     if (start > 1) {
       html += '<button type="button" class="page-btn" data-page="1">1</button>';
       if (start > 2) html += '<span class="page-info">…</span>';
