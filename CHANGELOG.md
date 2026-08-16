@@ -5,7 +5,7 @@
 ## [Unreleased]
 
 ### Planned
-- توحيد بقية صفحات HTML على AdSense `ca-pub-9572691438076734`
+- إكمال توحيد باقي صفحات fiqh/ + adhkar/ + aqeedah/ + hadith/ + seerah/ + tafsir/ على AdSense `ca-pub-9572691438076734`
 - حقول ملخص للكتب داخل `book.html` لتقوية المعاينة داخل الموقع
 - دفعات محتوى جديدة نحو أهداف `ROADMAP.md`
 - مراجعة يدوية لروابط مصادر الفتاوى (`sourceUrl`)
@@ -19,6 +19,7 @@
 - **توسيع ملخصات كل الفتاوى 1–259** إلى فقرات أوضح (بدل الاختصار الشديد)
 - عرض اسم المصدر فقط بدون روابط عميقة غير موثوقة
 - تحميل `fatawa-extra7.js` و `fatawa-extra8.js` من `main.js`
+- **توحيد AdSense** على كل صفحات `fatawa/` (5 صفحات) + `fiqh/taharah-salah.html` إلى `ca-pub-9572691438076734`
 
 ### Fixed
 - استعادة بيانات الفتاوى بعد PLACEHOLDER
