@@ -1,8 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
   <title id="title">شعار المكتبة الجامعة</title>
-  <rect width="512" height="512" rx="112" fill="#0E3B36"/>
-  <path d="M128 139c48-14 92-5 128 26v225c-36-31-80-40-128-26V139Z" fill="#FAF6EC"/>
-  <path d="M384 139c-48-14-92-5-128 26v225c36-31 80-40 128-26V139Z" fill="#E7F0EC"/>
-  <path d="M256 165v225" stroke="#B8894A" stroke-width="18" stroke-linecap="round"/>
-  <path d="M328 91a72 72 0 1 0 47 126 83 83 0 1 1-47-126Z" fill="#D4A853"/>
+  <!-- Background -->
+  <rect width="512" height="512" rx="96" fill="#0E3B36"/>
+  <!-- Open book base / shadow -->
+  <ellipse cx="256" cy="400" rx="150" ry="28" fill="#0A2A26" opacity="0.45"/>
+  <!-- Left page -->
+  <path d="M90 150 C90 150 90 360 90 360 C90 380 140 395 256 395 L256 150 C180 135 110 140 90 150Z" fill="#F5F0E6"/>
+  <!-- Right page -->
+  <path d="M422 150 C422 150 422 360 422 360 C422 380 372 395 256 395 L256 150 C332 135 402 140 422 150Z" fill="#E8E2D4"/>
+  <!-- Spine highlight -->
+  <path d="M248 152 L264 152 L264 393 L248 393Z" fill="#C9B896"/>
+  <!-- Text lines left -->
+  <path d="M120 200 H230 M120 235 H220 M120 270 H225 M120 305 H210" stroke="#0E3B36" stroke-width="8" stroke-linecap="round" opacity="0.25"/>
+  <!-- Text lines right -->
+  <path d="M282 200 H392 M292 235 H392 M287 270 H392 M302 305 H392" stroke="#0E3B36" stroke-width="8" stroke-linecap="round" opacity="0.2"/>
+  <!-- Crescent moon -->
+  <path d="M340 95 A55 55 0 1 0 380 185 A42 42 0 1 1 340 95Z" fill="#D4A853"/>
 </svg>
