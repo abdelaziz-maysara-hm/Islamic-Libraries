@@ -1,1 +1,2 @@
-PLACEHOLDER_WILL_REPLACE
+/* RESTORE - loading full content next */
+window.FATAWA_DATA = [];
