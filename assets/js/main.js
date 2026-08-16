@@ -13,6 +13,18 @@
     themeColor.content = '#0E3B36';
     document.head.appendChild(themeColor);
   }
+  // Favicon — open book + crescent (Islamic library)
+  if (!document.querySelector('link[rel="icon"]')) {
+    var iconSvg = document.createElement('link');
+    iconSvg.rel = 'icon';
+    iconSvg.type = 'image/svg+xml';
+    iconSvg.href = root + 'assets/icons/app-icon.svg';
+    document.head.appendChild(iconSvg);
+    var iconApple = document.createElement('link');
+    iconApple.rel = 'apple-touch-icon';
+    iconApple.href = root + 'assets/icons/app-icon.svg';
+    document.head.appendChild(iconApple);
+  }
   if ('serviceWorker' in navigator && location.protocol !== 'file:') {
     window.addEventListener('load', function () {
       navigator.serviceWorker.register(root + 'sw.js', { updateViaCache: 'none' }).catch(function () {});
