@@ -125,9 +125,10 @@
   }
 
   function renderItem(f) {
-    var sourceLink = f.sourceUrl
-      ? '<p><a href="' + escapeHtml(f.sourceUrl) + '" target="_blank" rel="noopener noreferrer" style="font-size:12px;color:var(--gold-text);text-decoration:none;font-weight:700;">📚 المصدر: ' + escapeHtml(f.source || 'المصدر') + ' ←</a></p>'
-      : (f.source ? '<p class="source">المصدر: ' + escapeHtml(f.source) + '</p>' : '');
+    /* sourceUrl links currently unreliable — show source name only until verified */
+    var sourceLink = f.source
+      ? '<p class="source" style="font-size:12px;color:var(--muted);margin-top:8px;">المصدر: ' + escapeHtml(f.source) + '</p>'
+      : '';
     return (
       '<div class="faq-item" data-cat="' + escapeHtml(f.category) + '">' +
       '<div class="faq-q"><span>' + escapeHtml(f.q) + '</span>' +
