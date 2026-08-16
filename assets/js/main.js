@@ -52,12 +52,47 @@
 document.addEventListener('DOMContentLoaded', function () {
   var menuBtn = document.getElementById('menuBtn');
   var mobileMenu = document.getElementById('mobileMenu');
+  function closeMobileMenu() {
+    if (!mobileMenu || !menuBtn) return;
+    mobileMenu.classList.remove('open');
+    menuBtn.textContent = '☰';
+  }
   if (menuBtn && mobileMenu) {
     menuBtn.addEventListener('click', function () {
       mobileMenu.classList.toggle('open');
       menuBtn.textContent = mobileMenu.classList.contains('open') ? '✕' : '☰';
     });
+    mobileMenu.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', closeMobileMenu);
+    });
   }
+
+  // Desktop dropdown: click keeps menu open; Escape / outside click closes it
+  document.querySelectorAll('.nav-drop').forEach(function (drop) {
+    var trigger = drop.querySelector(':scope > a');
+    if (!trigger) return;
+    trigger.addEventListener('click', function (e) {
+      if (window.innerWidth <= 900) return;
+      if (!drop.classList.contains('open')) {
+        e.preventDefault();
+        document.querySelectorAll('.nav-drop.open').forEach(function (d) {
+          if (d !== drop) d.classList.remove('open');
+        });
+        drop.classList.add('open');
+      }
+    });
+  });
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('.nav-drop')) {
+      document.querySelectorAll('.nav-drop.open').forEach(function (d) { d.classList.remove('open'); });
+    }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.nav-drop.open').forEach(function (d) { d.classList.remove('open'); });
+      closeMobileMenu();
+    }
+  });
 
   var ROOT = window.SITE_ROOT || '';
 
