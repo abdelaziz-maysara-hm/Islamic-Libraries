@@ -1,2 +1,1 @@
-/* RESTORE_PENDING - see next commit */
-window.FATAWA_DATA = [];
+PLACEHOLDER_WILL_REPLACE
