@@ -39,8 +39,11 @@
     if (desc) desc.setAttribute('content', book.title + ' لـ ' + book.author + ' — قراءة عبر المكتبة الشاملة');
 
     const isFav = window.ILFavorites && window.ILFavorites.isFavorite('book', book.id);
+    const byAuthor = books
+      .filter(function (b) { return b.author === book.author && b.id !== book.id; })
+      .slice(0, 6);
     const related = books
-      .filter(function (b) { return b.category === book.category && b.id !== book.id; })
+      .filter(function (b) { return b.category === book.category && b.id !== book.id && b.author !== book.author; })
       .slice(0, 6);
 
     if (window.ILFavorites) {
@@ -50,6 +53,20 @@
         category: book.category,
         shamela: book.shamela
       });
+    }
+
+    let byAuthorHtml = '';
+    if (byAuthor.length) {
+      byAuthorHtml = '<div class="section-head"><span class="eyebrow">لنفس المؤلف</span><h2>كتب أخرى لـ' + book.author + '</h2></div>' +
+        '<div class="books-grid">' +
+        byAuthor.map(function (b) {
+          return '<a class="book-card-item" href="book.html?book=' + b.id + '" style="text-decoration:none">' +
+            '<span class="book-cat-badge">' + catLabel(b.category) + '</span>' +
+            '<span class="book-title">' + b.title + '</span>' +
+            '<span class="book-author">✍️ ' + b.author + '</span>' +
+            '</a>';
+        }).join('') +
+        '</div>';
     }
 
     let relatedHtml = '';
@@ -81,7 +98,7 @@
       '</div>' +
       '<p style="margin-top:16px;font-size:13px;color:var(--muted);line-height:1.8">النص الكامل يُعرض عبر <strong>المكتبة الشاملة</strong>.</p>' +
       '</div></section>' +
-      '<section style="padding-top:10px"><div class="wrap">' + relatedHtml + '</div></section>';
+      '<section style="padding-top:10px"><div class="wrap">' + byAuthorHtml + relatedHtml + '</div></section>';
 
     const favBtn = document.getElementById('bookFavBtn');
     if (favBtn && window.ILFavorites) {
