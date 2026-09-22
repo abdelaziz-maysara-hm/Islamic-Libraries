@@ -46,36 +46,25 @@
 </script>
 </head>
 <body>
-<header class="site-header">
-  <div class="wrap header-inner">
+<header>
+  <div class="wrap nav">
     <a href="index.html" class="logo">المكتبة الجامعة</a>
-    <nav class="nav">
+    <nav class="nav-links">
       <a href="index.html">الرئيسية</a>
       <a href="quran.html">القرآن الكريم</a>
-      <div class="nav-dropdown">
-        <a href="books.html" class="nav-drop-btn">الكتب <span class="caret">▾</span></a>
-        <div class="nav-drop-menu">
-          <a href="books-all.html">كل الكتب</a>
-          <a href="books-hadith.html">الحديث</a>
-          <a href="books-fiqh.html">الفقه</a>
-          <a href="books-tafsir.html">التفسير</a>
-          <a href="books-seerah.html">السيرة</a>
-          <a href="books-aqeedah.html">العقيدة</a>
-          <a href="books-adhkar.html">الأذكار</a>
-        </div>
-      </div>
+      <a href="books.html">الكتب</a>
       <a href="videos.html">الدروس المرئية</a>
-      <div class="nav-dropdown">
-        <a href="fatawa.html" class="nav-drop-btn">الفتاوى <span class="caret">▾</span></a>
-        <div class="nav-drop-menu">
-          <a href="fatawa.html">كل الفتاوى</a>
-          <a href="fatawa.html#sec-ibadat">العبادات</a>
-          <a href="fatawa.html#sec-muamalat">المعاملات</a>
-          <a href="fatawa.html#sec-usra">الأسرة</a>
-          <a href="fatawa.html#sec-adab">الآداب</a>
-          <a href="fatawa.html#sec-asriya">معاصرة</a>
-        </div>
+      <div class="nav-drop">
+      <a href="fatawa.html" class="active">الفتاوى ▾</a>
+      <div class="nav-drop-menu">
+        <a href="fatawa.html#sec-taharah">الطهارة</a>
+        <a href="fatawa.html#sec-ibadat">الصلاة والعبادات</a>
+        <a href="fatawa.html#sec-muamalat">المعاملات</a>
+        <a href="fatawa.html#sec-usra">الأسرة والزواج</a>
+        <a href="fatawa.html#sec-adab">الآداب العامة</a>
+        <a href="fatawa.html#sec-asriya">قضايا معاصرة</a>
       </div>
+    </div>
       <a href="tools.html">أدوات</a>
       <a href="glossary.html">القاموس</a>
       <a href="favorites.html">المفضلة</a>
@@ -96,6 +85,7 @@
     <a href="fatawa.html">الفتاوى</a>
     <a href="tools.html">أدوات</a>
     <a href="glossary.html">القاموس</a>
+    <a href="favorites.html">المفضلة</a>
     <a href="apps.html">تطبيقات مفيدة</a>
   </div>
 </header>
@@ -114,17 +104,16 @@
   </div>
 </section>
 
-<!-- ══ فلاتر + بحث ديناميكي ══ -->
 <section style="padding-top:10px;">
   <div class="wrap">
-    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px;">
-      <input type="text" id="fatwaSearch" placeholder="ابحث في الفتاوى..." style="flex:1;min-width:200px;padding:10px 18px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--text);font-family:'Tajawal';font-size:14px;transition:background .25s,color .25s;">
-      <span id="fatwaCount" style="font-size:13px;color:var(--muted);white-space:nowrap;"></span>
+    <div class="fatwa-toolbar">
+      <input type="text" id="fatwaSearch" placeholder="ابحث في الفتاوى...">
+      <span id="fatwaCount"></span>
     </div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;" id="fatwaCatFilter"></div>
+    <div class="fatwa-chips" id="fatwaCatFilter"></div>
   </div>
 </section>
-<!-- ══ منطقة الفتاوى الديناميكية ══ -->
+
 <section style="padding-top:0; max-width:860px; margin:0 auto;" id="fatwaDynamicSection">
   <div class="wrap">
     <div id="fatwaContainer"></div>
@@ -132,7 +121,6 @@
   </div>
 </section>
 
-<!-- ══ الفتاوى الإضافية القديمة (مُبقاة للثراء) ══ -->
 <section style="padding-top:0; max-width:860px; margin:0 auto;" id="fatwaStaticSection">
   <div class="wrap">
     <p style="text-align:center;color:var(--muted);padding:20px;">جاري تحميل الفتاوى...</p>
