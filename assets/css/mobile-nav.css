@@ -1,0 +1,40 @@
+/* Mobile header overflow fix — works with both header structures */
+html, body { overflow-x: hidden; max-width: 100%; }
+img, svg, video, iframe { max-width: 100%; }
+
+.header-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:14px 0;
+}
+.header-inner .nav{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  font-size:14.5px;
+  font-weight:700;
+  color:var(--teal-deep);
+}
+.nav-dropdown{position:relative;}
+
+@media (max-width: 900px){
+  .nav-links,
+  header .search-box,
+  .header-inner > nav,
+  .header-inner .nav,
+  .nav-dropdown,
+  .nav-drop-menu{
+    display:none !important;
+  }
+  .menu-btn{display:block !important;}
+  .header-inner{
+    flex-wrap:nowrap;
+  }
+  .ayah-banner{
+    width:100%;
+    max-width:100%;
+  }
+  .hero h1{overflow-wrap:anywhere;}
+}
