@@ -48,12 +48,13 @@
 [data-theme="dark"] footer{background:var(--paper);}
 
 *{box-sizing:border-box; margin:0; padding:0;}
-html{scroll-behavior:smooth;}
+html{scroll-behavior:smooth; overflow-x:hidden;}
 body{
   font-family:'Tajawal', sans-serif;
   background:var(--paper);
   color:var(--text);
   line-height:1.8;
+  overflow-x:hidden;
   transition:background .25s, color .25s;
 }
 h1,h2,h3{font-family:'Cairo', sans-serif;}
@@ -148,7 +149,7 @@ header{
 /* ============ Hero ============ */
 .hero{padding:70px 0 56px; text-align:center;}
 .hero .eyebrow{color:var(--gold-text); font-weight:800; font-size:12.5px; letter-spacing:1px; text-transform:uppercase; display:block; margin-bottom:14px;}
-.hero h1{font-size:36px; font-weight:800; color:var(--teal-deep); line-height:1.5; margin-bottom:16px;}
+.hero h1{font-size:36px; font-weight:800; color:var(--teal-deep); line-height:1.5; margin-bottom:16px; word-wrap:break-word;}
 .hero p{color:var(--muted); max-width:560px; margin:0 auto 30px; font-size:15.5px;}
 .hero-search{max-width:520px; margin:0 auto;}
 .hero-search .search-box{max-width:100%;}
@@ -239,13 +240,23 @@ section{padding:64px 0;}
 .fatwa-cat > h3{font-size:18px; color:var(--teal-deep); margin-bottom:14px; display:flex; align-items:center; gap:10px;}
 .fatwa-cat > h3::before{content:""; width:6px; height:18px; background:var(--gold); border-radius:4px; display:inline-block;}
 .faq-item{background:var(--card); border:1px solid var(--line); border-radius:12px; margin-bottom:10px; overflow:hidden; transition:background .25s;}
-.faq-q{display:flex; justify-content:space-between; align-items:center; padding:16px 20px; cursor:pointer; font-weight:700; font-size:14.5px; color:var(--text);}
-.faq-q .plus{font-size:20px; color:var(--gold-text); transition:transform .2s; flex-shrink:0; margin-right:10px;}
+.faq-q{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; padding:16px 20px; cursor:pointer; font-weight:700; font-size:14.5px; color:var(--text);}
+.faq-q span{min-width:0; overflow-wrap:anywhere;}
+.faq-q .plus{font-size:20px; color:var(--gold-text); transition:transform .2s; flex-shrink:0; margin-right:0;}
 .faq-item.open .faq-q .plus{transform:rotate(45deg);}
 .faq-a{max-height:0; overflow:hidden; transition:max-height .3s ease;}
-.faq-a p{padding:0 20px 18px; font-size:14px; color:var(--muted); line-height:1.9;}
+.faq-a p{padding:0 20px 18px; font-size:14px; color:var(--muted); line-height:1.9; overflow-wrap:anywhere;}
 .faq-a .source{font-size:12px; color:var(--gold-text); font-weight:700; margin-top:8px; display:block;}
-.faq-item.open .faq-a{max-height:400px;}
+.faq-item.open .faq-a{max-height:none;}
+
+.fatwa-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px;}
+.fatwa-toolbar input{
+  flex:1; min-width:0; width:100%; padding:10px 18px; border-radius:999px;
+  border:1px solid var(--line); background:var(--card); color:var(--text);
+  font-family:'Tajawal'; font-size:14px;
+}
+.fatwa-toolbar #fatwaCount{font-size:13px;color:var(--muted);white-space:nowrap;}
+.fatwa-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;}
 
 .fatwa-sites{background:var(--teal-soft); border-radius:16px; padding:28px 26px; margin-top:40px;}
 .fatwa-sites h3{font-size:17px; color:var(--teal-deep); margin-bottom:18px;}
@@ -305,16 +316,19 @@ footer{padding:50px 0 30px; border-top:1px solid var(--line); margin-top:30px; t
 
 @media(max-width:1400px){.toc-sidebar{display:none !important;}}
 @media(max-width:900px){
-  .nav-links, .search-box{display:none;}
+  .nav-links, header .search-box{display:none;}
   .menu-btn{display:block;}
   .grid-4{grid-template-columns:1fr 1fr;}
   .grid-3{grid-template-columns:1fr 1fr;}
   .hero h1{font-size:27px;}
   .ayah-banner p{font-size:18px;}
+  .wrap{padding:0 16px;}
+  .hero{padding:40px 0 28px;}
 }
 @media(max-width:620px){
   .grid-2, .grid-3, .grid-4{grid-template-columns:1fr;}
   .book-card{flex-direction:row;}
+  .fatwa-toolbar #fatwaCount{white-space:normal; width:100%;}
 }
 @media(prefers-reduced-motion: reduce){*{transition:none !important;}}
 
