@@ -124,4 +124,15 @@ window.SITE_INDEX = [
   { type: "كتاب - أذكار", title: "الوابل الصيب من الكلم الطيب - ابن القيم", tags: ["أذكار", "دعاء", "ابن القيم"], url: "adhkar/morning-evening.html" },
   { type: "كتاب - أذكار", title: "الكلم الطيب - ابن تيمية", tags: ["أذكار", "أدعية", "ابن تيمية"], url: "adhkar/occasions-duas.html" },
   { type: "كتاب - أذكار", title: "عمل اليوم والليلة - ابن السني", tags: ["أذكار", "مناسبات", "يوم وليلة"], url: "adhkar/occasions-duas.html" },
+
+  // ---- Articles & site pages ----
+  { type: "مقالات", title: "كل المقالات", tags: ["مقالات", "مقال"], url: "articles.html" },
+  { type: "مقال", title: "كيف تبدأ حفظ القرآن الكريم؟ خطة عملية للمبتدئين", tags: ["حفظ", "حفظ القرآن", "مراجعة", "مبتدئين"], url: "articles/how-to-start-memorizing-quran.html" },
+  { type: "مقال", title: "أحكام النون الساكنة والتنوين للمبتدئين", tags: ["تجويد", "نون ساكنة", "تنوين", "إظهار", "إدغام", "إقلاب", "إخفاء"], url: "articles/noon-sakinah-tanween-rules.html" },
+  { type: "مقال", title: "فضائل سورة الملك وآية الكرسي وآخر البقرة — ما صحّ منها", tags: ["فضائل", "آية الكرسي", "سورة الملك", "خواتيم البقرة", "تبارك"], url: "articles/virtues-ayat-al-kursi-al-baqarah-al-mulk.html" },
+  { type: "مقال", title: "كيف تستعد لرمضان قبل شهرين؟", tags: ["رمضان", "شعبان", "صيام", "استعداد"], url: "articles/prepare-for-ramadan-two-months-before.html" },
+  { type: "مقال", title: "تعليم طفلك القرآن في البيت — خطوات عملية", tags: ["أطفال", "تربية", "تحفيظ", "أسرة"], url: "articles/teach-your-child-quran-at-home.html" },
+  { type: "الموقع", title: "عن الموقع", tags: ["عن", "من نحن"], url: "about.html" },
+  { type: "الموقع", title: "سياسة الخصوصية", tags: ["خصوصية", "كوكيز", "إعلانات"], url: "privacy.html" },
+  { type: "الموقع", title: "تواصل معنا", tags: ["تواصل", "اتصل بنا", "بريد"], url: "contact.html" }
 ];

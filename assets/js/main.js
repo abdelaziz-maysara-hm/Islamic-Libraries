@@ -310,3 +310,28 @@ document.addEventListener('DOMContentLoaded', function () {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
   else run();
 })();
+
+/* ---------- Footer: site/policy links (about, privacy, contact, articles) ---------- */
+(function injectFooterPolicyLinks() {
+  var LINKS = [
+    ['articles.html', 'المقالات'],
+    ['about.html', 'عن الموقع'],
+    ['privacy.html', 'سياسة الخصوصية'],
+    ['contact.html', 'تواصل معنا']
+  ];
+  function run() {
+    var container = document.querySelector('.footer-links');
+    if (!container) return;
+    var root = window.SITE_ROOT || '';
+    LINKS.forEach(function (item) {
+      var file = item[0];
+      if (container.querySelector('a[href="' + file + '"], a[href$="/' + file + '"]')) return;
+      var a = document.createElement('a');
+      a.href = root + file;
+      a.textContent = item[1];
+      container.appendChild(a);
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
+  else run();
+})();
