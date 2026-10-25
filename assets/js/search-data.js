@@ -137,6 +137,11 @@ window.SITE_INDEX = [
   { type: "مقال", title: "كيف تحافظ على حفظك ولا تنسى القرآن؟", tags: ["مراجعة", "حفظ القرآن", "تثبيت الحفظ", "نسيان", "متشابهات"], url: "articles/how-to-keep-quran-memorization.html" },
   { type: "مقال", title: "حساب زكاة المال خطوة بخطوة (مع مثال بالجنيه المصري)", tags: ["زكاة", "زكاة المال", "نصاب", "حاسبة الزكاة", "ذهب"], url: "articles/how-to-calculate-zakat-al-mal-egypt.html" },
   { type: "مقال", title: "ختمة القرآن في شهر: جداول جاهزة", tags: ["ختمة", "ختم القرآن", "جدول", "رمضان", "ورد يومي"], url: "articles/quran-khatma-in-a-month-schedules.html" },
+  { type: "مقال", title: "فضل الصلاة على النبي ﷺ وصيغها الصحيحة", tags: ["الصلاة على النبي", "الصلاة الإبراهيمية", "يوم الجمعة", "الوسيلة", "أذكار"], url: "articles/salat-ala-an-nabi-virtues-and-forms.html" },
+  { type: "مقال", title: "آداب تلاوة القرآن الكريم", tags: ["آداب التلاوة", "تلاوة القرآن", "ترتيل", "المصحف", "سجود التلاوة"], url: "articles/quran-recitation-etiquette.html" },
+  { type: "مقال", title: "كيف تخشع في صلاتك؟ خطوات عملية", tags: ["الخشوع", "الصلاة", "السرحان في الصلاة", "الوسوسة", "الطمأنينة"], url: "articles/how-to-achieve-khushu-in-salah.html" },
+  { type: "مقال", title: "فضل قيام الليل وكيف تبدأ", tags: ["قيام الليل", "التهجد", "الوتر", "الثلث الأخير", "صلاة الليل"], url: "articles/qiyam-al-layl-virtues-how-to-start.html" },
+  { type: "مقال", title: "آداب الدعاء وأوقات الإجابة", tags: ["الدعاء", "أوقات الإجابة", "آداب الدعاء", "موانع الإجابة", "أدعية"], url: "articles/dua-etiquette-and-times-of-acceptance.html" },
   { type: "الموقع", title: "عن الموقع", tags: ["عن", "من نحن"], url: "about.html" },
   { type: "الموقع", title: "سياسة الخصوصية", tags: ["خصوصية", "كوكيز", "إعلانات"], url: "privacy.html" },
   { type: "الموقع", title: "تواصل معنا", tags: ["تواصل", "اتصل بنا", "بريد"], url: "contact.html" }
