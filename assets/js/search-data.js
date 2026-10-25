@@ -147,6 +147,11 @@ window.SITE_INDEX = [
   { type: "مقال", title: "فضل العشر الأوائل من ذي الحجة", tags: ["عشر ذي الحجة", "يوم عرفة", "الأضحية", "التكبير", "عيد الأضحى", "أيام التشريق"], url: "articles/first-ten-days-of-dhul-hijjah.html" },
   { type: "مقال", title: "بر الوالدين: فضله وصوره العملية", tags: ["بر الوالدين", "العقوق", "الأم", "الأب", "صلة الرحم", "الدعاء للوالدين"], url: "articles/birr-al-walidayn-honoring-parents.html" },
   { type: "مقال", title: "أركان الإيمان الستة بشرح مبسط", tags: ["أركان الإيمان", "العقيدة", "الإيمان بالقدر", "الملائكة", "اليوم الآخر", "حديث جبريل"], url: "articles/six-pillars-of-iman.html" },
+  { type: "مقال", title: "أركان الإسلام الخمسة: شرح مبسط بالأدلة", tags: ["أركان الإسلام", "الشهادتان", "الصلاة", "الزكاة", "الحج"], url: "articles/five-pillars-of-islam.html" },
+  { type: "مقال", title: "التوبة النصوح: شروطها وفضلها وكيف تبدأ", tags: ["التوبة", "الاستغفار", "تزكية النفس", "الذنوب"], url: "articles/tawbah-repentance-conditions.html" },
+  { type: "مقال", title: "الصبر في القرآن والسنة: أنواعه وثمراته", tags: ["الصبر", "المصائب", "الابتلاء", "تزكية النفس"], url: "articles/sabr-patience-in-quran-and-sunnah.html" },
+  { type: "مقال", title: "فضل الصدقة وآدابها وأفضل أنواعها", tags: ["الصدقة", "الإنفاق", "الصدقة الجارية", "الزكاة"], url: "articles/sadaqah-virtues-and-etiquette.html" },
+  { type: "مقال", title: "تدبر القرآن: خطوات عملية لفهم الآيات والعمل بها", tags: ["تدبر القرآن", "التفسير", "تلاوة القرآن", "القرآن الكريم"], url: "articles/tadabbur-quran-practical-steps.html" },
   { type: "الموقع", title: "عن الموقع", tags: ["عن", "من نحن"], url: "about.html" },
   { type: "الموقع", title: "سياسة الخصوصية", tags: ["خصوصية", "كوكيز", "إعلانات"], url: "privacy.html" },
   { type: "الموقع", title: "تواصل معنا", tags: ["تواصل", "اتصل بنا", "بريد"], url: "contact.html" }
