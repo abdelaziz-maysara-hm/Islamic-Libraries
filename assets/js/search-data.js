@@ -142,6 +142,11 @@ window.SITE_INDEX = [
   { type: "مقال", title: "كيف تخشع في صلاتك؟ خطوات عملية", tags: ["الخشوع", "الصلاة", "السرحان في الصلاة", "الوسوسة", "الطمأنينة"], url: "articles/how-to-achieve-khushu-in-salah.html" },
   { type: "مقال", title: "فضل قيام الليل وكيف تبدأ", tags: ["قيام الليل", "التهجد", "الوتر", "الثلث الأخير", "صلاة الليل"], url: "articles/qiyam-al-layl-virtues-how-to-start.html" },
   { type: "مقال", title: "آداب الدعاء وأوقات الإجابة", tags: ["الدعاء", "أوقات الإجابة", "آداب الدعاء", "موانع الإجابة", "أدعية"], url: "articles/dua-etiquette-and-times-of-acceptance.html" },
+  { type: "مقال", title: "صيام التطوع: الست من شوال والاثنين والخميس وعرفة وعاشوراء", tags: ["صيام التطوع", "الست من شوال", "الاثنين والخميس", "الأيام البيض", "عرفة", "عاشوراء"], url: "articles/voluntary-fasting-days-shawwal-monday-thursday.html" },
+  { type: "مقال", title: "أحكام الصيام للمبتدئين", tags: ["أحكام الصيام", "رمضان", "مفطرات الصيام", "السحور", "القضاء", "الفدية"], url: "articles/fasting-rules-for-beginners.html" },
+  { type: "مقال", title: "فضل العشر الأوائل من ذي الحجة", tags: ["عشر ذي الحجة", "يوم عرفة", "الأضحية", "التكبير", "عيد الأضحى", "أيام التشريق"], url: "articles/first-ten-days-of-dhul-hijjah.html" },
+  { type: "مقال", title: "بر الوالدين: فضله وصوره العملية", tags: ["بر الوالدين", "العقوق", "الأم", "الأب", "صلة الرحم", "الدعاء للوالدين"], url: "articles/birr-al-walidayn-honoring-parents.html" },
+  { type: "مقال", title: "أركان الإيمان الستة بشرح مبسط", tags: ["أركان الإيمان", "العقيدة", "الإيمان بالقدر", "الملائكة", "اليوم الآخر", "حديث جبريل"], url: "articles/six-pillars-of-iman.html" },
   { type: "الموقع", title: "عن الموقع", tags: ["عن", "من نحن"], url: "about.html" },
   { type: "الموقع", title: "سياسة الخصوصية", tags: ["خصوصية", "كوكيز", "إعلانات"], url: "privacy.html" },
   { type: "الموقع", title: "تواصل معنا", tags: ["تواصل", "اتصل بنا", "بريد"], url: "contact.html" }
