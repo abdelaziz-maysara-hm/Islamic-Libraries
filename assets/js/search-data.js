@@ -132,6 +132,11 @@ window.SITE_INDEX = [
   { type: "مقال", title: "فضائل سورة الملك وآية الكرسي وآخر البقرة — ما صحّ منها", tags: ["فضائل", "آية الكرسي", "سورة الملك", "خواتيم البقرة", "تبارك"], url: "articles/virtues-ayat-al-kursi-al-baqarah-al-mulk.html" },
   { type: "مقال", title: "كيف تستعد لرمضان قبل شهرين؟", tags: ["رمضان", "شعبان", "صيام", "استعداد"], url: "articles/prepare-for-ramadan-two-months-before.html" },
   { type: "مقال", title: "تعليم طفلك القرآن في البيت — خطوات عملية", tags: ["أطفال", "تربية", "تحفيظ", "أسرة"], url: "articles/teach-your-child-quran-at-home.html" },
+  { type: "مقال", title: "أحكام الميم الساكنة والمدود للمبتدئين", tags: ["تجويد", "ميم ساكنة", "إخفاء شفوي", "إدغام شفوي", "إظهار شفوي", "مدود", "مد"], url: "articles/meem-sakinah-and-madd-rules.html" },
+  { type: "مقال", title: "فضل سورة الكهف يوم الجمعة: ما صح وما لم يصح", tags: ["سورة الكهف", "الكهف", "الجمعة", "فضائل", "الدجال"], url: "articles/surat-al-kahf-friday-authentic-virtues.html" },
+  { type: "مقال", title: "كيف تحافظ على حفظك ولا تنسى القرآن؟", tags: ["مراجعة", "حفظ القرآن", "تثبيت الحفظ", "نسيان", "متشابهات"], url: "articles/how-to-keep-quran-memorization.html" },
+  { type: "مقال", title: "حساب زكاة المال خطوة بخطوة (مع مثال بالجنيه المصري)", tags: ["زكاة", "زكاة المال", "نصاب", "حاسبة الزكاة", "ذهب"], url: "articles/how-to-calculate-zakat-al-mal-egypt.html" },
+  { type: "مقال", title: "ختمة القرآن في شهر: جداول جاهزة", tags: ["ختمة", "ختم القرآن", "جدول", "رمضان", "ورد يومي"], url: "articles/quran-khatma-in-a-month-schedules.html" },
   { type: "الموقع", title: "عن الموقع", tags: ["عن", "من نحن"], url: "about.html" },
   { type: "الموقع", title: "سياسة الخصوصية", tags: ["خصوصية", "كوكيز", "إعلانات"], url: "privacy.html" },
   { type: "الموقع", title: "تواصل معنا", tags: ["تواصل", "اتصل بنا", "بريد"], url: "contact.html" }
