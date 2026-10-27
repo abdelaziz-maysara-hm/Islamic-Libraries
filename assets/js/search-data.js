@@ -152,6 +152,7 @@ window.SITE_INDEX = [
   { type: "مقال", title: "الصبر في القرآن والسنة: أنواعه وثمراته", tags: ["الصبر", "المصائب", "الابتلاء", "تزكية النفس"], url: "articles/sabr-patience-in-quran-and-sunnah.html" },
   { type: "مقال", title: "فضل الصدقة وآدابها وأفضل أنواعها", tags: ["الصدقة", "الإنفاق", "الصدقة الجارية", "الزكاة"], url: "articles/sadaqah-virtues-and-etiquette.html" },
   { type: "مقال", title: "تدبر القرآن: خطوات عملية لفهم الآيات والعمل بها", tags: ["تدبر القرآن", "التفسير", "تلاوة القرآن", "القرآن الكريم"], url: "articles/tadabbur-quran-practical-steps.html" },
+  { type: "مقال", title: "صفة الوضوء خطوة بخطوة: الفرائض والسنن والنواقض", tags: ["الوضوء", "الطهارة", "نواقض الوضوء", "فرائض الوضوء", "سنن الوضوء", "المسح على الخفين"], url: "articles/wudu-step-by-step-faraid-sunan-nawaqid.html" },
   { type: "الموقع", title: "عن الموقع", tags: ["عن", "من نحن"], url: "about.html" },
   { type: "الموقع", title: "سياسة الخصوصية", tags: ["خصوصية", "كوكيز", "إعلانات"], url: "privacy.html" },
   { type: "الموقع", title: "تواصل معنا", tags: ["تواصل", "اتصل بنا", "بريد"], url: "contact.html" }
