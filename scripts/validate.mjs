@@ -4,7 +4,9 @@ import { dirname, extname, join, relative, resolve } from 'node:path';
 
 const root = resolve(import.meta.dirname, '..');
 const ignoredDirectories = new Set(['.git', 'node_modules', '.wrangler']);
-const nonPageHtmlFiles = new Set(['_template.html', 'google13bfab5b748f9e58.html', 'googlec09262aa424a656e.html', 'quran-reciters.html']);
+const nonPageHtmlFiles = new Set(['_template.html', 'google13bfab5b748f9e58.html', 'googlec09262aa424a656e.html', 'quran-reciters.html',
+  // noindex affiliate redirect stubs (not indexable pages; intentionally excluded from sitemap)
+  'go/miprova.html', 'go/miprova/index.html']);
 
 function collectFiles(directory) {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
