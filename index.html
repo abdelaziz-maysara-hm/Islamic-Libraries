@@ -67,7 +67,7 @@
       <a href="apps.html">تطبيقات مفيدة</a>
     </nav>
     <div class="search-box">
-      <input type="text" data-search-input placeholder="دوّر على كتاب، فيديو، فتوى...">
+      <input type="text" data-search-input placeholder="ابحث عن كتاب أو فيديو أو فتوى...">
       <span class="icon">🔍</span>
       <div class="search-results"></div>
     </div>
@@ -96,7 +96,7 @@
   <div class="wrap">
     <span class="eyebrow">مكتبة إسلامية شاملة</span>
     <h1>كل ما تحتاجه من علم شرعي،<br>في مكان واحد وسهل التصفح</h1>
-    <p>كتب مصنفة حسب التخصص، دروس فيديو موثقة، فتاوى واضحة، وأدوات عملية — كله متبوّب عشان توصل للي محتاجه بسرعة.</p>
+    <p>كتب مصنفة حسب التخصص، ودروس مرئية، وفتاوى واضحة، وأدوات عملية — منظّمة لتصل إلى ما تحتاجه بسرعة.</p>
     <div class="hero-search">
       <div class="search-box">
         <input type="text" data-search-input placeholder="ابحث عن كتاب أو فتوى أو موضوع...">
@@ -104,6 +104,12 @@
         <div class="search-results"></div>
       </div>
     </div>
+    <div class="hero-actions" aria-label="روابط البدء السريع">
+      <a class="hero-action hero-action-primary" href="books-all.html">تصفّح الكتب</a>
+      <a class="hero-action" href="quran.html">اقرأ القرآن</a>
+      <a class="hero-action" href="fatawa.html">ابحث في الفتاوى</a>
+    </div>
+    <p class="hero-trust">نعرض المصدر المتاح مع المحتوى لتتمكّن من الرجوع إليه والتحقق منه.</p>
   </div>
 </section>
 
@@ -120,7 +126,7 @@
       <h2>آخر ما تصفحت</h2>
     </div>
     <div id="homeRecent" class="grid grid-3"></div>
-    <p id="homeRecentEmpty" style="display:none;color:var(--muted);font-size:14px;">لسه ما تصفحتش كتب. من <a href="books-all.html" style="color:var(--teal);font-weight:700">صفحة الكتب</a> ابدأ التصفح.</p>
+    <p id="homeRecentEmpty" style="display:none;color:var(--muted);font-size:14px;">لم تتصفّح كتبًا بعد. ابدأ من <a href="books-all.html" style="color:var(--teal);font-weight:700">صفحة الكتب</a>.</p>
   </div>
 </section>
 
@@ -141,7 +147,7 @@
         <div class="cat-icon">📖</div>
         <h3>الفتاوى</h3>
         <p>إجابات واضحة على الأسئلة الشرعية الشائعة، مصنفة حسب الموضوع.</p>
-        <span class="count">500+ فتوى</span>
+        <span class="count">259+ فتوى</span>
       </a>
       <a href="tools.html" class="cat-card">
         <div class="cat-icon">🛠️</div>
@@ -236,12 +242,12 @@
       <div class="cat-card" style="cursor:default;">
         <div class="cat-icon">🗂️</div>
         <h3>تصنيف واضح</h3>
-        <p>كل كتاب وفيديو وفتوى في قسمه الصحيح، من غير خلط أو تشتت.</p>
+        <p>كل كتاب وفيديو وفتوى في قسمه الصحيح، دون خلط أو تشتت.</p>
       </div>
       <div class="cat-card" style="cursor:default;">
         <div class="cat-icon">🔍</div>
         <h3>بحث سريع</h3>
-        <p>اكتب اللي محتاجه في أي صفحة، والموقع كله هيدور عليه في ثواني.</p>
+        <p>اكتب ما تبحث عنه في أي صفحة، وسيبحث الموقع في المحتوى المتاح خلال لحظات.</p>
       </div>
       <div class="cat-card" style="cursor:default;">
         <div class="cat-icon">📲</div>
@@ -294,7 +300,19 @@
     var a = document.createElement('a');
     a.className = 'cat-card';
     a.href = 'book.html?book=' + item.id;
-    a.innerHTML = '<div class="cat-icon">📚</div><h3 style="font-size:15px">' + (item.title || '') + '</h3><p style="font-size:12px">' + (item.author || '') + '</p>';
+    var icon = document.createElement('div');
+    icon.className = 'cat-icon';
+    icon.setAttribute('aria-hidden', 'true');
+    icon.textContent = '📚';
+    var title = document.createElement('h3');
+    title.style.fontSize = '15px';
+    title.textContent = item.title || '';
+    var author = document.createElement('p');
+    author.style.fontSize = '12px';
+    author.textContent = item.author || '';
+    a.appendChild(icon);
+    a.appendChild(title);
+    a.appendChild(author);
     box.appendChild(a);
   });
 })();
