@@ -154,6 +154,17 @@ header{
 .hero-search{max-width:520px; margin:0 auto;}
 .hero-search .search-box{max-width:100%;}
 .hero-search input{padding:16px 50px 16px 18px; font-size:14.5px; box-shadow:var(--shadow);}
+.hero-actions{display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin:20px auto 0;}
+.hero-action{
+  display:inline-flex; align-items:center; justify-content:center; min-height:44px;
+  padding:10px 20px; border:1px solid var(--teal); border-radius:999px;
+  color:var(--teal-deep); background:var(--card); font-family:'Cairo',sans-serif;
+  font-size:13.5px; font-weight:800; transition:background .2s,color .2s,transform .2s;
+}
+.hero-action:hover{background:var(--teal-soft); transform:translateY(-1px);}
+.hero-action-primary{background:var(--teal-deep); border-color:var(--teal-deep); color:#fff;}
+.hero-action-primary:hover{background:var(--teal); color:#fff;}
+.hero .hero-trust{margin:12px auto 0; font-size:12.5px; color:var(--muted-strong);}
 
 /* ============ Sections ============ */
 section{padding:64px 0;}
@@ -329,6 +340,7 @@ footer{padding:50px 0 30px; border-top:1px solid var(--line); margin-top:30px; t
   .grid-2, .grid-3, .grid-4{grid-template-columns:1fr;}
   .book-card{flex-direction:row;}
   .fatwa-toolbar #fatwaCount{white-space:normal; width:100%;}
+  .hero-actions{display:grid; grid-template-columns:1fr; max-width:320px;}
 }
 @media(prefers-reduced-motion: reduce){*{transition:none !important;}}
 
