@@ -4,7 +4,9 @@
    ============================================================= */
 (function () {
   var PER_PAGE = 15;
-  var state = { category: 'all', query: '', page: 1 };
+  var requestedFatwaId = null;
+  try { requestedFatwaId = new URLSearchParams(location.search).get('fatwa'); } catch (e) {}
+  var state = { category: 'all', query: '', page: 1, requestedFatwaId: requestedFatwaId };
   var filterBuilt = false;
 
   function escapeHtml(str) {
@@ -130,7 +132,7 @@
       ? '<p class="source" style="font-size:12px;color:var(--muted);margin-top:8px;">المصدر: ' + escapeHtml(f.source) + '</p>'
       : '';
     return (
-      '<div class="faq-item" data-cat="' + escapeHtml(f.category) + '">' +
+      '<div class="faq-item" id="fatwa-' + escapeHtml(f.id) + '" data-fatwa-id="' + escapeHtml(f.id) + '" data-cat="' + escapeHtml(f.category) + '">' +
       '<div class="faq-q"><span>' + escapeHtml(f.q) + '</span>' +
       '<small style="font-size:11px;color:var(--muted);font-weight:400;margin-right:6px;">' + catIcon(f.category) + '</small>' +
       '<span class="plus">+</span></div>' +
@@ -148,6 +150,10 @@
     var list = filtered();
     var total = list.length;
     var totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
+    var requestedIndex = state.requestedFatwaId == null ? -1 : list.findIndex(function (f) {
+      return String(f.id) === String(state.requestedFatwaId);
+    });
+    if (requestedIndex >= 0) state.page = Math.floor(requestedIndex / PER_PAGE) + 1;
     if (state.page > totalPages) state.page = totalPages;
 
     if (staticSec) {
@@ -171,6 +177,17 @@
     var start = (state.page - 1) * PER_PAGE;
     var pageItems = list.slice(start, start + PER_PAGE);
     container.innerHTML = pageItems.map(renderItem).join('');
+
+    if (requestedIndex >= 0) {
+      var requestedItem = document.getElementById('fatwa-' + state.requestedFatwaId);
+      if (requestedItem) {
+        requestedItem.classList.add('open');
+        requestedItem.setAttribute('tabindex', '-1');
+        requestedItem.focus({ preventScroll: true });
+        try { requestedItem.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) {}
+        state.requestedFatwaId = null;
+      }
+    }
 
     if (countEl) {
       countEl.textContent = state.query || state.category !== 'all'
