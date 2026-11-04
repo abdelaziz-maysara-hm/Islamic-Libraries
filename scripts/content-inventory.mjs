@@ -65,6 +65,14 @@ if (duplicateLocalBookIds.length) fail(`Duplicate local book IDs: ${duplicateLoc
 
 const searchWindow = runBrowserDataFiles(['search-data.js']);
 const searchEntries = searchWindow.SITE_INDEX || [];
+const catalogWindow = runBrowserDataFiles(['search-catalog.js']);
+const catalogEntries = catalogWindow.SEARCH_CATALOG || [];
+const duplicateCatalogUrls = duplicates(catalogEntries.map((entry) => entry.url));
+if (duplicateCatalogUrls.length) fail(`Duplicate generated search URLs: ${duplicateCatalogUrls.join(', ')}`);
+for (const fatwa of fatwas) {
+  const expectedUrl = `fatawa.html?fatwa=${encodeURIComponent(fatwa.id)}`;
+  if (!catalogEntries.some((entry) => entry.url === expectedUrl)) fail(`Generated search catalog is missing fatwa ${fatwa.id}`);
+}
 const articleFiles = readdirSync(join(root, 'articles')).filter((file) => file.endsWith('.html'));
 
 const inventory = {
@@ -73,7 +81,8 @@ const inventory = {
   localBookAdditions: localBooks.length,
   articles: articleFiles.length,
   searchEntries: searchEntries.length,
+  generatedSearchEntries: catalogEntries.length,
 };
 
 if (process.argv.includes('--json')) console.log(JSON.stringify(inventory, null, 2));
-else console.log(`Content inventory passed: ${inventory.fatwas} fatwas in ${inventory.fatwaCategories} categories, ${inventory.localBookAdditions} local book additions, ${inventory.articles} articles, ${inventory.searchEntries} search entries.`);
+else console.log(`Content inventory passed: ${inventory.fatwas} fatwas in ${inventory.fatwaCategories} categories, ${inventory.localBookAdditions} local book additions, ${inventory.articles} articles, ${inventory.searchEntries} curated search entries, ${inventory.generatedSearchEntries} generated catalog entries.`);

@@ -116,6 +116,30 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   var ROOT = window.SITE_ROOT || '';
+  var searchCatalogPromise = null;
+
+  function ensureSearchCatalog() {
+    if (Array.isArray(window.SEARCH_CATALOG)) return Promise.resolve(window.SEARCH_CATALOG);
+    if (searchCatalogPromise) return searchCatalogPromise;
+    searchCatalogPromise = new Promise(function (resolve) {
+      var script = document.createElement('script');
+      script.src = ROOT + 'assets/js/search-catalog.js';
+      script.onload = function () { resolve(window.SEARCH_CATALOG || []); };
+      script.onerror = function () { resolve([]); };
+      document.body.appendChild(script);
+    });
+    return searchCatalogPromise;
+  }
+
+  function searchableItems() {
+    var seen = new Set();
+    return (window.SITE_INDEX || []).concat(window.SEARCH_CATALOG || []).filter(function (item) {
+      var key = String(item.url || '') + '\n' + String(item.title || '');
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
 
   function normalizeSearchText(value) {
     return String(value || '')
@@ -217,7 +241,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (!q) { setResultsOpen(false); resultsBox.innerHTML = ''; return; }
       var normalizedQuery = normalizeSearchText(q);
       var topic = findBestTopic(normalizedQuery);
-      var matches = (window.SITE_INDEX || []).map(function (item, index) {
+      var matches = searchableItems().map(function (item, index) {
         return { item: item, index: index, score: scoreSearchItem(item, normalizedQuery) };
       }).filter(function (entry) { return entry.score > 0; })
         .sort(function (a, b) { return b.score - a.score || a.index - b.index; })
@@ -233,6 +257,11 @@ document.addEventListener('DOMContentLoaded', function () {
       activeResultIndex = -1;
       setResultsOpen(true);
     });
+    input.addEventListener('focus', function () {
+      ensureSearchCatalog().then(function () {
+        if (input.value.trim()) input.dispatchEvent(new Event('input'));
+      });
+    }, { once: true });
     input.addEventListener('keydown', function (e) {
       if (e.key === 'ArrowDown' && resultsBox.classList.contains('show')) {
         e.preventDefault();
