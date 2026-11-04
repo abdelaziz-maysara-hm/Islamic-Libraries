@@ -351,7 +351,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var n = Array.isArray(window.FATAWA_DATA) ? window.FATAWA_DATA.length : 0;
     if (!n) return;
     var h1 = document.querySelector('.hero h1');
-    if (h1) h1.textContent = n + '+ فتوى إسلامية موثقة بمصادرها';
+    if (h1) h1.textContent = n + ' فتوى مصنفة ومنسوبة إلى مصادرها';
   }
   function run() {
     if (path.indexOf('fatawa') !== -1) {
