@@ -68,11 +68,21 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!mobileMenu || !menuBtn) return;
     mobileMenu.classList.remove('open');
     menuBtn.textContent = '☰';
+    menuBtn.setAttribute('aria-expanded', 'false');
+    menuBtn.setAttribute('aria-label', 'افتح القائمة');
+    mobileMenu.setAttribute('aria-hidden', 'true');
   }
   if (menuBtn && mobileMenu) {
+    menuBtn.setAttribute('aria-controls', mobileMenu.id);
+    menuBtn.setAttribute('aria-expanded', 'false');
+    mobileMenu.setAttribute('aria-hidden', 'true');
     menuBtn.addEventListener('click', function () {
       mobileMenu.classList.toggle('open');
-      menuBtn.textContent = mobileMenu.classList.contains('open') ? '✕' : '☰';
+      var isOpen = mobileMenu.classList.contains('open');
+      menuBtn.textContent = isOpen ? '✕' : '☰';
+      menuBtn.setAttribute('aria-expanded', String(isOpen));
+      menuBtn.setAttribute('aria-label', isOpen ? 'أغلق القائمة' : 'افتح القائمة');
+      mobileMenu.setAttribute('aria-hidden', String(!isOpen));
     });
     mobileMenu.querySelectorAll('a').forEach(function (link) {
       link.addEventListener('click', closeMobileMenu);
@@ -171,7 +181,13 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   document.querySelectorAll('[data-search-input]').forEach(function (input) {
+    if (!input.hasAttribute('aria-label')) input.setAttribute('aria-label', 'ابحث في المكتبة');
+    input.setAttribute('autocomplete', 'off');
     var resultsBox = input.closest('.search-box').querySelector('.search-results');
+    if (resultsBox) {
+      resultsBox.setAttribute('role', 'status');
+      resultsBox.setAttribute('aria-live', 'polite');
+    }
     input.addEventListener('input', function () {
       var q = input.value.trim();
       if (!q) { resultsBox.classList.remove('show'); resultsBox.innerHTML = ''; return; }
