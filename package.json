@@ -4,6 +4,7 @@
   "private": true,
   "description": "Static Islamic knowledge library and tools platform.",
   "scripts": {
+    "inventory": "node scripts/content-inventory.mjs",
     "validate": "node scripts/validate.mjs"
   },
   "engines": {

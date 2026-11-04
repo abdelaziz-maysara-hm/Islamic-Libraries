@@ -19,10 +19,11 @@ Use Node.js 20 or newer for validation:
 
 ```sh
 npm ci
+npm run inventory
 npm run validate
 ```
 
-The validation command checks JavaScript syntax, CSS structure, essential HTML, SEO, accessibility and external-link security contracts, PWA files, and local links. Pull requests that change public pages or assets also run Lighthouse against representative home, Quran, and book-library routes; performance and best-practice regressions are reported while accessibility and SEO minimums are enforced.
+The inventory command reports content totals and rejects duplicate or incomplete fatwa records, invalid source URLs, unknown categories, duplicate local book IDs, and a stale homepage fatwa count. The validation command includes this inventory check, then checks JavaScript syntax, CSS structure, essential HTML, SEO, accessibility and external-link security contracts, PWA files, and local links. Pull requests that change public pages or assets also run Lighthouse against representative home, Quran, and book-library routes; performance and best-practice regressions are reported while accessibility and SEO minimums are enforced.
 
 ## Deployment
 

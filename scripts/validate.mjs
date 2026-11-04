@@ -47,6 +47,8 @@ const htmlFiles = files.filter((file) =>
 const jsFiles = files.filter((file) => extname(file) === '.js');
 const cssFiles = files.filter((file) => extname(file) === '.css');
 
+execFileSync(process.execPath, [join(root, 'scripts', 'content-inventory.mjs')], { stdio: 'inherit' });
+
 for (const jsFile of jsFiles) {
   execFileSync(process.execPath, ['--check', jsFile], { stdio: 'pipe' });
 }
