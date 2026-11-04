@@ -37,6 +37,8 @@
 .books-search{flex:1;min-width:200px;position:relative;}
 .books-search input{width:100%;padding:11px 14px 11px 40px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--text);font-family:'Tajawal',sans-serif;font-size:14.5px;}
 .books-search .icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);opacity:.55;pointer-events:none;}
+.books-reset{min-height:44px;padding:9px 16px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--teal-deep);font-family:'Cairo',sans-serif;font-weight:800;cursor:pointer;}
+.books-reset:hover{background:var(--teal-soft);border-color:var(--teal);}
 .cat-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px;}
 .cat-chip{padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted);font-family:'Cairo',sans-serif;font-weight:700;font-size:12.5px;cursor:pointer;transition:background .15s,color .15s,border-color .15s;}
 .cat-chip:hover,.cat-chip.active{background:var(--teal-deep);color:#fff;border-color:var(--teal-deep);}
@@ -84,7 +86,7 @@
       <a href="apps.html">تطبيقات مفيدة</a>
     </nav>
     <div class="search-box">
-      <input type="text" data-search-input placeholder="دوّر على كتاب...">
+      <input type="text" data-search-input placeholder="ابحث عن كتاب...">
       <span class="icon">🔍</span>
       <div class="search-results"></div>
     </div>
@@ -122,15 +124,16 @@
     <div class="wrap">
       <div class="books-toolbar">
         <div class="books-search">
-          <input type="search" id="booksFilterInput" placeholder="ابحث باسم الكتاب أو المؤلف..." autocomplete="off">
+          <input type="search" id="booksFilterInput" aria-label="ابحث باسم الكتاب أو المؤلف" placeholder="ابحث باسم الكتاب أو المؤلف..." autocomplete="off">
           <span class="icon">🔍</span>
         </div>
+        <button type="button" class="books-reset" id="booksReset" hidden>مسح البحث والتصفية</button>
       </div>
 
-      <div class="cat-chips" id="catChips"></div>
-      <div class="books-meta" id="booksMeta">جاري التحميل...</div>
-      <div class="books-grid" id="booksGrid"></div>
-      <div class="pagination" id="pagination" hidden></div>
+      <div class="cat-chips" id="catChips" role="group" aria-label="تصفية الكتب حسب القسم"></div>
+      <div class="books-meta" id="booksMeta" role="status" aria-live="polite">جاري التحميل...</div>
+      <div class="books-grid" id="booksGrid" aria-busy="true"></div>
+      <nav class="pagination" id="pagination" aria-label="صفحات نتائج الكتب" hidden></nav>
     </div>
   </section>
 </main>
@@ -174,6 +177,31 @@
     page: 1
   };
 
+  function escapeHtml(value) {
+    return String(value == null ? '' : value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function normalizeSearchText(value) {
+    return String(value || '')
+      .normalize('NFKD')
+      .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g, '')
+      .replace(/[إأآٱ]/g, 'ا')
+      .replace(/ى/g, 'ي')
+      .replace(/ؤ/g, 'و')
+      .replace(/ئ/g, 'ي')
+      .replace(/ة/g, 'ه')
+      .replace(/ـ/g, '')
+      .toLocaleLowerCase('ar')
+      .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
   function catLabel(id) {
     var cats = window.BOOKS_CATEGORIES || [];
     var c = cats.find(function (x) { return x.id === id; });
@@ -186,11 +214,11 @@
 
   function filteredBooks() {
     var list = getBooks();
-    var q = state.query.trim().toLowerCase();
+    var q = normalizeSearchText(state.query);
     return list.filter(function (b) {
       if (state.category !== 'all' && b.category !== state.category) return false;
       if (!q) return true;
-      var hay = ((b.title || '') + ' ' + (b.author || '')).toLowerCase();
+      var hay = normalizeSearchText((b.title || '') + ' ' + (b.author || ''));
       return hay.indexOf(q) !== -1;
     });
   }
@@ -199,10 +227,13 @@
     var box = document.getElementById('catChips');
     if (!box) return;
     var cats = window.BOOKS_CATEGORIES || [];
-    var html = '<button type="button" class="cat-chip' + (state.category === 'all' ? ' active' : '') + '" data-cat="all">الكل</button>';
+    var allActive = state.category === 'all';
+    var html = '<button type="button" class="cat-chip' + (allActive ? ' active' : '') + '" aria-pressed="' + allActive + '" data-cat="all">الكل (' + getBooks().length + ')</button>';
     cats.forEach(function (c) {
-      html += '<button type="button" class="cat-chip' + (state.category === c.id ? ' active' : '') + '" data-cat="' + c.id + '">' +
-        (c.icon || '') + ' ' + c.label + '</button>';
+      var active = state.category === c.id;
+      var count = getBooks().filter(function (book) { return book.category === c.id; }).length;
+      html += '<button type="button" class="cat-chip' + (active ? ' active' : '') + '" aria-pressed="' + active + '" data-cat="' + escapeHtml(c.id) + '">' +
+        escapeHtml(c.icon || '') + ' ' + escapeHtml(c.label) + ' (' + count + ')</button>';
     });
     box.innerHTML = html;
     box.querySelectorAll('.cat-chip').forEach(function (btn) {
@@ -236,7 +267,7 @@
       if (start > 2) html += '<span class="page-info">…</span>';
     }
     for (var i = start; i <= end; i++) {
-      html += '<button type="button" class="page-btn' + (i === state.page ? ' active' : '') + '" data-page="' + i + '">' + i + '</button>';
+      html += '<button type="button" class="page-btn' + (i === state.page ? ' active' : '') + '" data-page="' + i + '" aria-label="الصفحة ' + i + '"' + (i === state.page ? ' aria-current="page"' : '') + '>' + i + '</button>';
     }
     if (end < totalPages) {
       if (end < totalPages - 1) html += '<span class="page-info">…</span>';
@@ -273,7 +304,8 @@
 
     if (!getBooks().length) {
       if (meta) meta.textContent = 'جاري تحميل بيانات الكتب...';
-      grid.innerHTML = '<div class="empty-state"><div class="icon">📚</div><p>جاري التحميل...</p></div>';
+      grid.setAttribute('aria-busy', 'true');
+      grid.innerHTML = '<div class="empty-state"><div class="icon" aria-hidden="true">📚</div><p>جاري التحميل...</p></div>';
       renderPagination(1);
       return;
     }
@@ -284,8 +316,10 @@
     }
 
     if (!total) {
-      grid.innerHTML = '<div class="empty-state"><div class="icon">🔍</div><p>مفيش نتائج مطابقة. جرّب كلمة تانية أو غيّر القسم.</p></div>';
+      grid.setAttribute('aria-busy', 'false');
+      grid.innerHTML = '<div class="empty-state"><div class="icon" aria-hidden="true">🔍</div><p>لا توجد نتائج مطابقة. جرّب كلمة أخرى أو غيّر القسم.</p></div>';
       renderPagination(1);
+      updateResetButton();
       return;
     }
 
@@ -293,15 +327,22 @@
     var pageItems = books.slice(start, start + PER_PAGE);
 
     grid.innerHTML = pageItems.map(function (b) {
-      return '<a class="book-card-item" href="book.html?book=' + b.id + '">' +
-        '<span class="book-cat-badge">' + catLabel(b.category) + '</span>' +
-        '<div class="book-title">' + (b.title || '') + '</div>' +
-        '<div class="book-author">' + (b.author || '') + '</div>' +
+      return '<a class="book-card-item" href="book.html?book=' + encodeURIComponent(String(b.id)) + '">' +
+        '<span class="book-cat-badge">' + escapeHtml(catLabel(b.category)) + '</span>' +
+        '<div class="book-title">' + escapeHtml(b.title || '') + '</div>' +
+        '<div class="book-author">' + escapeHtml(b.author || '') + '</div>' +
         '</a>';
     }).join('');
 
+    grid.setAttribute('aria-busy', 'false');
     renderPagination(totalPages);
     renderChips();
+    updateResetButton();
+  }
+
+  function updateResetButton() {
+    var resetButton = document.getElementById('booksReset');
+    if (resetButton) resetButton.hidden = !state.query && state.category === 'all';
   }
 
   function waitForBooks(tries) {
@@ -323,6 +364,18 @@
         state.page = 1;
         render();
       }, 180);
+    });
+  }
+
+  var resetButton = document.getElementById('booksReset');
+  if (resetButton) {
+    resetButton.addEventListener('click', function () {
+      state.query = '';
+      state.category = 'all';
+      state.page = 1;
+      if (input) input.value = '';
+      render();
+      if (input) input.focus();
     });
   }
 
