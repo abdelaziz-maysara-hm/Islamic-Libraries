@@ -168,7 +168,7 @@
     }
 
     if (!total) {
-      container.innerHTML = '<div class="empty-state" style="text-align:center;padding:40px;color:var(--muted)"><p>مفيش نتائج مطابقة. جرّب كلمة تانية أو غيّر القسم.</p></div>';
+      container.innerHTML = '<div class="empty-state" style="text-align:center;padding:40px;color:var(--muted)"><p>لا توجد نتائج مطابقة. جرّب كلمة أخرى أو غيّر القسم.</p></div>';
       if (countEl) countEl.textContent = '0 نتائج';
       renderPagination(1);
       return;
@@ -192,12 +192,12 @@
     if (countEl) {
       countEl.textContent = state.query || state.category !== 'all'
         ? ('عرض ' + total + ' فتوى — صفحة ' + state.page + '/' + totalPages)
-        : (getData().length + ' فتوى موثقة — صفحة ' + state.page + '/' + totalPages);
+        : (getData().length + ' فتوى في الفهرس — صفحة ' + state.page + '/' + totalPages);
     }
 
     var h1 = document.querySelector('.hero h1');
     if (h1 && !state.query && state.category === 'all') {
-      h1.textContent = getData().length + ' فتوى إسلامية موثقة بمصادرها';
+      h1.textContent = getData().length + ' فتوى مصنفة ومنسوبة إلى مصادرها';
     }
 
     renderPagination(totalPages);
