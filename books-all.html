@@ -37,6 +37,7 @@
 .books-search{flex:1;min-width:200px;position:relative;}
 .books-search input{width:100%;padding:11px 14px 11px 40px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--text);font-family:'Tajawal',sans-serif;font-size:14.5px;}
 .books-search .icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);opacity:.55;pointer-events:none;}
+.books-sort{min-height:44px;padding:9px 12px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--text);font-family:'Tajawal',sans-serif;font-size:14px;}
 .books-reset{min-height:44px;padding:9px 16px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--teal-deep);font-family:'Cairo',sans-serif;font-weight:800;cursor:pointer;}
 .books-reset:hover{background:var(--teal-soft);border-color:var(--teal);}
 .cat-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px;}
@@ -127,6 +128,11 @@
           <input type="search" id="booksFilterInput" aria-label="ابحث باسم الكتاب أو المؤلف" placeholder="ابحث باسم الكتاب أو المؤلف..." autocomplete="off">
           <span class="icon">🔍</span>
         </div>
+        <select class="books-sort" id="booksSort" aria-label="ترتيب الكتب">
+          <option value="default">الترتيب الافتراضي</option>
+          <option value="title">حسب عنوان الكتاب</option>
+          <option value="author">حسب اسم المؤلف</option>
+        </select>
         <button type="button" class="books-reset" id="booksReset" hidden>مسح البحث والتصفية</button>
       </div>
 
@@ -174,8 +180,37 @@
   var state = {
     category: 'all',
     query: '',
-    page: 1
+    page: 1,
+    sort: 'default'
   };
+  var arabicCollator = new Intl.Collator('ar', { sensitivity: 'base', numeric: true });
+
+  function readStateFromUrl() {
+    try {
+      var params = new URLSearchParams(location.search);
+      state.query = params.get('q') || '';
+      state.category = params.get('category') || 'all';
+      state.sort = ['title', 'author'].indexOf(params.get('sort')) !== -1 ? params.get('sort') : 'default';
+      state.page = Math.max(1, parseInt(params.get('page'), 10) || 1);
+    } catch (e) {}
+  }
+
+  function syncUrl() {
+    try {
+      var url = new URL(location.href);
+      if (state.query) url.searchParams.set('q', state.query);
+      else url.searchParams.delete('q');
+      if (state.category !== 'all') url.searchParams.set('category', state.category);
+      else url.searchParams.delete('category');
+      if (state.sort !== 'default') url.searchParams.set('sort', state.sort);
+      else url.searchParams.delete('sort');
+      if (state.page > 1) url.searchParams.set('page', String(state.page));
+      else url.searchParams.delete('page');
+      history.replaceState(null, '', url.pathname + url.search + url.hash);
+    } catch (e) {}
+  }
+
+  readStateFromUrl();
 
   function escapeHtml(value) {
     return String(value == null ? '' : value)
@@ -215,12 +250,20 @@
   function filteredBooks() {
     var list = getBooks();
     var q = normalizeSearchText(state.query);
-    return list.filter(function (b) {
+    var filtered = list.filter(function (b) {
       if (state.category !== 'all' && b.category !== state.category) return false;
       if (!q) return true;
       var hay = normalizeSearchText((b.title || '') + ' ' + (b.author || ''));
       return hay.indexOf(q) !== -1;
     });
+    if (state.sort === 'title') {
+      filtered.sort(function (a, b) { return arabicCollator.compare(a.title || '', b.title || ''); });
+    } else if (state.sort === 'author') {
+      filtered.sort(function (a, b) {
+        return arabicCollator.compare(a.author || '', b.author || '') || arabicCollator.compare(a.title || '', b.title || '');
+      });
+    }
+    return filtered;
   }
 
   function renderChips() {
@@ -293,6 +336,8 @@
   }
 
   function render() {
+    var knownCategories = (window.BOOKS_CATEGORIES || []).map(function (category) { return category.id; });
+    if (state.category !== 'all' && knownCategories.indexOf(state.category) === -1) state.category = 'all';
     var books = filteredBooks();
     var total = books.length;
     var totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
@@ -319,7 +364,9 @@
       grid.setAttribute('aria-busy', 'false');
       grid.innerHTML = '<div class="empty-state"><div class="icon" aria-hidden="true">🔍</div><p>لا توجد نتائج مطابقة. جرّب كلمة أخرى أو غيّر القسم.</p></div>';
       renderPagination(1);
+      renderChips();
       updateResetButton();
+      syncUrl();
       return;
     }
 
@@ -338,11 +385,12 @@
     renderPagination(totalPages);
     renderChips();
     updateResetButton();
+    syncUrl();
   }
 
   function updateResetButton() {
     var resetButton = document.getElementById('booksReset');
-    if (resetButton) resetButton.hidden = !state.query && state.category === 'all';
+    if (resetButton) resetButton.hidden = !state.query && state.category === 'all' && state.sort === 'default';
   }
 
   function waitForBooks(tries) {
@@ -356,6 +404,7 @@
 
   var input = document.getElementById('booksFilterInput');
   if (input) {
+    input.value = state.query;
     var timer = null;
     input.addEventListener('input', function () {
       clearTimeout(timer);
@@ -367,13 +416,25 @@
     });
   }
 
+  var sortControl = document.getElementById('booksSort');
+  if (sortControl) {
+    sortControl.value = state.sort;
+    sortControl.addEventListener('change', function () {
+      state.sort = sortControl.value || 'default';
+      state.page = 1;
+      render();
+    });
+  }
+
   var resetButton = document.getElementById('booksReset');
   if (resetButton) {
     resetButton.addEventListener('click', function () {
       state.query = '';
       state.category = 'all';
       state.page = 1;
+      state.sort = 'default';
       if (input) input.value = '';
+      if (sortControl) sortControl.value = 'default';
       render();
       if (input) input.focus();
     });
