@@ -27,31 +27,50 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" />
   <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
+  <script>
+    (function () {
+      var saved = '';
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      var dark = saved ? saved === 'dark' : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    })();
+  </script>
   <style>
     :root {
-      --bg: #07080c; --panel: #111318; --elev: #181b22; --line: #2a2e38;
-      --text: #eef0f4; --muted: #9aa3b2; --accent: #c9a227;
+      --bg:#17211e; --panel:#202c28; --elev:#26342f; --line:rgba(214,222,218,.12);
+      --text:#d6deda; --muted:#a0aea8; --accent:#c5a56c;
+      --teal-deep:#79b7a5; --teal:#559a86; --teal-soft:#243a33; --on-teal:#10231d;
+      --nav-bg:rgba(23,33,30,.96); --on-gold:#211a0d;
+      color-scheme:dark;
+    }
+    [data-theme="light"] {
+      --bg:#f4f1e9; --panel:#faf8f2; --elev:#ece9e1; --line:rgba(39,49,46,.14);
+      --text:#27312e; --muted:#5f6e68; --accent:#a9824f;
+      --teal-deep:#184a43; --teal:#2d6b62; --teal-soft:#e4ece8; --on-teal:#fff;
+      --nav-bg:rgba(244,241,233,.96); --on-gold:#211a0d;
+      color-scheme:light;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { min-height: 100%; background: var(--bg); color: var(--text); font-family: "Cairo", system-ui, sans-serif; }
-    .site-nav { position: sticky; top: 0; z-index: 80; background: rgba(11,13,18,.96); border-bottom: 1px solid var(--line); backdrop-filter: blur(12px); }
+    .site-nav { position: sticky; top: 0; z-index: 80; background: var(--nav-bg); border-bottom: 1px solid var(--line); backdrop-filter: blur(12px); }
     .site-nav-inner { max-width: 1280px; min-height: 58px; margin: 0 auto; padding: 10px 18px; display: flex; align-items: center; gap: 18px; transition: min-height .2s, padding .2s; }
     .site-nav.compact .site-nav-inner { min-height: 50px; padding-top: 6px; padding-bottom: 6px; }
-    .site-logo { color: var(--accent); font-weight: 700; font-size: 16px; text-decoration: none; white-space: nowrap; }
+    .site-logo { color: var(--gold-text, var(--accent)); font-weight: 700; font-size: 16px; text-decoration: none; white-space: nowrap; }
     .site-links { display: flex; align-items: center; gap: 17px; margin-inline-start: auto; }
-    .site-links a { color: #c6ccd6; font-size: 13px; font-weight: 600; text-decoration: none; white-space: nowrap; }
-    .site-links a:hover, .site-links a.active { color: #fff; }
+    .site-links a { color: var(--muted); font-size: 13px; font-weight: 600; text-decoration: none; white-space: nowrap; }
+    .site-links a:hover, .site-links a.active { color: var(--text); }
     .site-links a.active { border-bottom: 2px solid var(--accent); padding-bottom: 4px; }
-    .site-menu-btn { display: none; margin-inline-start: auto; padding: 7px 10px; background: var(--elev); color: #fff; border: 1px solid var(--line); border-radius: 9px; }
-    .site-mobile-menu { display: none; padding: 4px 18px 12px; border-top: 1px solid var(--line); background: #0b0d12; }
+    .site-menu-btn { display: none; margin-inline-start: auto; padding: 7px 10px; background: var(--elev); color: var(--text); border: 1px solid var(--line); border-radius: 9px; }
+    .site-theme-btn { width: 38px; height: 38px; padding: 0; border-radius: 50%; background: var(--elev); color: var(--text); border: 1px solid var(--line); display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+    .site-mobile-menu { display: none; padding: 4px 18px 12px; border-top: 1px solid var(--line); background: var(--panel); }
     .site-mobile-menu.open { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 14px; }
-    .site-mobile-menu a { color: #c6ccd6; padding: 9px 4px; font-size: 13px; font-weight: 600; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.06); }
+    .site-mobile-menu a { color: var(--muted); padding: 9px 4px; font-size: 13px; font-weight: 600; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.06); }
     .site-mobile-menu a.active { color: var(--accent); }
-    .tool-head { padding: 10px 18px; border-bottom: 1px solid var(--line); background: #0b0d12; display:flex; align-items:center; gap:10px; }
+    .tool-head { padding: 10px 18px; border-bottom: 1px solid var(--line); background: var(--panel); display:flex; align-items:center; gap:10px; }
     .tool-head img.logo { width: 28px; height: 28px; border-radius: 8px; }
     .tool-head h1 { font-size: 16px; font-weight: 700; }
     .tool-head p { color: var(--muted); font-size: 12px; margin-top: 1px; }
-    .skip-link { position: fixed; top: 8px; right: 12px; z-index: 120; transform: translateY(-150%); padding: 8px 12px; border-radius: 8px; background: var(--accent); color: #171204; font-weight: 700; text-decoration: none; }
+    .skip-link { position: fixed; top: 8px; right: 12px; z-index: 120; transform: translateY(-150%); padding: 8px 12px; border-radius: 8px; background: var(--accent); color: var(--on-gold); font-weight: 700; text-decoration: none; }
     .skip-link:focus { transform: translateY(0); }
     .layout { display: grid; grid-template-columns: 240px minmax(280px, 1fr) 240px; gap: 12px; padding: 10px 12px; max-width: 1280px; margin: 0 auto; width: 100%; align-items: start; }
     .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 12px; }
@@ -69,8 +88,8 @@
     .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
     button { border: 0; border-radius: 12px; padding: 10px 14px; cursor: pointer; font-family: inherit; font-weight: 700; font-size: 13px; }
-    .btn-gold { background: var(--accent); color: #1a1404; }
-    .btn-teal { background: #1c3d3a; color: #9ff3ea; border: 1px solid #2b6b64; }
+    .btn-gold { background: var(--accent); color: var(--on-gold); }
+    .btn-teal { background: var(--teal-soft); color: var(--teal-deep); border: 1px solid var(--teal); }
     .btn-ghost { background: var(--elev); color: var(--text); border: 1px solid var(--line); }
     button:disabled { opacity: .5; cursor: not-allowed; }
     .stage-wrap { display: flex; flex-direction: column; align-items: center; gap: 14px; }
@@ -107,7 +126,7 @@
     }
     .player-bar button#togglePlay {
       width: 32px; height: 32px; border-radius: 50%; padding: 0;
-      background: #fff; color: #111; font-size: 13px; flex: 0 0 auto;
+      background: var(--text); color: var(--bg); font-size: 13px; flex: 0 0 auto;
     }
     .player-bar input#seek { flex: 1; height: 4px; padding: 0; accent-color: var(--accent); }
     .player-bar #timeLabel { font-size: 11px; color: var(--muted); white-space: nowrap; min-width: 72px; }
@@ -157,6 +176,7 @@
         <a href="favorites.html">المفضلة</a>
         <a href="apps.html">تطبيقات مفيدة</a>
       </div>
+      <button class="site-theme-btn" id="siteThemeBtn" type="button" aria-label="تفعيل الوضع النهاري">☀️</button>
       <button class="site-menu-btn" id="siteMenuBtn" type="button" aria-expanded="false" aria-controls="siteMobileMenu" aria-label="افتح قائمة التنقل">☰</button>
     </div>
     <div class="site-mobile-menu" id="siteMobileMenu">
@@ -267,6 +287,17 @@
       const nav = document.getElementById("siteNav");
       const button = document.getElementById("siteMenuBtn");
       const menu = document.getElementById("siteMobileMenu");
+      const themeButton = document.getElementById("siteThemeBtn");
+      function applyTheme(dark) {
+        document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+        themeButton.textContent = dark ? "☀️" : "🌙";
+        themeButton.setAttribute("aria-label", dark ? "تفعيل الوضع النهاري" : "تفعيل الوضع الليلي");
+        try { localStorage.setItem("theme", dark ? "dark" : "light"); } catch (e) {}
+      }
+      applyTheme(document.documentElement.getAttribute("data-theme") === "dark");
+      themeButton.addEventListener("click", () => {
+        applyTheme(document.documentElement.getAttribute("data-theme") !== "dark");
+      });
       function closeMenu() {
         menu.classList.remove("open");
         button.setAttribute("aria-expanded", "false");

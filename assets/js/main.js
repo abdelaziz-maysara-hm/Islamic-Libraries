@@ -10,7 +10,7 @@
   if (!document.querySelector('meta[name="theme-color"]')) {
     const themeColor = document.createElement('meta');
     themeColor.name = 'theme-color';
-    themeColor.content = '#0E3B36';
+    themeColor.content = '#184A43';
     document.head.appendChild(themeColor);
   }
   // Favicon — open book + crescent (Islamic library)
@@ -40,6 +40,9 @@
   function applyTheme(dark) {
     document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
     toggleBtn.textContent = dark ? '☀️' : '🌙';
+    toggleBtn.setAttribute('aria-label', dark ? 'تفعيل الوضع النهاري' : 'تفعيل الوضع الليلي');
+    var themeColor = document.querySelector('meta[name="theme-color"]');
+    if (themeColor) themeColor.setAttribute('content', dark ? '#17211E' : '#184A43');
     try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
   }
   var saved = '';
@@ -62,6 +65,21 @@
 
 // ============ Main init ============
 document.addEventListener('DOMContentLoaded', function () {
+  var siteHeader = document.querySelector('body > header');
+  var headerTicking = false;
+  function updateHeaderSize() {
+    if (siteHeader) siteHeader.classList.toggle('nav-compact', window.scrollY > 24);
+    headerTicking = false;
+  }
+  if (siteHeader) {
+    updateHeaderSize();
+    window.addEventListener('scroll', function () {
+      if (headerTicking) return;
+      headerTicking = true;
+      window.requestAnimationFrame(updateHeaderSize);
+    }, { passive: true });
+  }
+
   var menuBtn = document.getElementById('menuBtn');
   var mobileMenu = document.getElementById('mobileMenu');
   function closeMobileMenu() {
