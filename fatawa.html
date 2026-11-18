@@ -108,17 +108,19 @@
 <section style="padding-top:10px;">
   <div class="wrap">
     <div class="fatwa-toolbar">
-      <input type="text" id="fatwaSearch" placeholder="ابحث في الفتاوى...">
-      <span id="fatwaCount"></span>
+      <label class="sr-only" for="fatwaSearch">ابحث في الفتاوى</label>
+      <input type="search" id="fatwaSearch" placeholder="ابحث في الفتاوى..." autocomplete="off">
+      <button type="button" id="fatwaReset" class="fatwa-reset">مسح الفلاتر</button>
+      <span id="fatwaCount" role="status" aria-live="polite"></span>
     </div>
-    <div class="fatwa-chips" id="fatwaCatFilter"></div>
+    <div class="fatwa-chips" id="fatwaCatFilter" role="group"></div>
   </div>
 </section>
 
 <section style="padding-top:0; max-width:860px; margin:0 auto;" id="fatwaDynamicSection">
   <div class="wrap">
     <div id="fatwaContainer"></div>
-    <div class="pagination" id="fatwaPagination" hidden></div>
+    <nav class="pagination" id="fatwaPagination" hidden></nav>
   </div>
 </section>
 
