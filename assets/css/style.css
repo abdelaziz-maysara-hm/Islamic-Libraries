@@ -232,6 +232,10 @@ section{padding:64px 0;}
 .app-card .links{display:flex; gap:8px; justify-content:center; flex-wrap:wrap;}
 .app-card .links a{font-size:12px; font-weight:800; padding:7px 14px; border-radius:20px; background:var(--teal-soft); color:var(--teal-deep); transition:background .2s;}
 .app-card .links a:hover{background:var(--teal); color:#fff;}
+.app-platforms{display:flex;justify-content:center;flex-wrap:wrap;gap:6px;margin:-2px 0 12px;}
+.platform-badge{display:inline-flex;align-items:center;padding:5px 10px;border:1px solid var(--line);border-radius:999px;background:var(--paper);color:var(--teal-deep);font-family:'Cairo',sans-serif;font-size:11px;font-weight:800;}
+.hero .apps-updated{display:inline-flex;align-items:center;gap:5px;margin:-14px auto 0;padding:7px 13px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--muted-strong);font-size:12px;}
+.hero .apps-updated strong{color:var(--teal-deep);}
 
 .quick-answer{margin-bottom:20px;}
 .quick-answer .qa-label{font-size:12px; font-weight:800; color:var(--gold-text); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; display:block;}
