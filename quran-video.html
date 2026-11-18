@@ -34,10 +34,25 @@
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { min-height: 100%; background: var(--bg); color: var(--text); font-family: "Cairo", system-ui, sans-serif; }
-    header { padding: 10px 18px; border-bottom: 1px solid var(--line); background: #0b0d12; position: sticky; top: 0; z-index: 20; display:flex; align-items:center; gap:10px; }
-    header img.logo { width: 28px; height: 28px; border-radius: 8px; }
-    header h1 { font-size: 16px; font-weight: 700; }
-    header p { color: var(--muted); font-size: 12px; margin-top: 1px; }
+    .site-nav { position: sticky; top: 0; z-index: 80; background: rgba(11,13,18,.96); border-bottom: 1px solid var(--line); backdrop-filter: blur(12px); }
+    .site-nav-inner { max-width: 1280px; min-height: 58px; margin: 0 auto; padding: 10px 18px; display: flex; align-items: center; gap: 18px; transition: min-height .2s, padding .2s; }
+    .site-nav.compact .site-nav-inner { min-height: 50px; padding-top: 6px; padding-bottom: 6px; }
+    .site-logo { color: var(--accent); font-weight: 700; font-size: 16px; text-decoration: none; white-space: nowrap; }
+    .site-links { display: flex; align-items: center; gap: 17px; margin-inline-start: auto; }
+    .site-links a { color: #c6ccd6; font-size: 13px; font-weight: 600; text-decoration: none; white-space: nowrap; }
+    .site-links a:hover, .site-links a.active { color: #fff; }
+    .site-links a.active { border-bottom: 2px solid var(--accent); padding-bottom: 4px; }
+    .site-menu-btn { display: none; margin-inline-start: auto; padding: 7px 10px; background: var(--elev); color: #fff; border: 1px solid var(--line); border-radius: 9px; }
+    .site-mobile-menu { display: none; padding: 4px 18px 12px; border-top: 1px solid var(--line); background: #0b0d12; }
+    .site-mobile-menu.open { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 14px; }
+    .site-mobile-menu a { color: #c6ccd6; padding: 9px 4px; font-size: 13px; font-weight: 600; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.06); }
+    .site-mobile-menu a.active { color: var(--accent); }
+    .tool-head { padding: 10px 18px; border-bottom: 1px solid var(--line); background: #0b0d12; display:flex; align-items:center; gap:10px; }
+    .tool-head img.logo { width: 28px; height: 28px; border-radius: 8px; }
+    .tool-head h1 { font-size: 16px; font-weight: 700; }
+    .tool-head p { color: var(--muted); font-size: 12px; margin-top: 1px; }
+    .skip-link { position: fixed; top: 8px; right: 12px; z-index: 120; transform: translateY(-150%); padding: 8px 12px; border-radius: 8px; background: var(--accent); color: #171204; font-weight: 700; text-decoration: none; }
+    .skip-link:focus { transform: translateY(0); }
     .layout { display: grid; grid-template-columns: 240px minmax(280px, 1fr) 240px; gap: 12px; padding: 10px 12px; max-width: 1280px; margin: 0 auto; width: 100%; align-items: start; }
     .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 12px; }
     .panel h2 { font-size: 13px; color: var(--muted); margin: 10px 0 8px; font-weight: 600; }
@@ -110,27 +125,61 @@
     footer { text-align: center; color: var(--muted); font-size: 12px; padding: 10px 16px 24px; }
     canvas#recCanvas { display: none; }
     @media (max-width: 980px) {
+      .site-links { display: none; }
+      .site-menu-btn { display: inline-flex; align-items: center; justify-content: center; }
+      .site-nav-inner { min-height: 52px; padding-top: 7px; padding-bottom: 7px; }
       .layout { grid-template-columns: 1fr; }
       .phone { width: min(100%, 240px); max-height: 46vh; }
       .bg-grid { grid-template-columns: repeat(5, 1fr); }
     }
+    @media (max-width: 520px) {
+      .site-mobile-menu.open { grid-template-columns: 1fr; max-height: calc(100vh - 52px); overflow-y: auto; }
+      .tool-head { padding-inline: 12px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .site-nav-inner { transition: none; }
+    }
   </style>
 </head>
 <body>
-  <div class="site-bar" style="background:#0b0d12;border-bottom:1px solid #2a2e38;padding:8px 16px;display:flex;gap:14px;align-items:center;font-size:13px;">
-    <a href="https://islamiclibraries.com/" style="color:#c9a227;font-weight:700;text-decoration:none;">المكتبة الجامعة</a>
-    <a href="tools.html" style="color:#9aa3b2;text-decoration:none;">الأدوات</a>
-    <span style="color:#9aa3b2;">صانع آيات القرآن</span>
-  </div>
-  <header>
-    <img class="logo" src="assets/img/quran-video-favicon.svg" alt="صانع آيات القرآن" />
+  <a class="skip-link" href="#quranVideoMain">انتقل إلى أداة صنع الفيديو</a>
+  <nav class="site-nav" id="siteNav" aria-label="التنقل الرئيسي">
+    <div class="site-nav-inner">
+      <a href="index.html" class="site-logo">المكتبة الجامعة</a>
+      <div class="site-links">
+        <a href="index.html">الرئيسية</a>
+        <a href="quran.html">القرآن الكريم</a>
+        <a href="books.html">الكتب</a>
+        <a href="videos.html">الدروس المرئية</a>
+        <a href="fatawa.html">الفتاوى</a>
+        <a href="tools.html" class="active" aria-current="page">أدوات</a>
+        <a href="glossary.html">القاموس</a>
+        <a href="favorites.html">المفضلة</a>
+        <a href="apps.html">تطبيقات مفيدة</a>
+      </div>
+      <button class="site-menu-btn" id="siteMenuBtn" type="button" aria-expanded="false" aria-controls="siteMobileMenu" aria-label="افتح قائمة التنقل">☰</button>
+    </div>
+    <div class="site-mobile-menu" id="siteMobileMenu">
+      <a href="index.html">الرئيسية</a>
+      <a href="quran.html">القرآن الكريم</a>
+      <a href="books.html">الكتب</a>
+      <a href="videos.html">الدروس المرئية</a>
+      <a href="fatawa.html">الفتاوى</a>
+      <a href="tools.html" class="active" aria-current="page">أدوات</a>
+      <a href="glossary.html">القاموس</a>
+      <a href="favorites.html">المفضلة</a>
+      <a href="apps.html">تطبيقات مفيدة</a>
+    </div>
+  </nav>
+  <section class="tool-head" aria-labelledby="toolTitle">
+    <img class="logo" src="assets/img/quran-video-favicon.svg" alt="" />
     <div>
-      <h1>صانع آيات القرآن</h1>
+      <h1 id="toolTitle">صانع آيات القرآن</h1>
       <p>خلفية متحركة + تلاوة متصلة + تصدير MP4</p>
     </div>
-  </header>
+  </section>
 
-  <main class="layout">
+  <main class="layout" id="quranVideoMain">
     <aside class="panel">
       <h2>المحتوى</h2>
       <label>السورة</label>
@@ -214,6 +263,34 @@
   <canvas id="recCanvas"></canvas>
 
   <script>
+    (function () {
+      const nav = document.getElementById("siteNav");
+      const button = document.getElementById("siteMenuBtn");
+      const menu = document.getElementById("siteMobileMenu");
+      function closeMenu() {
+        menu.classList.remove("open");
+        button.setAttribute("aria-expanded", "false");
+        button.setAttribute("aria-label", "افتح قائمة التنقل");
+      }
+      button.addEventListener("click", () => {
+        const open = menu.classList.toggle("open");
+        button.setAttribute("aria-expanded", open ? "true" : "false");
+        button.setAttribute("aria-label", open ? "أغلق قائمة التنقل" : "افتح قائمة التنقل");
+      });
+      menu.addEventListener("click", (event) => {
+        if (event.target.closest("a")) closeMenu();
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          closeMenu();
+          button.focus();
+        }
+      });
+      window.addEventListener("scroll", () => {
+        nav.classList.toggle("compact", window.scrollY > 24);
+      }, { passive: true });
+    })();
+
     const $ = (id) => document.getElementById(id);
     const state = {
       names: {}, verses: [], playVerses: [], playChapter: 1, currentIndex: 0,
