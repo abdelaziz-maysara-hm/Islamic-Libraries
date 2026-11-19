@@ -42,7 +42,7 @@ function resolveInternalTarget(htmlFile, href) {
 
 const files = collectFiles(root);
 const htmlFiles = files.filter((file) =>
-  extname(file) === '.html' && !nonPageHtmlFiles.has(relative(root, file).replaceAll('\', '/')),
+  extname(file) === '.html' && !nonPageHtmlFiles.has(relative(root, file).replaceAll('\\', '/')),
 );
 const jsFiles = files.filter((file) => extname(file) === '.js');
 const cssFiles = files.filter((file) => extname(file) === '.css');
@@ -66,7 +66,7 @@ function assertBalancedCss(source, label) {
     }
     if (!quote && character === '/' && next === '*') { inComment = true; index += 1; continue; }
     if (quote) {
-      if (character === '\') { index += 1; continue; }
+      if (character === '\\') { index += 1; continue; }
       if (character === quote) quote = '';
       continue;
     }
