@@ -48,6 +48,7 @@ const jsFiles = files.filter((file) => extname(file) === '.js');
 const cssFiles = files.filter((file) => extname(file) === '.css');
 
 execFileSync(process.execPath, [join(root, 'scripts', 'content-inventory.mjs')], { stdio: 'inherit' });
+execFileSync(process.execPath, [join(root, 'scripts', 'generate-sitemap.mjs'), '--check'], { stdio: 'inherit' });
 
 for (const jsFile of jsFiles) {
   execFileSync(process.execPath, ['--check', jsFile], { stdio: 'pipe' });
@@ -172,11 +173,29 @@ assert(existsSync(join(root, 'sitemap.xml')), 'sitemap.xml is missing');
 const sitemapSource = readFileSync(join(root, 'sitemap.xml'), 'utf8');
 const sitemapUrls = [...sitemapSource.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
 assert(new Set(sitemapUrls).size === sitemapUrls.length, 'sitemap.xml contains duplicate URLs');
-for (const canonicalUrl of canonicalUrls) {
+const staticSitemapCanonicals = canonicalUrls.filter((url) => url !== 'https://islamiclibraries.com/book.html');
+for (const canonicalUrl of staticSitemapCanonicals) {
   assert(sitemapUrls.includes(canonicalUrl), `sitemap.xml is missing canonical URL: ${canonicalUrl}`);
 }
+
+const searchCatalogSource = readFileSync(join(root, 'assets', 'js', 'search-catalog.js'), 'utf8');
+const searchCatalogJson = searchCatalogSource.match(/window\\.SEARCH_CATALOG\\s*=\\s*(\\[[\\s\\S]*\\]);?\\s*$/)?.[1];
+assert(searchCatalogJson, 'Could not parse assets/js/search-catalog.js');
+const searchCatalog = JSON.parse(searchCatalogJson);
+const dynamicBookUrls = new Set(
+  searchCatalog
+    .map((entry) => String(entry.url || ''))
+    .filter((url) => /^book\\.html\\?book=[^&#]+$/.test(url))
+    .map((url) => 'https://islamiclibraries.com/' + url),
+);
+for (const bookUrl of dynamicBookUrls) {
+  assert(sitemapUrls.includes(bookUrl), `sitemap.xml is missing book URL: ${bookUrl}`);
+}
 for (const sitemapUrl of sitemapUrls) {
-  assert(canonicalUrls.includes(sitemapUrl), `sitemap.xml contains a non-canonical page: ${sitemapUrl}`);
+  assert(
+    staticSitemapCanonicals.includes(sitemapUrl) || dynamicBookUrls.has(sitemapUrl),
+    `sitemap.xml contains an unexpected URL: ${sitemapUrl}`,
+  );
 }
 assert(brokenLinks.length === 0, `Broken internal links:\n${brokenLinks.join('\n')}`);
 
