@@ -155,6 +155,7 @@ window.SITE_INDEX = [
   { type: "مقال", title: "صفة الوضوء خطوة بخطوة: الفرائض والسنن والنواقض", tags: ["الوضوء", "الطهارة", "نواقض الوضوء", "فرائض الوضوء", "سنن الوضوء", "المسح على الخفين"], url: "articles/wudu-step-by-step-faraid-sunan-nawaqid.html" },
   { type: "مقال", title: "فضل يوم الجمعة وسننه وآدابه: دليل عملي", tags: ["يوم الجمعة", "صلاة الجمعة", "سنن الجمعة", "خطبة الجمعة", "غسل الجمعة", "ساعة الإجابة"], url: "articles/friday-jumuah-virtues-sunan-etiquette.html" },
   { type: "مقال", title: "صلة الرحم: فضلها وخطر القطيعة وصور عملية للصلة", tags: ["صلة الرحم", "قطيعة الرحم", "الأرحام", "الأقارب", "الأسرة", "الأخلاق"], url: "articles/silat-al-rahim-kinship-ties-virtues.html" },
+  { type: "مقال", title: "صلاة الاستخارة: كيفيتها ودعاؤها الصحيح وأحكامها", tags: ["الاستخارة", "صلاة الاستخارة", "دعاء الاستخارة", "النوافل", "الدعاء", "الصلاة"], url: "articles/salat-al-istikhara-how-to-pray-dua.html" },
   { type: "الموقع", title: "عن الموقع", tags: ["عن", "من نحن"], url: "about.html" },
   { type: "الموقع", title: "سياسة الخصوصية", tags: ["خصوصية", "كوكيز", "إعلانات"], url: "privacy.html" },
   { type: "الموقع", title: "تواصل معنا", tags: ["تواصل", "اتصل بنا", "بريد"], url: "contact.html" }
