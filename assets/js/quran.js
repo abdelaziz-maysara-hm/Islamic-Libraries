@@ -202,6 +202,24 @@ function playSurahAudio(num) {
   };
 }
 
+/* ---------- البسملة ----------
+   نص quran-uthmani من Al Quran Cloud بيدمج البسملة في أول آية من كل سورة
+   (ما عدا الفاتحة اللي البسملة فيها آية ١، والتوبة اللي مفيهاش بسملة).
+   بنشيلها من نص الآية ١ ونعرضها كعنوان منفصل فوق السورة. */
+const BASMALA_WORDS = ["بسم", "الله", "الرحمن", "الرحيم"];
+function normArabicWord(w) {
+  return String(w || "").replace(/\u0671/g, "\u0627").replace(/[^\u0621-\u064A]/g, "");
+}
+function stripBasmala(text, surahNumber) {
+  if (surahNumber === 1 || surahNumber === 9 || !text) return text;
+  const words = String(text).trim().split(/\s+/);
+  if (words.length <= 4) return text;
+  for (let i = 0; i < 4; i++) {
+    if (normArabicWord(words[i]) !== BASMALA_WORDS[i]) return text;
+  }
+  return words.slice(4).join(" ");
+}
+
 /* ---------- فتح سورة ---------- */
 async function openSurah(number) {
   const reader  = q("#surahReader");
@@ -257,6 +275,13 @@ async function openSurah(number) {
       </div>
       <div class="ayah-list">
     `;
+
+    if (meta.ayahs && meta.ayahs[0]) {
+      meta.ayahs[0] = { ...meta.ayahs[0], text: stripBasmala(meta.ayahs[0].text, number) };
+    }
+    if (number !== 1 && number !== 9) {
+      html += `<div class="ayah-basmala" style="text-align:center;font-family:'Amiri Quran','Amiri',serif;font-size:1.6em;margin:6px 0 18px;color:var(--teal-deep,inherit)">بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ</div>`;
+    }
 
     meta.ayahs.forEach((ayah, i) => {
       const tafsirText = hasTafsir && tafsirEd.ayahs[i] ? tafsirEd.ayahs[i].text : "";

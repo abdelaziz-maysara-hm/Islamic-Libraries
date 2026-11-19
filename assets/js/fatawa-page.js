@@ -100,6 +100,21 @@
     });
   }
 
+  /* Recompute chip counts from the current dataset. Extra fatwa batches are
+     loaded asynchronously by main.js after the chips are first built, so the
+     counts must be refreshed when ILFatawaPage.refresh() runs. */
+  function refreshFilterCounts() {
+    var filterEl = document.getElementById('fatwaCatFilter');
+    if (!filterEl) return;
+    var data = getData();
+    var counts = {};
+    data.forEach(function (f) { counts[f.category] = (counts[f.category] || 0) + 1; });
+    filterEl.querySelectorAll('button[data-cat]').forEach(function (btn) {
+      var n = btn.dataset.cat === 'all' ? data.length : (counts[btn.dataset.cat] || 0);
+      btn.textContent = (btn.dataset.label || '') + ' (' + n + ')';
+    });
+  }
+
   function buildFilters() {
     var filterEl = document.getElementById('fatwaCatFilter');
     if (!filterEl || filterBuilt) return;
@@ -116,6 +131,7 @@
       btn.className = 'cat-chip';
       btn.style.cssText = 'padding:7px 16px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted);font-family:Cairo,sans-serif;font-weight:700;font-size:12.5px;cursor:pointer;transition:background .2s,color .2s;';
       btn.dataset.cat = cat;
+      btn.dataset.label = label;
       btn.textContent = label + ' (' + count + ')';
       return btn;
     }
@@ -356,6 +372,7 @@
   window.ILFatawaPage = {
     refresh: function () {
       state.page = 1;
+      refreshFilterCounts();
       render();
     },
     render: render

@@ -182,6 +182,19 @@
     }
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', render);
-  else render();
+  /* Wait for the async catalog (see books-data.js) before rendering, so a
+     valid ?book=N never shows "الكتاب غير موجود" just because data is late. */
+  var started = false;
+  function start() {
+    if (started) return;
+    started = true;
+    render();
+  }
+  function boot() {
+    if (window.BOOKS_READY) { start(); return; }
+    document.addEventListener('books:ready', start, { once: true });
+    setTimeout(start, 15000); /* safety net if the loader never reports */
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
 })();

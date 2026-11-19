@@ -422,6 +422,32 @@
       const n = parseInt(h.length === 3 ? h.split("").map(c => c + c).join("") : h, 16);
       return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`;
     }
+    /* Al Quran Cloud quran-uthmani merges the basmala into ayah 1 of every surah
+       except Al-Fatiha (where it IS ayah 1) and At-Tawbah (no basmala). Strip it. */
+    const BASMALA_WORDS = ["بسم", "الله", "الرحمن", "الرحيم"];
+    function normArabicWord(w) {
+      return String(w || "").replace(/\u0671/g, "\u0627").replace(/[^\u0621-\u064A]/g, "");
+    }
+    function stripBasmala(text, surahNumber) {
+      if (surahNumber === 1 || surahNumber === 9 || !text) return text;
+      const words = String(text).trim().split(/\s+/);
+      if (words.length <= 4) return text;
+      for (let i = 0; i < 4; i++) if (normArabicWord(words[i]) !== BASMALA_WORDS[i]) return text;
+      return words.slice(4).join(" ");
+    }
+    /* Pick a recorder format: real MP4 straight from the browser when supported
+       (Chrome 126+, Safari), otherwise WebM. */
+    // H.264 only: an MP4 with VP9 inside won't play on many phones / upload targets.
+    const MP4_MIMES = ["video/mp4;codecs=avc1.42E01E,mp4a.40.2", "video/mp4;codecs=avc1.640028,mp4a.40.2",
+      "video/mp4;codecs=avc1,mp4a.40.2", "video/mp4;codecs=avc1,opus", "video/mp4;codecs=avc1"];
+    const WEBM_MIMES = ["video/webm;codecs=vp9,opus", "video/webm;codecs=vp8,opus", "video/webm"];
+    function pickRecorderMime() {
+      if (!window.MediaRecorder || !MediaRecorder.isTypeSupported) return { mime: "", mp4: false };
+      const m4 = MP4_MIMES.find(m => MediaRecorder.isTypeSupported(m));
+      if (m4) return { mime: m4, mp4: true };
+      const wb = WEBM_MIMES.find(m => MediaRecorder.isTypeSupported(m));
+      return { mime: wb || "video/webm", mp4: false };
+    }
     function toArabicNum(n) {
       return String(n).replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[d]);
     }
@@ -667,7 +693,9 @@
         const ar = json.data[0].ayahs.slice(range.from - 1, range.to);
         const tr = json.data[1].ayahs.slice(range.from - 1, range.to);
         state.verses = ar.map((a, i) => ({
-          number: a.numberInSurah, global: a.number, arabic: a.text, translation: tr[i].text
+          number: a.numberInSurah, global: a.number,
+          arabic: a.numberInSurah === 1 ? stripBasmala(a.text, range.chapter) : a.text,
+          translation: tr[i].text
         }));
         state.playBuffers = null;
         if (!state.playing && !state.recording) state.currentIndex = 0;
@@ -934,22 +962,61 @@
         paintMotionBg(ctx, w, h, timeMs, theme === "solid" ? "solid" : theme);
       }
       const color = $("fontColor").value;
-      ctx.textAlign = "center"; ctx.fillStyle = color;
-      ctx.font = "22px Cairo, sans-serif";
-      ctx.fillText("صُنع بواسطة صانع الآيات", w / 2, h * 0.16);
-      ctx.font = "18px Cairo, sans-serif";
-      wrapCanvasText(ctx, $("surahLabel").textContent, w / 2, h * 0.16 + 34, w * 0.8, 24);
-      const boxX = w * 0.07, boxW = w * 0.86, boxY = h * 0.28, boxH = h * 0.56;
+      // Everything is sized relative to the export canvas (1080×1920 or 1920×1080),
+      // so the exported PNG/video matches the on-page preview instead of tiny text.
+      const u = Math.min(w, h) / 1080;
+      ctx.textAlign = "center"; ctx.textBaseline = "alphabetic"; ctx.fillStyle = color;
+      ctx.direction = "rtl";
+      ctx.font = `${Math.round(38 * u)}px Cairo, sans-serif`;
+      ctx.fillText("صُنع بواسطة صانع الآيات", w / 2, h * 0.14);
+      ctx.font = `${Math.round(32 * u)}px Cairo, sans-serif`;
+      ctx.fillText($("surahLabel").textContent, w / 2, h * 0.14 + 52 * u);
+      const boxX = w * 0.07, boxW = w * 0.86, boxY = h * 0.22, boxH = h * 0.62;
       ctx.fillStyle = hexToRgba($("boxColor").value, Number($("opacity").value));
-      roundRect(ctx, boxX, boxY, boxW, boxH, 28); ctx.fill();
+      roundRect(ctx, boxX, boxY, boxW, boxH, 36 * u); ctx.fill();
       const v = (state.playVerses[state.currentIndex] || state.verses[state.currentIndex]);
       if (!v) return;
-      const arSize = 18 + Number($("arScale").value) * 5;
-      const trSize = 14 + Number($("trScale").value) * 2;
-      wrapCanvasText(ctx, `${v.arabic} ﴿${toArabicNum(v.number)}﴾`, w / 2, boxY + 70, boxW - 40, arSize * 1.7, `700 ${arSize}px "Amiri Quran", serif`, color);
-      if (!($("hideTr") && $("hideTr").checked)) {
-        wrapCanvasText(ctx, `${v.translation} (${Number($("surah").value)}:${v.number})`, w / 2, boxY + boxH * 0.62, boxW - 48, trSize * 1.55, `${trSize}px Cairo, sans-serif`, color);
+      const showTr = !($("hideTr") && $("hideTr").checked);
+      const padX = 56 * u, padY = 64 * u, gap = 48 * u;
+      const maxW = boxW - padX * 2, maxH = boxH - padY * 2;
+      const arText = `${v.arabic} ﴿${toArabicNum(v.number)}﴾`;
+      const trText = `${v.translation} (${Number($("surah").value)}:${v.number})`;
+      let arSize = (40 + Number($("arScale").value) * 10) * u;
+      let trSize = (26 + Number($("trScale").value) * 4) * u;
+      let arLines, trLines, arLH, trLH, total;
+      // Shrink until the ayah (+ translation) fits inside the box.
+      for (let k = 0; k < 40; k++) {
+        ctx.direction = "rtl"; ctx.font = `700 ${arSize}px "Amiri Quran", serif`;
+        arLines = wrapLines(ctx, arText, maxW); arLH = arSize * 1.75;
+        trLines = []; trLH = 0;
+        if (showTr) { ctx.direction = "ltr"; ctx.font = `${trSize}px Cairo, sans-serif`; trLines = wrapLines(ctx, trText, maxW); trLH = trSize * 1.5; }
+        total = arLines.length * arLH + (showTr ? gap + trLines.length * trLH : 0);
+        if (total <= maxH) break;
+        arSize *= 0.93; trSize *= 0.95;
       }
+      // Vertically centre the whole block inside the box.
+      let y = boxY + (boxH - total) / 2;
+      ctx.fillStyle = color; ctx.textBaseline = "middle";
+      ctx.direction = "rtl"; ctx.font = `700 ${arSize}px "Amiri Quran", serif`;
+      arLines.forEach(line => { ctx.fillText(line, w / 2, y + arLH / 2); y += arLH; });
+      if (showTr) {
+        y += gap;
+        ctx.direction = "ltr"; ctx.font = `${trSize}px Cairo, sans-serif`;
+        trLines.forEach(line => { ctx.fillText(line, w / 2, y + trLH / 2); y += trLH; });
+      }
+      ctx.textBaseline = "alphabetic"; ctx.direction = "inherit";
+    }
+
+    function wrapLines(ctx, text, maxWidth) {
+      const words = String(text).split(/\s+/).filter(Boolean);
+      const lines = []; let line = "";
+      for (const word of words) {
+        const test = line ? line + " " + word : word;
+        if (line && ctx.measureText(test).width > maxWidth) { lines.push(line); line = word; }
+        else line = test;
+      }
+      if (line) lines.push(line);
+      return lines;
     }
 
     async function loadFfmpeg() {
@@ -1012,8 +1079,8 @@
       const dest = ctxAudio.createMediaStreamDestination();
       const canvasStream = canvas.captureStream(30);
       const mixed = new MediaStream([...canvasStream.getVideoTracks(), ...dest.stream.getAudioTracks()]);
-      const mime = ["video/webm;codecs=vp9,opus","video/webm;codecs=vp8,opus","video/webm"]
-        .find(m => MediaRecorder.isTypeSupported(m)) || "video/webm";
+      const picked = pickRecorderMime();
+      const mime = picked.mime || "video/webm";
       const chunks = [];
       const rec = new MediaRecorder(mixed, { mimeType: mime, videoBitsPerSecond: 3_500_000 });
       rec.ondataavailable = (e) => { if (e.data.size) chunks.push(e.data); };
@@ -1044,9 +1111,19 @@
         $("status").textContent = "التسجيل فاضي. جرّب كروم.";
         return;
       }
-      const webm = new Blob(chunks, { type: "video/webm" });
       const range = selectedRange();
       const base = `quran-${range.chapter}-${range.from}-${range.to}`;
+      if (picked.mp4) {
+        const mp4Direct = new Blob(chunks, { type: "video/mp4" });
+        const a = document.createElement("a");
+        a.download = base + ".mp4";
+        a.href = URL.createObjectURL(mp4Direct);
+        a.click();
+        $("status").textContent = "تم تنزيل الفيديو MP4 بمقاس ريلز/شورتس.";
+        $("togglePlay").disabled = $("videoBtn").disabled = false;
+        return;
+      }
+      const webm = new Blob(chunks, { type: "video/webm" });
       try {
         const mp4 = await webmToMp4(webm);
         const a = document.createElement("a");
@@ -1060,7 +1137,7 @@
         a.download = base + ".webm";
         a.href = URL.createObjectURL(webm);
         a.click();
-        $("status").textContent = "التحويل لـ MP4 فشل، نزل WebM بدلًا منه. جرّب كروم.";
+        $("status").textContent = "متصفحك مش بيدعم تسجيل MP4، فاتنزّل الفيديو بصيغة WebM (بيشتغل على يوتيوب وفيسبوك). لـ MP4 استخدم أحدث كروم أو سفاري.";
       }
       $("togglePlay").disabled = $("videoBtn").disabled = false;
     }
@@ -1133,6 +1210,12 @@
       if (state.playing || state.paused) await playRecitation(t);
       else updatePlayerUI();
     });
+    (function labelVideoButton() {
+      // Be honest about the format this browser will actually produce.
+      const canMp4 = pickRecorderMime().mp4 || (window.crossOriginIsolated && typeof SharedArrayBuffer !== "undefined");
+      $("videoBtn").textContent = canMp4 ? "تحميل MP4" : "تحميل فيديو (WebM)";
+      $("videoBtn").title = canMp4 ? "فيديو MP4 بالمقاس المختار" : "متصفحك مش بيدعم تسجيل MP4 — الفيديو هيتنزّل WebM";
+    })();
     $("videoBtn").addEventListener("click", exportVideo);
     $("exportBtn").addEventListener("click", exportPng);
     window.addEventListener("resize", sizeBgCanvas);
