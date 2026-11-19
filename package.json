@@ -6,7 +6,8 @@
   "scripts": {
     "generate:search": "node scripts/generate-search-catalog.mjs",
     "inventory": "node scripts/content-inventory.mjs",
-    "validate": "node scripts/validate.mjs"
+    "validate": "node scripts/validate.mjs",
+    "generate:sitemap": "node scripts/generate-sitemap.mjs"
   },
   "engines": {
     "node": ">=20"
