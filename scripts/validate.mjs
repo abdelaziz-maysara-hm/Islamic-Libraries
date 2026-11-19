@@ -42,7 +42,7 @@ function resolveInternalTarget(htmlFile, href) {
 
 const files = collectFiles(root);
 const htmlFiles = files.filter((file) =>
-  extname(file) === '.html' && !nonPageHtmlFiles.has(relative(root, file).replaceAll('\\', '/')),
+  extname(file) === '.html' && !nonPageHtmlFiles.has(relative(root, file).replaceAll('\', '/')),
 );
 const jsFiles = files.filter((file) => extname(file) === '.js');
 const cssFiles = files.filter((file) => extname(file) === '.css');
@@ -66,7 +66,7 @@ function assertBalancedCss(source, label) {
     }
     if (!quote && character === '/' && next === '*') { inComment = true; index += 1; continue; }
     if (quote) {
-      if (character === '\\') { index += 1; continue; }
+      if (character === '\') { index += 1; continue; }
       if (character === quote) quote = '';
       continue;
     }
@@ -179,13 +179,13 @@ for (const canonicalUrl of staticSitemapCanonicals) {
 }
 
 const searchCatalogSource = readFileSync(join(root, 'assets', 'js', 'search-catalog.js'), 'utf8');
-const searchCatalogJson = searchCatalogSource.match(/window\\.SEARCH_CATALOG\\s*=\\s*(\\[[\\s\\S]*\\]);?\\s*$/)?.[1];
+const searchCatalogJson = searchCatalogSource.match(/window\.SEARCH_CATALOG\s*=\s*(\[[\s\S]*\]);?\s*$/)?.[1];
 assert(searchCatalogJson, 'Could not parse assets/js/search-catalog.js');
 const searchCatalog = JSON.parse(searchCatalogJson);
 const dynamicBookUrls = new Set(
   searchCatalog
     .map((entry) => String(entry.url || ''))
-    .filter((url) => /^book\\.html\\?book=[^&#]+$/.test(url))
+    .filter((url) => /^book\.html\?book=[^&#]+$/.test(url))
     .map((url) => 'https://islamiclibraries.com/' + url),
 );
 for (const bookUrl of dynamicBookUrls) {
