@@ -116,7 +116,9 @@ for (const htmlFile of htmlFiles) {
   assert(canonicalMatches.length === 1, `${label}: expected exactly one canonical URL`);
   const canonicalUrl = canonicalMatches[0][1];
   assert(canonicalUrl.startsWith('https://islamiclibraries.com/'), `${label}: canonical URL uses an unexpected domain`);
-  canonicalUrls.push(canonicalUrl);
+  if (!/<meta\b[^>]*\bname=["']robots["'][^>]*\bcontent=["'][^"']*\bnoindex\b/i.test(source)) {
+    canonicalUrls.push(canonicalUrl);
+  }
 
   const requiredSocialMetadata = [
     ['Open Graph type', /<meta\b[^>]*\bproperty=["']og:type["'][^>]*\bcontent=["'][^"']+["']/i],
