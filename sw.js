@@ -1,4 +1,4 @@
-const CACHE_NAME = 'islamic-libraries-v1';
+const CACHE_NAME = 'islamic-libraries-v2';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -7,6 +7,7 @@ const CORE_ASSETS = [
   './tools.html',
   './assets/css/style.css',
   './assets/js/main.js',
+  './assets/js/theme-init.js',
   './assets/icons/app-icon.svg',
   './manifest.webmanifest',
 ];
