@@ -66,6 +66,29 @@
 // ============ Main init ============
 document.addEventListener('DOMContentLoaded', function () {
   var siteHeader = document.querySelector('body > header');
+  // Fixed navigation is independent of page-specific overflow and sticky containers.
+  if (siteHeader && siteHeader.querySelector('.nav')) {
+    var navSpacer = document.createElement('div');
+    navSpacer.setAttribute('aria-hidden', 'true');
+    siteHeader.insertAdjacentElement('afterend', navSpacer);
+    siteHeader.style.position = 'fixed';
+    siteHeader.style.top = '0';
+    siteHeader.style.left = '0';
+    siteHeader.style.right = '0';
+    function reserveNavigationSpace() {
+      var height = siteHeader.getBoundingClientRect().height;
+      navSpacer.style.height = height + 'px';
+      document.documentElement.style.scrollPaddingTop = (height + 16) + 'px';
+    }
+    reserveNavigationSpace();
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(reserveNavigationSpace).observe(siteHeader);
+    } else {
+      window.addEventListener('resize', reserveNavigationSpace);
+      siteHeader.addEventListener('transitionend', reserveNavigationSpace);
+      siteHeader.addEventListener('click', function () { window.requestAnimationFrame(reserveNavigationSpace); });
+    }
+  }
   var headerTicking = false;
   function updateHeaderSize() {
     if (siteHeader) siteHeader.classList.toggle('nav-compact', window.scrollY > 24);
