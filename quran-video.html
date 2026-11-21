@@ -1243,5 +1243,29 @@
     requestAnimationFrame(previewLoop);
     loadChapters().then(loadVerses).catch(() => { $("status").textContent = "تعذر تحميل السور."; });
   </script>
+<script>
+(function () {
+  var header = document.querySelector('.site-nav');
+  if (!header) return;
+  var spacer = document.createElement('div');
+  spacer.setAttribute('aria-hidden', 'true');
+  header.insertAdjacentElement('afterend', spacer);
+  header.style.position = 'fixed';
+  header.style.top = '0';
+  header.style.left = '0';
+  header.style.right = '0';
+  function reserveSpace() {
+    var height = header.getBoundingClientRect().height;
+    spacer.style.height = height + 'px';
+    document.documentElement.style.scrollPaddingTop = (height + 16) + 'px';
+  }
+  reserveSpace();
+  if ('ResizeObserver' in window) new ResizeObserver(reserveSpace).observe(header);
+  else {
+    window.addEventListener('resize', reserveSpace);
+    header.addEventListener('click', function () { requestAnimationFrame(reserveSpace); });
+  }
+})();
+</script>
 </body>
 </html>
