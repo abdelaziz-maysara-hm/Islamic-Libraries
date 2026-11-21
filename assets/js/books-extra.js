@@ -19,16 +19,16 @@
     {id:191, title:"الأدلة الرضية لمتن الدرر البهية", author:"صديق حسن خان", category:"fiqh", shamela:6400},
     {id:192, title:"ذكر من اختلف العلماء ونقاد الحديث فيه", author:"ابن شاهين", category:"hadith", shamela:5800},
     {id:193, title:"الإبانة عن أسباب الإعانة على صلاة الفجر وقيام الليل", author:"رقية المحارب", category:"adhkar", shamela:7800},
-    {id:194, title:"منهج الصحابة في دعوة المشركين", author:"باحثون", category:"siasa", shamela:600},
+    {id:194, title:"منهج الصحابة في دعوة المشركين من غير أهل الكتاب", author:"عبد العزيز بن محمد بن سعود الكبير", category:"siasa", shamela:600},
     {id:195, title:"تحقيق الإيمان", author:"ابن تيمية", category:"aqeedah", shamela:264},
     {id:196, title:"خلاصة التأصيل لعلم الجرح والتعديل", author:"حاتم الشريف", category:"hadith", shamela:1210},
-    {id:197, title:"فضائل القرآن وتلاوته", author:"الرازي", category:"tafsir", shamela:1600},
+    {id:197, title:"فضائل القرآن وتلاوته", author:"أبو الفضل الرازي", category:"tafsir", shamela:1600},
     {id:198, title:"الجامع في الخاتم للبيهقي", author:"البيهقي", category:"hadith", shamela:9300},
     {id:199, title:"محاسن الشريعة ومساوئ القوانين الوضعية", author:"عطية سالم", category:"siasa", shamela:5000},
     {id:200, title:"نيل الأماني من فتاوى القاضي العمراني", author:"محمد بن إسماعيل العمراني", category:"fiqh", shamela:900},
     {id:201, title:"المختصر الصغير لابن عبد الحكم", author:"ابن عبد الحكم", category:"fiqh", shamela:1206},
     {id:202, title:"الرحيق المختوم مع زيادات", author:"صفي الرحمن المباركفوري", category:"seerah", shamela:9900},
-    {id:203, title:"إدامة النظر في تحرير نخبة الفكر", author:"علماء", category:"hadith", shamela:270},
+    {id:203, title:"إدامة النظر في تحرير نخبة الفكر", author:"عبد العزيز الريس", category:"hadith", shamela:270},
     {id:204, title:"ذخائر العقبى في مناقب ذوي القربى", author:"محب الدين الطبري", category:"seerah", shamela:1001}
   ];
   if (Array.isArray(window.ALL_BOOKS)) {
