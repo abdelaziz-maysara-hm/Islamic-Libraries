@@ -53,12 +53,14 @@
 
 *{box-sizing:border-box; margin:0; padding:0;}
 html{scroll-behavior:smooth; overflow-x:hidden;}
+/* Clip horizontal paint without creating a body scroll container that traps sticky headers. */
+@supports (overflow:clip){html{overflow-x:clip;}}
 body{
   font-family:'Tajawal', sans-serif;
   background:var(--paper);
   color:var(--text);
   line-height:1.8;
-  overflow-x:hidden;
+  overflow-x:visible;
   transition:background .25s, color .25s;
 }
 h1,h2,h3{font-family:'Cairo', sans-serif;}
@@ -126,7 +128,7 @@ header.nav-compact .nav{padding-top:8px;padding-bottom:8px;}
 .search-empty{padding:16px; font-size:13px; color:var(--muted); text-align:center;}
 .menu-btn{display:none; font-size:24px; background:none; border:none; color:var(--teal-deep); cursor:pointer;}
 .mobile-menu{display:none; flex-direction:column; background:var(--paper); border-bottom:1px solid var(--line); padding:8px 26px 16px; transition:background .25s;}
-.mobile-menu.open{display:flex;}
+.mobile-menu.open{display:flex; max-height:calc(100vh - 76px); max-height:calc(100dvh - 76px); overflow-y:auto; overscroll-behavior:contain;}
 .mobile-menu a{padding:12px 0; font-weight:700; color:var(--teal-deep); border-bottom:1px solid var(--line);}
 .mobile-menu a:last-child{border-bottom:none;}
 
