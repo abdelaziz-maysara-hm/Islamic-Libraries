@@ -310,6 +310,15 @@ window.RECITERS = [
 ];
 
 /* Full provider catalog. The curated list above remains the offline/error fallback. */
+window.CURATED_RECITERS = window.RECITERS.map(function (reader) { return Object.assign({}, reader); });
+function reciterIdentity(name) {
+  return String(name || '').split(' — ')[0].replace(/\([^)]*\)/g, '').normalize('NFKD')
+    .replace(/[\u064B-\u065F\u0670]/g, '').replace(/[أإآٱ]/g, 'ا').replace(/ى/g, 'ي')
+    .replace(/[\sـ\-]/g, '');
+}
+function reciterServerPath(base) {
+  try { return new URL(base).pathname.replace(/\/+$/, ''); } catch (error) { return ''; }
+}
 window.RECITERS_STATUS = 'loading';
 window.loadAllReciters = async function () {
   if (window.RECITERS_REQUEST) return window.RECITERS_REQUEST;
@@ -322,7 +331,22 @@ window.loadAllReciters = async function () {
       if (!response.ok) throw new Error('Reciter catalog HTTP ' + response.status);
       var payload = await response.json();
       if (!Array.isArray(payload.reciters)) throw new Error('Invalid reciter catalog');
-      var previous = window.RECITERS.slice();
+      var previous = window.CURATED_RECITERS;
+      var names = new Map();
+      previous.forEach(function (reader) { names.set(reciterIdentity(reader.name), reader); });
+      var metadataByProvider = new Map();
+      payload.reciters.forEach(function (reader) {
+        if (!reader || !Array.isArray(reader.moshaf)) return;
+        var metadata = names.get(reciterIdentity(reader.name));
+        if (!metadata) {
+          metadata = previous.find(function (entry) {
+            return reader.moshaf.some(function (recording) {
+              return reciterServerPath(entry.mp3base) && reciterServerPath(entry.mp3base) === reciterServerPath(recording.server);
+            });
+          });
+        }
+        if (metadata) metadataByProvider.set(String(reader.id), metadata);
+      });
       var catalog = [];
       var seen = new Set();
       payload.reciters.forEach(function (reader) {
@@ -337,19 +361,27 @@ window.loadAllReciters = async function () {
           if (!surahs.length || seen.has(base)) return;
           seen.add(base);
           var old = previous.find(function (r) { return r.mp3base === base; });
+          var metadata = metadataByProvider.get(String(reader.id));
           var narration = String(mushaf.name || 'تلاوة');
           catalog.push({
             id: old ? old.id : 'mp3-' + reader.id + '-' + mushaf.id,
             providerId: String(reader.id), readerName: reader.name,
             name: reader.name + ' — ' + narration,
             narration: narration, surahs: surahs, mp3base: base,
-            flag: old ? old.flag : '🎙️',
-            category: old ? old.category : 'other',
-            categoryLabel: old ? old.categoryLabel : 'فهرس القراء'
+            flag: metadata ? metadata.flag : '🎙️',
+            category: metadata ? metadata.category : 'unclassified',
+            categoryLabel: metadata ? metadata.categoryLabel : 'غير مصنف'
           });
         });
       });
       if (!catalog.length) throw new Error('Empty reciter catalog');
+      // Keep existing categorized readers even when the provider omits them.
+      previous.forEach(function (reader) {
+        var identity = reciterIdentity(reader.name);
+        if (!catalog.some(function (entry) {
+          return reciterIdentity(entry.readerName || entry.name) === identity || entry.mp3base === reader.mp3base;
+        })) catalog.push(Object.assign({}, reader));
+      });
       catalog.sort(function (a, b) { return a.name.localeCompare(b.name, 'ar'); });
       window.RECITERS.splice(0, window.RECITERS.length, ...catalog);
       window.RECITERS_STATUS = 'ready';
