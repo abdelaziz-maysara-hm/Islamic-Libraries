@@ -177,10 +177,11 @@
   .s-name{font-size:13px;color:var(--teal-deep);font-family:'Amiri';font-weight:700;display:block;}
   .modal-audio-player{
     background:var(--teal-soft);border-radius:12px;padding:14px 16px;
-    margin-bottom:18px;display:none;align-items:center;gap:12px;
+    margin-bottom:18px;display:none;align-items:center;gap:12px;flex-wrap:wrap;
   }
   .modal-audio-player.show{display:flex;}
-  .modal-audio-player audio{flex:1;width:100%;}
+  .modal-audio-player audio{flex:1 0 100%;width:100%;}
+  .modal-audio-player .recitation-toolbar{width:100%;}
   .modal-audio-player button{
     background:var(--teal-deep);color:var(--on-teal);border:none;border-radius:999px;
     padding:8px 16px;font-family:'Cairo';font-weight:700;font-size:13px;cursor:pointer;
@@ -540,7 +541,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function playInline(url, reciterName, surahName, surahNum) {
     inlineAudio.src = url;
-    inlineAudio.play().catch(() => { window.open(url, '_blank'); });
+    inlineAudio.play().catch(() => { modalNote.textContent = 'تعذّر بدء التشغيل؛ اضغط تشغيل في المشغّل أو جرّب سورة أخرى.'; });
     inlinePlayer.classList.add('show');
     inlinePlayer.title = `${reciterName} — سورة ${surahName} (${surahNum})`;
   }
