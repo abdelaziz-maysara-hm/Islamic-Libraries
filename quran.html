@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>القرآن الكريم — قراءة وتفسير واستماع بصوت 63 قارئ — المكتبة الجامعة</title>
-<meta name="description" content="تصفح القرآن الكريم كاملاً بالنص العثماني مع التفسير الميسّر، وابحث في آياته، واستمع بصوت أي قارئ من 63 قارئ موثق — كله في صفحة واحدة.">
+<title>القرآن الكريم — قراءة وتفسير واستماع بأصوات القراء المتاحين — المكتبة الجامعة</title>
+<meta name="description" content="تصفح القرآن الكريم كاملاً بالنص العثماني مع التفسير الميسّر، وابحث في آياته، واستمع بأصوات القراء والروايات المتاحة لدى المصدر — كله في صفحة واحدة.">
 <link rel="canonical" href="https://islamiclibraries.com/quran.html">
 <meta property="og:url" content="https://islamiclibraries.com/quran.html">
 <meta property="og:type" content="website">
-<meta property="og:title" content="القرآن الكريم — قراءة وتفسير واستماع بصوت 63 قارئ — المكتبة الجامعة">
-<meta property="og:description" content="تصفح القرآن الكريم كاملاً بالنص العثماني مع التفسير الميسّر، وابحث في آياته، واستمع بصوت أي قارئ من 63 قارئ موثق — كله في صفحة واحدة.">
+<meta property="og:title" content="القرآن الكريم — قراءة وتفسير واستماع بأصوات القراء المتاحين — المكتبة الجامعة">
+<meta property="og:description" content="تصفح القرآن الكريم كاملاً بالنص العثماني مع التفسير الميسّر، وابحث في آياته، واستمع بأصوات القراء والروايات المتاحة لدى المصدر — كله في صفحة واحدة.">
 <meta property="og:locale" content="ar_AR">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="القرآن الكريم — قراءة وتفسير واستماع بصوت 63 قارئ — المكتبة الجامعة">
-<meta name="twitter:description" content="تصفح القرآن الكريم كاملاً بالنص العثماني مع التفسير الميسّر، وابحث في آياته، واستمع بصوت أي قارئ من 63 قارئ موثق — كله في صفحة واحدة.">
+<meta name="twitter:title" content="القرآن الكريم — قراءة وتفسير واستماع بأصوات القراء المتاحين — المكتبة الجامعة">
+<meta name="twitter:description" content="تصفح القرآن الكريم كاملاً بالنص العثماني مع التفسير الميسّر، وابحث في آياته، واستمع بأصوات القراء والروايات المتاحة لدى المصدر — كله في صفحة واحدة.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@700;800;900&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -197,8 +197,8 @@
     "@type":  "WebPage",
     "@id":  "https://islamiclibraries.com/quran.html#webpage",
     "url":  "https://islamiclibraries.com/quran.html",
-    "name":  "القرآن الكريم — قراءة وتفسير واستماع بصوت 63 قارئ — المكتبة الجامعة",
-    "description":  "تصفح القرآن الكريم كاملاً بالنص العثماني مع التفسير الميسّر، وابحث في آياته، واستمع بصوت أي قارئ من 63 قارئ موثق — كله في صفحة واحدة.",
+    "name":  "القرآن الكريم — قراءة وتفسير واستماع بأصوات القراء المتاحين — المكتبة الجامعة",
+    "description":  "تصفح القرآن الكريم كاملاً بالنص العثماني مع التفسير الميسّر، وابحث في آياته، واستمع بأصوات القراء والروايات المتاحة لدى المصدر — كله في صفحة واحدة.",
     "inLanguage":  "ar",
     "isPartOf":  {
                      "@id":  "https://islamiclibraries.com/#website"
@@ -264,7 +264,7 @@
   <div class="wrap">
     <span class="eyebrow">القرآن الكريم</span>
     <h1>تصفح القرآن كاملاً بالتفسير والاستماع</h1>
-    <p>١١٤ سورة، النص العثماني كامل، مع التفسير الميسّر لكل آية، واستماع بصوت أي قارئ من 63 قارئ موثق — كله حي مباشرة من غير ما تحمّل حاجة.</p>
+    <p>١١٤ سورة، النص العثماني كامل، مع التفسير الميسّر لكل آية، واستماع بأصوات القراء والروايات المتاحة لدى المصدر — كله حي مباشرة من غير ما تحمّل حاجة.</p>
   </div>
 </section>
 
@@ -317,7 +317,9 @@
         <button class="cat-btn" data-cat="other">🌐 آخرون</button>
       </div>
 
-      <p class="reciters-count" id="recitersCount"></p>
+      <p id="recitersCatalogStatus" role="status">جارِ تحديث فهرس القراء من المصدر…</p>
+      <button type="button" class="mini-btn" id="retryReciters" hidden>إعادة تحميل فهرس القراء</button>
+      <p class="reciters-count" id="recitersCount" aria-live="polite"></p>
 
       <div class="reciters-grid" id="recitersGrid"></div>
 
@@ -417,20 +419,43 @@ document.addEventListener('DOMContentLoaded', () => {
   const stopBtn      = document.getElementById('stopAudioBtn');
 
   let currentCat = 'all';
+  function escapeReciterText(value) {
+    return String(value || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+  function normalizeReciterSearch(value) {
+    return String(value || '').normalize('NFKD').replace(/[\u064B-\u065F\u0670]/g, '').replace(/[أإآٱ]/g, 'ا').replace(/ى/g, 'ي').trim();
+  }
+  function updateCatalogStatus() {
+    const ready = window.RECITERS_STATUS === 'ready';
+    document.getElementById('recitersCatalogStatus').textContent = ready
+      ? 'فهرس المصدر الكامل متاح. كل تسجيل موضح بروايته والسور المتوفرة فيه. نص القراءة مستقل عن الرواية الصوتية المختارة.'
+      : 'تعذّر تحديث فهرس المصدر؛ نعرض القائمة المحفوظة مؤقتًا.';
+    document.getElementById('retryReciters').hidden = ready;
+  }
+  document.getElementById('retryReciters').addEventListener('click', () => {
+    document.getElementById('recitersCatalogStatus').textContent = 'جارِ تحديث فهرس القراء…';
+    window.loadAllReciters();
+  });
+  document.addEventListener('reciters:updated', () => {
+    renderReciters(reciters);
+    applyFilters();
+    updateCatalogStatus();
+  });
 
   function renderReciters(list) {
     grid.innerHTML = '';
     list.forEach(r => {
       const hasAudio = !!(r.edition || r.mp3base);
       const initials = r.name.trim().split(' ')[0].slice(0,2);
-      const card = document.createElement('div');
+      const card = document.createElement('button');
+      card.type = 'button';
       card.className = 'reciter-card';
       card.dataset.cat = r.category;
-      card.dataset.name = r.name;
+      card.dataset.name = normalizeReciterSearch(r.name);
       card.innerHTML = `
-        <div class="reciter-avatar">${r.photo ? `<img src="${r.photo}" alt="${r.name}" loading="lazy">` : initials}</div>
-        <span class="reciter-name">${r.name}</span>
-        <span class="reciter-sub">${r.flag} ${r.categoryLabel}</span>
+        <div class="reciter-avatar">${r.photo ? `<img src="${r.photo}" alt="${escapeReciterText(r.name)}" loading="lazy">` : escapeReciterText(initials)}</div>
+        <span class="reciter-name">${escapeReciterText(r.name)}</span>
+        <span class="reciter-sub">${r.flag} ${escapeReciterText(r.categoryLabel)}</span>
         <span class="reciter-badge ${hasAudio ? 'has-audio' : ''}">
           ${hasAudio ? '🟡 استماع مباشر' : '🔗 رابط خارجي'}
         </span>
@@ -444,7 +469,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateCount() {
     const visible = grid.querySelectorAll('.reciter-card:not(.hidden)').length;
     const total   = grid.querySelectorAll('.reciter-card').length;
-    countEl.textContent = `عرض ${visible} من ${total} قارئ`;
+    const readers = new Set(reciters.map(r => r.providerId || r.id)).size;
+    countEl.textContent = `عرض ${visible} من ${total} تسجيلًا · ${readers} قارئًا`;
   }
 
   document.querySelectorAll('.cat-btn').forEach(btn => {
@@ -459,7 +485,7 @@ document.addEventListener('DOMContentLoaded', () => {
   search.addEventListener('input', applyFilters);
 
   function applyFilters() {
-    const q = search.value.trim();
+    const q = normalizeReciterSearch(search.value);
     grid.querySelectorAll('.reciter-card').forEach(card => {
       const catOk  = (currentCat === 'all') || (card.dataset.cat === currentCat);
       const nameOk = !q || card.dataset.name.includes(q);
@@ -472,7 +498,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const hasAudio = !!(r.edition || r.mp3base);
     const initials = r.name.trim().split(' ')[0].slice(0,2);
 
-    modalAvatar.innerHTML = r.photo ? `<img src="${r.photo}" alt="${r.name}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">` : initials;
+    modalAvatar.innerHTML = r.photo ? `<img src="${r.photo}" alt="${escapeReciterText(r.name)}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">` : escapeReciterText(initials);
     modalTitle.textContent  = r.name;
     modalSub.textContent    = `${r.flag} ${r.categoryLabel}`;
     inlinePlayer.classList.remove('show');
@@ -486,6 +512,7 @@ document.addEventListener('DOMContentLoaded', () => {
     surahsGrid.innerHTML = '';
     surahNames.forEach((name, idx) => {
       const surahNum = idx + 1;
+      if (!window.hasReciterSurah(r, surahNum)) return;
       const url = getSurahUrl(r, surahNum);
       const btn = document.createElement('a');
       btn.className = 'surah-btn';
