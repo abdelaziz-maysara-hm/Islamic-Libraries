@@ -170,49 +170,92 @@ function populateReciterSelect(select) {
     try { localStorage.setItem(RECITER_PREF_KEY, select.value); } catch (error) {}
     stopAudio();
     updatePlayBtn(q("#btnPlaySurah"), false);
+    prepareSurahAudio(currentSurahNum);
   };
 }
 document.addEventListener('reciters:updated', () => populateReciterSelect(q('#reciterSelect')));
 
-function playSurahAudio(num) {
-  const btn = q("#btnPlaySurah");
-  if (currentAudio && audioPlaying) {
-    currentAudio.pause();
-    audioPlaying = false;
-    updatePlayBtn(btn, false);
-    return;
+function addRecitationControls(audio) {
+  if (!audio || audio.dataset.controlsReady) return;
+  audio.dataset.controlsReady = 'true';
+  audio.controls = true;
+  audio.preload = 'none';
+  audio.style.width = '100%';
+  const toolbar = document.createElement('div');
+  toolbar.className = 'recitation-toolbar';
+  toolbar.style.cssText = 'display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center;margin:10px 0';
+  function action(label, callback) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'mini-btn';
+    button.textContent = label;
+    button.addEventListener('click', callback);
+    toolbar.appendChild(button);
   }
-  if (currentAudio && !audioPlaying) {
-    currentAudio.play().catch(() => setStatus("تعذّر تشغيل الصوت.", true));
-    audioPlaying = true;
-    updatePlayBtn(btn, true);
-    return;
+  function seekBy(seconds) {
+    if (!audio.src || !Number.isFinite(audio.duration)) return;
+    audio.currentTime = Math.max(0, Math.min(audio.duration, audio.currentTime + seconds));
   }
-  stopAudio();
-  const select   = q("#reciterSelect");
-  const reciter  = getReciterById(select ? select.value : null);
-  if (!reciter || typeof window.getSurahUrl !== "function") {
-    setStatus("تعذّر تحديد القارئ.", true);
-    return;
-  }
-  if (window.hasReciterSurah && !window.hasReciterSurah(reciter, num)) {
-    setStatus("السورة غير متوفرة لهذا التسجيل؛ اختر تسجيلًا آخر.", true);
-    return;
-  }
-  const audioUrl = window.getSurahUrl(reciter, num);
-  currentAudio = new Audio(audioUrl);
-  currentAudio.play().catch(() => {
-    setStatus("تعذّر تشغيل الصوت — تأكد من اتصالك بالإنترنت، أو جرّب قارئ تاني.", true);
+  action('رجوع 10 ثوانٍ', () => seekBy(-10));
+  action('تقديم 10 ثوانٍ', () => seekBy(10));
+  action('إيقاف والعودة للبداية', () => {
+    audio.pause();
+    if (audio.readyState > 0) audio.currentTime = 0;
   });
-  audioPlaying = true;
-  updatePlayBtn(btn, true);
-  currentAudio.onended = () => { audioPlaying = false; updatePlayBtn(btn, false); };
-  currentAudio.onerror = () => {
-    audioPlaying = false;
-    updatePlayBtn(btn, false);
-    setStatus("تعذّر تشغيل الصوت من هذا القارئ — جرّب قارئ تاني من القائمة.", true);
-  };
+  const speedLabel = document.createElement('label');
+  speedLabel.textContent = 'سرعة التلاوة ';
+  const speed = document.createElement('select');
+  speed.setAttribute('aria-label', 'سرعة التلاوة');
+  [0.75, 1, 1.25, 1.5, 2].forEach(rate => {
+    const option = document.createElement('option');
+    option.value = rate;
+    option.textContent = rate + '×';
+    option.selected = rate === 1;
+    speed.appendChild(option);
+  });
+  speed.addEventListener('change', () => { audio.playbackRate = Number(speed.value); });
+  speedLabel.appendChild(speed);
+  toolbar.appendChild(speedLabel);
+  audio.insertAdjacentElement('afterend', toolbar);
+  audio.addEventListener('play', () => {
+    document.querySelectorAll('#surahAudio, #inlineAudio').forEach(other => {
+      if (other !== audio) other.pause();
+    });
+  });
 }
+
+function prepareSurahAudio(num) {
+  const audio = q('#surahAudio');
+  const select = q('#reciterSelect');
+  const reciter = getReciterById(select ? select.value : null);
+  if (!audio || !reciter || !window.getSurahUrl ||
+      (window.hasReciterSurah && !window.hasReciterSurah(reciter, num))) return null;
+  currentAudio = audio;
+  addRecitationControls(audio);
+  audio.src = window.getSurahUrl(reciter, num);
+  audio.setAttribute('aria-label', 'تلاوة السورة بصوت ' + reciter.name);
+  audio.onplay = () => { audioPlaying = true; updatePlayBtn(q('#btnPlaySurah'), true); setStatus(''); };
+  audio.onpause = () => { audioPlaying = false; updatePlayBtn(q('#btnPlaySurah'), false); };
+  audio.onended = audio.onpause;
+  audio.onerror = () => {
+    audioPlaying = false;
+    updatePlayBtn(q('#btnPlaySurah'), false);
+    setStatus('تعذّر تشغيل التلاوة؛ جرّب قارئًا آخر أو أعد المحاولة.', true);
+  };
+  return audio;
+}
+
+function playSurahAudio(num) {
+  const audio = currentAudio || prepareSurahAudio(num);
+  if (!audio) { setStatus('التلاوة غير متوفرة لهذا الاختيار.', true); return; }
+  if (!audio.paused) { audio.pause(); return; }
+  audio.play().catch(() => {
+    audioPlaying = false;
+    updatePlayBtn(q('#btnPlaySurah'), false);
+    setStatus('تعذّر بدء التشغيل؛ استخدم المشغّل أو اختر قارئًا آخر.', true);
+  });
+}
+document.addEventListener('DOMContentLoaded', () => addRecitationControls(q('#inlineAudio')));
 
 /* ---------- البسملة ----------
    نص quran-uthmani من Al Quran Cloud بيدمج البسملة في أول آية من كل سورة
@@ -285,6 +328,7 @@ async function openSurah(number) {
           <button class="btn-calc" id="btnPlaySurah">🔊 استماع للسورة كاملة</button>
         </div>
       </div>
+      <div style="max-width:720px;margin:0 auto 24px;"><audio id="surahAudio" controls preload="none" style="width:100%;" aria-label="مشغل تلاوة السورة"></audio></div>
       <div class="ayah-list">
     `;
 
@@ -331,6 +375,7 @@ async function openSurah(number) {
     // القارئ + تشغيل السورة
     populateReciterSelect(q("#reciterSelect"));
     q("#btnPlaySurah").addEventListener("click", () => playSurahAudio(number));
+    prepareSurahAudio(number);
 
     // Tafsir toggle
     reader.querySelectorAll("[data-tafsir-toggle]").forEach(btn => {
