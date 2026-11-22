@@ -153,18 +153,26 @@ function getReciterById(id) {
 
 function populateReciterSelect(select) {
   const list = window.RECITERS || [];
-  if (!select || list.length === 0) return;
-  const saved = localStorage.getItem(RECITER_PREF_KEY);
-  select.innerHTML = list.map(r =>
-    `<option value="${r.id}">${r.flag} ${r.name}</option>`
-  ).join("");
-  select.value = saved && getReciterById(saved) ? saved : list[0].id;
-  select.addEventListener("change", () => {
-    localStorage.setItem(RECITER_PREF_KEY, select.value);
+  if (!select || !list.length) return;
+  let saved = select.value;
+  try { saved = saved || localStorage.getItem(RECITER_PREF_KEY); } catch (error) {}
+  select.replaceChildren();
+  list.forEach(r => {
+    const option = document.createElement('option');
+    option.value = r.id;
+    option.textContent = (r.flag || '') + ' ' + r.name;
+    option.disabled = window.hasReciterSurah && !window.hasReciterSurah(r, currentSurahNum);
+    select.appendChild(option);
+  });
+  const available = Array.from(select.options).filter(option => !option.disabled);
+  select.value = available.some(option => option.value === String(saved)) ? saved : (available[0] ? available[0].value : '');
+  select.onchange = () => {
+    try { localStorage.setItem(RECITER_PREF_KEY, select.value); } catch (error) {}
     stopAudio();
     updatePlayBtn(q("#btnPlaySurah"), false);
-  });
+  };
 }
+document.addEventListener('reciters:updated', () => populateReciterSelect(q('#reciterSelect')));
 
 function playSurahAudio(num) {
   const btn = q("#btnPlaySurah");
@@ -185,6 +193,10 @@ function playSurahAudio(num) {
   const reciter  = getReciterById(select ? select.value : null);
   if (!reciter || typeof window.getSurahUrl !== "function") {
     setStatus("تعذّر تحديد القارئ.", true);
+    return;
+  }
+  if (window.hasReciterSurah && !window.hasReciterSurah(reciter, num)) {
+    setStatus("السورة غير متوفرة لهذا التسجيل؛ اختر تسجيلًا آخر.", true);
     return;
   }
   const audioUrl = window.getSurahUrl(reciter, num);
