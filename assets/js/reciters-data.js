@@ -375,12 +375,17 @@ window.loadAllReciters = async function () {
         });
       });
       if (!catalog.length) throw new Error('Empty reciter catalog');
-      // Keep existing categorized readers even when the provider omits them.
+      // Preserve curated choices by ID, including named variants sharing a stream.
       previous.forEach(function (reader) {
-        var identity = reciterIdentity(reader.name);
-        if (!catalog.some(function (entry) {
-          return reciterIdentity(entry.readerName || entry.name) === identity || entry.mp3base === reader.mp3base;
-        })) catalog.push(Object.assign({}, reader));
+        if (catalog.some(function (entry) { return String(entry.id) === String(reader.id); })) return;
+        var existingReader = catalog.find(function (entry) {
+          return reciterIdentity(entry.readerName || entry.name) === reciterIdentity(reader.name) ||
+            entry.mp3base === reader.mp3base;
+        });
+        var retained = Object.assign({}, reader);
+        retained.providerId = existingReader ? existingReader.providerId : 'curated-' + reciterIdentity(reader.name);
+        if (existingReader && existingReader.mp3base === reader.mp3base) retained.surahs = existingReader.surahs;
+        catalog.push(retained);
       });
       catalog.sort(function (a, b) { return a.name.localeCompare(b.name, 'ar'); });
       window.RECITERS.splice(0, window.RECITERS.length, ...catalog);
