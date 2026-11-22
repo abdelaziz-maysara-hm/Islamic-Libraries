@@ -308,3 +308,63 @@ window.RECITERS = [
     mp3base:"https://server7.mp3quran.net/m_arkani/"
   },
 ];
+
+/* Full provider catalog. The curated list above remains the offline/error fallback. */
+window.RECITERS_STATUS = 'loading';
+window.loadAllReciters = async function () {
+  if (window.RECITERS_REQUEST) return window.RECITERS_REQUEST;
+  window.RECITERS_STATUS = 'loading';
+  window.RECITERS_REQUEST = (async function () {
+    var controller = new AbortController();
+    var timer = setTimeout(function () { controller.abort(); }, 15000);
+    try {
+      var response = await fetch('https://www.mp3quran.net/api/v3/reciters?language=ar', { signal: controller.signal });
+      if (!response.ok) throw new Error('Reciter catalog HTTP ' + response.status);
+      var payload = await response.json();
+      if (!Array.isArray(payload.reciters)) throw new Error('Invalid reciter catalog');
+      var previous = window.RECITERS.slice();
+      var catalog = [];
+      var seen = new Set();
+      payload.reciters.forEach(function (reader) {
+        if (!reader || !reader.id || typeof reader.name !== 'string' || !Array.isArray(reader.moshaf)) return;
+        reader.moshaf.forEach(function (mushaf) {
+          var server;
+          try { server = new URL(mushaf.server); } catch (error) { return; }
+          if (server.protocol !== 'https:' || !server.hostname.endsWith('.mp3quran.net') || server.search || server.hash) return;
+          var base = server.href.replace(/\/$/, '') + '/';
+          var surahs = String(mushaf.surah_list || '').split(',').map(Number).filter(function (n) { return Number.isInteger(n) && n >= 1 && n <= 114; });
+          surahs = Array.from(new Set(surahs)).sort(function (a, b) { return a - b; });
+          if (!surahs.length || seen.has(base)) return;
+          seen.add(base);
+          var old = previous.find(function (r) { return r.mp3base === base; });
+          var narration = String(mushaf.name || 'تلاوة');
+          catalog.push({
+            id: old ? old.id : 'mp3-' + reader.id + '-' + mushaf.id,
+            providerId: String(reader.id), readerName: reader.name,
+            name: reader.name + ' — ' + narration,
+            narration: narration, surahs: surahs, mp3base: base,
+            flag: old ? old.flag : '🎙️',
+            category: old ? old.category : 'other',
+            categoryLabel: old ? old.categoryLabel : 'فهرس القراء'
+          });
+        });
+      });
+      if (!catalog.length) throw new Error('Empty reciter catalog');
+      catalog.sort(function (a, b) { return a.name.localeCompare(b.name, 'ar'); });
+      window.RECITERS.splice(0, window.RECITERS.length, ...catalog);
+      window.RECITERS_STATUS = 'ready';
+    } catch (error) {
+      window.RECITERS_STATUS = 'fallback';
+    } finally {
+      clearTimeout(timer);
+      window.RECITERS_REQUEST = null;
+      document.dispatchEvent(new Event('reciters:updated'));
+    }
+    return window.RECITERS;
+  })();
+  return window.RECITERS_REQUEST;
+};
+window.hasReciterSurah = function (reader, number) {
+  return !!reader && (!Array.isArray(reader.surahs) || reader.surahs.includes(Number(number)));
+};
+document.addEventListener('DOMContentLoaded', function () { window.loadAllReciters(); });
