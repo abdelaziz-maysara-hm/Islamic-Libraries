@@ -48,7 +48,8 @@
     const safeCategory = escapeHtml(catLabel(book.category));
     const shamelaId = String(book.shamela || '').trim();
     const safeShamela = encodeURIComponent(shamelaId);
-    const hasShamela = Boolean(shamelaId);
+    const sourceMismatch = book.sourceStatus === 'mismatch';
+    const hasShamela = Boolean(shamelaId) && !sourceMismatch;
     const sourceUrl = hasShamela ? 'https://shamela.ws/book/' + safeShamela : '';
     const pageUrl = location.origin + location.pathname + '?book=' + encodeURIComponent(String(book.id));
     const pageDescription = book.title + ' لـ ' + book.author + ' — بيانات الكتاب والمصدر وكتب ذات صلة في المكتبة الجامعة.';
@@ -143,7 +144,7 @@
       '<div class="book-source-panel" aria-label="بيانات مصدر الكتاب">' +
       '<div class="book-source-grid">' +
       '<div class="book-source-item"><span>مصدر القراءة</span><strong>' + (hasShamela ? 'المكتبة الشاملة' : 'غير متاح حاليًا') + '</strong></div>' +
-      '<div class="book-source-item"><span>حالة الرابط</span><strong>' + (hasShamela ? 'مدرج — بانتظار التحقق اليدوي' : 'لا يوجد رابط قراءة') + '</strong></div>' +
+      '<div class="book-source-item"><span>حالة الرابط</span><strong>' + (sourceMismatch ? 'الرابط السابق غير مطابق — المصدر قيد التحقق' : (hasShamela ? 'مدرج — بانتظار التحقق اليدوي' : 'لا يوجد رابط قراءة')) + '</strong></div>' +
       '<div class="book-source-item"><span>القراءة داخل الموقع</span><strong>قيد التنسيق مع المصدر</strong></div>' +
       '</div></div>' +
       '<p class="book-reader-note"><strong>لماذا يفتح المصدر خارجيًا الآن؟</strong> نعمل على إتاحة قارئ داخل المكتبة الجامعة بعد الحصول على إذن مكتوب وطريقة تكامل معتمدة من المكتبة الشاملة، مع الحفاظ على حقوق الكتب ونسبة النصوص إلى مصادرها.</p>' +
