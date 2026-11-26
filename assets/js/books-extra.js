@@ -59,6 +59,7 @@
       73: 21712   /* الكامل في التاريخ لابن الأثير: كان 198 (لا صلة له)؛ اختيرت طبعة تدمري (١٠ أجزاء)، الأشهر والأكثر استخدامًا */
     };
     window.ALL_BOOKS.forEach(function (b) {
+      if ([99, 100, 146, 148, 172].includes(b.id)) b.sourceStatus = 'mismatch';
       if (Object.prototype.hasOwnProperty.call(corrections, b.id)) {
         b.shamela = corrections[b.id];
         if (b.id === 101) b.author = 'نجم الدين أحمد بن عبد الرحمن بن قدامة المقدسي';
