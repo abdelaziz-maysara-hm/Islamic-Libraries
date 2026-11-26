@@ -30,6 +30,9 @@
     {id:202, title:"الرحيق المختوم مع زيادات", author:"صفي الرحمن المباركفوري", category:"seerah", shamela:9900},
     {id:203, title:"إدامة النظر في تحرير نخبة الفكر", author:"عبد العزيز الريس", category:"hadith", shamela:270},
     {id:204, title:"ذخائر العقبى في مناقب ذوي القربى", author:"محب الدين الطبري", category:"seerah", shamela:1001}
+    ,{"id":205,"title":"تهافت الفلاسفة","author":"أبو حامد الغزالي","category":"aqeedah","shamela":11055},
+    {"id":206,"title":"أسماء مؤلفات شيخ الإسلام ابن تيمية","author":"ابن قيم الجوزية","category":"seerah","shamela":10713},
+    {"id":207,"title":"المنقذ من الضلال","author":"أبو حامد الغزالي","category":"aqeedah","shamela":9246}
   ];
   if (Array.isArray(window.ALL_BOOKS)) {
     var existing = {};
@@ -59,11 +62,18 @@
       73: 21712   /* الكامل في التاريخ لابن الأثير: كان 198 (لا صلة له)؛ اختيرت طبعة تدمري (١٠ أجزاء)، الأشهر والأكثر استخدامًا */
     };
     window.ALL_BOOKS.forEach(function (b) {
-      if ([99, 100, 146, 148, 172].includes(b.id)) b.sourceStatus = 'mismatch';
+
       if (Object.prototype.hasOwnProperty.call(corrections, b.id)) {
         b.shamela = corrections[b.id];
         if (b.id === 101) b.author = 'نجم الدين أحمد بن عبد الرحمن بن قدامة المقدسي';
       }
     });
+    // Owner-approved replacements for the five unresolved catalog records.
+    var replacements = [{"id":99,"title":"بداية الهداية","author":"أبو حامد الغزالي","category":"adhkar","shamela":12718},{"id":100,"title":"ميزان العمل","author":"أبو حامد الغزالي","category":"adhkar","shamela":9264},{"id":146,"title":"الأمثال في القرآن","author":"ابن قيم الجوزية","category":"tafsir","shamela":928},{"id":148,"title":"جواب في صيغ الحمد","author":"ابن قيم الجوزية","category":"adhkar","shamela":6841},{"id":172,"title":"فائدة جليلة في قواعد الأسماء الحسنى","author":"ابن قيم الجوزية","category":"aqeedah","shamela":11329}];
+    replacements.forEach(function (replacement) {
+      var book = window.ALL_BOOKS.find(function (entry) { return entry.id === replacement.id; });
+      if (book) { Object.assign(book, replacement); delete book.sourceStatus; }
+    });
+
   }
 })();
